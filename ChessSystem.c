@@ -15,8 +15,6 @@ PlayerTournaments- key= tournament ID, data = GamesPointersMap
 GamesPointersMap- key= opponent ID, data- pointer to Game
 */
 
-// chaned I did from the VS
-
 /*
 ==========================================================================================
 Declarations:
