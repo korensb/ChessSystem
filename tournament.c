@@ -240,6 +240,17 @@ MapResult tournament_add_player_to_tournament(Tournament tournament, int player_
     return MAP_SUCCESS;
 }
 
+update_opponent_score_in_tournament_after_remove_player(Tournament tournament, int player_id, int points)
+{
+    int* player_score = mapGet(tournament->standing, game->player_id);
+    *player_score = *player_score + points;
+}
+
+tournament_remove_player(Tournament tournament, int player_id)
+{
+    mapRemove(tournament->standing, player_id);
+}
+
 bool printTournamentStatistics (Tournament tournament, char* path_file){
     bool tournament_ended = false;
     if (!tournament->is_active)

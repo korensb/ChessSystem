@@ -238,8 +238,6 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
 
                         }
 
-
-
 ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
 {
     if (chess == NULL)
@@ -262,6 +260,9 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
     return CHESS_SUCCESS;
 }
 
+
+
+
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
 {
     if (chess == NULL)
@@ -272,84 +273,41 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
         return CHESS_PLAYER_NOT_EXIST;
 
     Player player = mapGet(chess->players_map, player_id);
-    int* tournament_id = mapGetFirst(player->PlayerTournaments);
+    int tournament_id = mapGetFirst(player->PlayerTournaments);
     Map tournament_map;
     Game game;
     Player opponent;
-    Tournament tour_temp;
+    Tournament tournament;
+    int points_to_opponent;
+    int opponent_id;
 
-    while (*tournament_id != NULL)
+    while (tournament_id != NULL)
     {
-        tour_temp = mapGet(chess->tournaments_map, *tournament_id);        
+        tournament = mapGet(chess->tournaments_map, &tournament_id);        
         // Map attempt = mapGet(chess->tournaments_map, *tournament_id)->standing; will work?
-        if (tour_temp->is_active)
-        {
-        mapRemove(tour_temp->standing, player_id);
-
-        tournament_map = mapGet(player->PlayerTournaments, *tournament_id);
-        game = mapGet(tournament_map, mapGetFirst(tournament_map));
-
-        while (game != NULL)
-        {
-            if(player_id == game->first_player)
+        if (is_tournament_active (tournament))
             {
-                game->first_player = EMPTY;
-                if (game->second_player != EMPTY)
-                {
-                     int* opponent_score = mapGet(tour_temp->standing, game->second_player);
-                if(game->winner == FIRST_PLAYER)
-                {
-                    game->winner = SECOND_PLAYER;
-                    opponent = mapGet(chess->players_map, game->second_player);
-                    opponent->points = opponent->points + 2;
-                    opponent->wins++;
-                    opponent->losses--;
-                    *opponent_score = *opponent_score + 2;
-                    //mapPut(chess->players_map, game->second_player, temp);mapGet returns pointers so it should modify the data itself.
-                }                  
-                if(game->winner == DRAW)
-                {
-                    game->winner = SECOND_PLAYER;
-                    opponent = mapGet(chess->players_map, game->second_player);
-                    opponent->points = opponent->points + 1;
-                    opponent->wins++;
-                    *opponent_score = *opponent_score + 1;
-                    //mapPut(chess->players_map, game->first_player, temp); mapGet returns pointers so it should modify the data itself.
-                }
-                } 
-            }
-            else if (player_id == game->second_player)
+            tournament_remove_player(tournament, player_id);
+            
+            tournament_map = mapGet(player->PlayerTournaments, &tournament_id);
+            game = mapGet(tournament_map, mapGetFirst(tournament_map));
+
+            while (game != NULL)
             {
-                game->second_player = EMPTY;
-                if (game->first_player != EMPTY)
-                {
-                     int* opponent_score = mapGet(tour_temp->standing, game->first_player);
-                if(game->winner == SECOND_PLAYER)
-                {
-                    game->winner = FIRST_PLAYER;
-                    opponent = mapGet(chess->players_map, game->first_player);
-                    opponent->points = opponent->points + 2;
-                    opponent->wins++;
-                    opponent->losses--;
-                    *opponent_score = *opponent_score + 2;
-                    // mapPut(chess->players_map, game->first_player, temp); mapGet returns pointers so it should modify the data itself.
-                }                  
-                if(game->winner == DRAW)
-                {
-                    game->winner = FIRST_PLAYER;
-                    opponent = mapGet(chess->players_map, game->first_player);
-                    opponent->points = opponent->points + 1;
-                    opponent->wins++;
-                    *opponent_score = *opponent_score + 1;
-                    //mapPut(chess->players_map, game->first_player, temp);mapGet returns pointers so it should modify the data itself.
-                }
-                }
-               
+                points_to_opponent = points_achieved_in_game(game, player_id);
+                game_remove_player(game, player_id);
+                opponent_id = return_opponent_id(game, player_id);
+                if (opponent_id != EMPTY)
+                    {
+                        opponent = mapGet(chess->players_map, opponent_id);
+                        update_opponent_stats_after_remove_player(opponent, points_to_opponent);
+                        update_opponent_score_in_tournament_after_remove_player(tournament, opponent_id, points_to_opponent);
+                    }               
             }
-            game = mapGet(tournament_map, mapGetNext(tournament_map));
+                game = mapGet(tournament_map, mapGetNext(tournament_map));
+            }
         }
-        }
-        *tournament_id = mapGetNext(player->PlayerTournaments);
+        tournament_id = mapGetNext(player->PlayerTournaments);
     }
 
     mapRemove(chess->players_map, player_id);

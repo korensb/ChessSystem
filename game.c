@@ -117,3 +117,25 @@ int points_achieved_in_game(Game game, int player_id)
     return 0;
 }
 
+int return_opponent_id(Game game, int player_id)
+{
+    if(player_id == game->first_player)
+        return game->second_player;
+    return game->first_player;
+}
+
+game_remove_player(Game game, int player_id)
+{
+    if(player_id == game->first_player)
+        {
+            game->first_player = EMPTY;
+            if (game->second_player != EMPTY)
+                game->winner = SECOND_PLAYER;
+        }
+    else
+    {
+        game->second_player = EMPTY;
+            if (game->first_player != EMPTY)
+                game->winner = FIRST_PLAYER;
+    }
+}
