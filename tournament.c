@@ -153,40 +153,12 @@ static int intCompare(MapKeyElement num1, MapKeyElement num2) {
 }
 */
 
-void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses)
-{
-    Game game;
-    *wins = 0;
-    *losses = 0;
-    int game_id = mapGetFirst(player_games);
-    while (game_id != NULL)
-    {
-        game = mapGet(player_games, game_id);
-        if (game->first_player == player_id)
-        {
-            if (game->winner == FIRST_PLAYER)
-                *wins++;
-            if (game->winner == SECOND_PLAYER)
-                *losses++;
-        }   
-        if (game->second_player == player_id)
-        {
-            if (game->winner == SECOND_PLAYER)
-                *wins++;
-            if (game->winner == FIRST_PLAYER)
-                *losses++;
-        }   
-        game_id = mapGetNext(player_games);
-    }
-    return;
-}
-
 static bool location_validation(const char* tournament_location)
 { 
     if (tournament_location[0] < 'A' || tournament_location[0] > 'Z' )
         return false;
     int i = 1;
-    while (tournament_location[i] != NULL){
+    while (tournament_location[i] != 0){
         if ((tournament_location[i] >= 'a' && tournament_location[i] <= 'z') || (tournament_location[i] == ' ')){
             i++;
         }
@@ -223,4 +195,34 @@ bool is_tournament_active (Tournament tournament)
      return MAP_SUCCESS;
  }
 
+bool printTournamentStatistics (Tournament tournament, char* path_file){
+    bool tournament_ended = false;
+    if (!tournament->is_active)
+        {
+            tournament_ended = true;
+            float average_time = (float)tournament->total_time/mapGetSize(tournament->gamesMap);
+            FILE* stream = fopen(path_file, "a");
+            if (stream == NULL)
+            {
+                return CHESS_NULL_ARGUMENT;
+            }
+            fprintf(stream,  "%d\n" , tournament->tournament_winner);
+            fprintf(stream,  "%d\n" , tournament->longest_time);
+            fprintf(stream, "%f\n", average_time);
+            fprintf(stream, "%s\n" , tournament->tournament_location);
+            fprintf(stream,  "%d\n" , mapGetSize(tournament->gamesMap));
+            fprintf(stream,  "%d\n" , mapGetSize(tournament->standing));
+            fclose(stream);
 
+                /*
+                Print:
+                winner = tournament->tournament_winner
+                longest game time = tournament->longest_time
+                average game time = (double)tournament->total_time/mapGetSize(tournament->gamesMap)
+                location = tournament->tournament_location
+                number of games = mapGetSize(tournament->gamesMap)
+                number of players = mapGetSize(tournament->standing)
+                */
+        }
+    return tournament_ended;
+}

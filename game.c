@@ -37,7 +37,7 @@ Map createGamesMap()
 
     return newMap;
 }
-
+/*
 Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
 {
     Map newMap = mapCreate(
@@ -49,6 +49,7 @@ Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
 
     return newMap;
 }
+*/
 
 void gameAddGame (...) // need to make the function
 
@@ -65,6 +66,7 @@ MapDataElement gameCopy(MapDataElement element) // hold the game object
 	return game;
 }
 
+/*
 MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games object
 {
 	if (element == NULL) {
@@ -77,6 +79,7 @@ MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games
 	*game = *(Game*) element;
 	return game;
 }
+*/
 
 MapDataElement mapDataCopy (MapDataElement element){
     Map map = mapCopy ((Map)element);
@@ -86,6 +89,7 @@ MapDataElement mapDataCopy (MapDataElement element){
     return map;
 }
 
+ /* 
  void gamePointerDestroy(MapDataElement game)
 {
     if(game != NULL)
@@ -95,6 +99,7 @@ MapDataElement mapDataCopy (MapDataElement element){
 
     return;
 }
+*/
 
  void gameDestroy(MapDataElement game)
 {
