@@ -11,16 +11,21 @@ typedef struct tournament *Tournament;
 
 /* functions to create tournaments and games map */ 
 Tournament tournamentCreate(int max_games_per_player, const char* tournament_location);
-createTournamentsMap()
+Map createTournamentsMap();
+Map createIntsMap();
 
 /* functions that will be used by the Maps */
 //COPY
-Tournament tournamentCopy(Tournament element);
-
+MapDataElement tournamentCopy(MapDataElement element);
+MapKeyElement intCopyKey(MapKeyElement i);
+MapDataElement intCopyData(MapDataElement i);
 //Destroy:
-void tournamentDestroy(Tournament tournament);
+void tournamentDestroy(MapDataElement tournament);
+void intKeyDestroy(MapKeyElement id);
+void intDataDestroy(MapDataElement id);
 
-
+//compare
+int intCompare(MapKeyElement num1, MapKeyElement num2);
 
 
 /* functions to update data of standings and tournaments after adding a game */

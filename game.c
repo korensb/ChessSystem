@@ -27,6 +27,18 @@ Game gameCreate(int first_player, int second_player, Winner winner, int play_tim
     return game;
 }
 
+Map createGamesMap()
+{
+    Map newMap = mapCreate(gameCopy,
+              intCopyKey,
+              gameDestroy,
+              intKeyDestroy,
+              intCompare);
+
+    return newMap;
+}
+
+
 void gameAddGame (...) // need to make the function
 
 Game gameCopy(Game element) // hold the game object

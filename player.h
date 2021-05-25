@@ -14,8 +14,9 @@ typedef struct player *Player;
 
 Player playerCreate();
 Map createPlayerTournamentsMap(); // key: tournament ID, data: Map of pointers to games
+Map createPlayersMap();
+Map createDoublesMap();
 
-createPlayersMap();
 /* functions to update data of player after adding a game */
 bool is_game_existed (Player player1, int tournament_id, int player2);
 void playerAddGame (...) // need to make the function
@@ -23,11 +24,12 @@ ChessResult add_player_to_tournament_if_not_exist(Player player, int tournament_
 /* functions that will be used by the Maps */
 //copy
 
-Player playerCopy(Player element);
-Game* gamePointerCopy(Game* element);
-
+MapDataElement doubleCopy(MapDataElement i);
+MapDataElement playerCopy(MapDataElement element);
+MapDataElement mapDataCopy (MapDataElement element);
 //destroy
 
-void playerDestroy(Player player);
-
+void playerDestroy(MapDataElement player);
+void doubleDestroy(MapDataElement id);
+void mapDataDestroy(MapDataElement map);
 

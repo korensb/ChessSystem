@@ -9,7 +9,7 @@
 struct tournament
 {
     int max_games_per_player;
-    char* tournament_location;
+    const char* tournament_location;
     Map gamesMap;
     Map standing;
     int total_time;
@@ -41,6 +41,17 @@ Tournament tournamentCreate(int max_games_per_player, const char* tournament_loc
     tournament->is_active = true;
 
     return tournament;
+}
+
+Map createTournamentsMap()
+{
+    Map newMap = mapCreate(tournamentCopy,
+              intCopyKey,
+              tournamentDestroy,
+              intKeyDestroy,
+              intCompare);
+
+    return newMap;
 }
 
 void tournamentAddGame (....) //need to make the functiong
