@@ -35,6 +35,17 @@ Player playerCreate()
     return player;
 }
 
+Map createPlayersMap()
+{
+    Map newMap = mapCreate(playerCopy,
+              intCopyKey,
+              playerDestroy,
+              intKeyDestroy,
+              intCompare);
+
+    return newMap;
+}
+
 Map createPlayerTournamentsMap() // key: tournament ID, data: GamesPointersMap
 {
     Map newMap = mapCreate(
