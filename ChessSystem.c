@@ -20,51 +20,7 @@ GamesPointersMap- key= opponent ID, data- pointer to Game
 Declarations:
 ==========================================================================================
 */
-typedef struct tournament *Tournament;
-typedef struct game *Game;
-typedef struct player *Player;
 
-static Player playerCreate();
-static Game gameCreate(int first_player, int second_player, Winner winner, int gam_id);
-static Tournament tournamentCreate(int max_games_per_player, const char* tournament_location);
-static Map createPlayersMap();
-static Map createTournamentsMap();
-static Map createGamesMap();
-static Map createDoublesMap();
-static Map createIntsMap(); //ARAD adeed createintsmaps declaration
-static Map createPlayerTournamentsMap(); // key: tournament ID, data: Map of pointers to games
-static Map createGamesPointersMap(); // key: opponent ID, data: pointer to the game
-/* functions that will be used by the Maps */
-//COPY
-static MapKeyElement intCopyKey(MapKeyElement i);
-static MapDataElement intCopyData(MapDataElement i);
-static MapDataElement doubleCopy(MapDataElement i);
-static MapDataElement playerCopy(MapDataElement element);
-static MapDataElement tournamentCopy(MapDataElement element);
-static MapDataElement gameCopy(MapDataElement element);
-static MapDataElement gamePointerCopy(MapDataElement element);
-static MapDataElement mapDataCopy (MapDataElement element);
-//Destroy:
-static void gamePointerDestroy(MapDataElement game);
-static void tournamentDestroy(MapDataElement tournament);
-static void gameDestroy(MapDataElement game);
-static void playerDestroy(MapDataElement player);
-static void intKeyDestroy(MapKeyElement id);
-static void intDataDestroy(MapDataElement id);
-static void doubleDestroy(MapDataElement id);
-static void mapDataDestroy(MapDataElement map);
-//compare:
-static int intCompare(MapKeyElement num1, MapKeyElement num2);
-/* Aux functions: */
-static void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses);
-static bool location_validation(const char* tournament_location);
-
-
-/*
-==========================================================================================
-Implementions:
-==========================================================================================
-*/
 struct chess_system_t
 {
     Map tournaments_map;
