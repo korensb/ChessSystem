@@ -20,12 +20,13 @@ Map createPlayerTournamentsMap(); // key: tournament ID, data: Map of pointers t
 /* functions that will be used by the Maps */
 //COPY
 
-Game gameCopy(Game element);
+MapDataElement gameCopy(MapDataElement element);
+MapDataElement gamePointerCopy(MapDataElement element);
 
 //destroy
 
-void gameDestroy(Game game);
-
+void gamePointerDestroy(MapDataElement game);
+void gameDestroy(MapDataElement game);
 
 /* functions to update data of game after adding a game */
 
