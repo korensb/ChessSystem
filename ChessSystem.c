@@ -5,11 +5,6 @@
 #include <string.h>
 #define EMPTY 0
 
-
-
-// Koren Changes check
-
-
 /*
 Maps list:
 Tournaments_map- key=tournament ID, data=Tournament
@@ -564,13 +559,11 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             if (!is_game_existed)
                                 return CHESS_GAME_ALREADY_EXISTS;
                              
-                            Map player2_games = mapGet(player2->PlayerTournaments, tournament_id);
-                            player_games_in_tournament_num (Player player, tournament_id)
-
-
-
                             if (!players_games_num_in_tournament_validation (player1, player2, tournament)
                                 return CHESS_EXCEEDED_GAMES;
+
+
+                            Game game = gameCreate(first_player,second_player, winner, play_time);
 
 
 
