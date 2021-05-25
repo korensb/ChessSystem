@@ -21,6 +21,7 @@ Map createDoublesMap();
 bool is_game_existed (Player player1, int tournament_id, int player2);
 void playerAddGame (...) // need to make the function
 ChessResult add_player_to_tournament_if_not_exist(Player player, int tournament_id);
+MapResult player_remove_tournament (Player player, int tournament_id, int player_id);
 add_game_to_players (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner);
 /* functions that will be used by the Maps */
 //copy

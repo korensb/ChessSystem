@@ -107,3 +107,13 @@ MapDataElement mapDataCopy (MapDataElement element){
     free(game);
     return;
 }
+
+int points_achieved_in_game(Game game, int player_id)
+{
+    if(game->winner == DRAW)
+        return 1;
+    if (game->winner == FIRST_PLAYER && player_id == game->first_player || game->winner == SECOND_PLAYER && player_id == game->second_player)
+        return 2;
+    return 0;
+}
+

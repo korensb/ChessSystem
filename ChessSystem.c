@@ -61,7 +61,13 @@ static void losses_and_wins_in_tournament_calculator(Map player_games, int playe
     return;
 }
 
+static bool is_tournament_existed (ChessSystem chess, int tournament_id)
+{
+    if(mapContains(chess, tournament_id))
+        return true;
+    return false;
 
+}
 
     int bubble(double a[], int n) {
         int i, swapped = 0;
@@ -240,39 +246,19 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
         return CHESS_NULL_ARGUMENT;
     if (!verify_id(tournament_id))
         return CHESS_INVALID_ID;
-    if (!mapContains(chess, tournament_id))
+    if (!is_tournament_existed (chess, tournament_id))
         return CHESS_TOURNAMENT_NOT_EXIST;
 
-
-
     int player_id = mapGetFirst(chess->players_map);
-    Player player = mapGet(chess->players_map, player_id);
-    
-    while (player != NULL)
-    {
-        if (mapContains(player->PlayerTournaments, tournament_id))
-        {
-            Map games = mapGet(player->PlayerTournaments, tournament_id);
-            Game game = mapGet(games, mapGetFirst(games));
-            while (game != NULL)
-            {
-                player->games--;
-                if(game->winner == DRAW)
-                player->points--;
-                if (game->winner == FIRST_PLAYER && player_id == game->first_player || game->winner == SECOND_PLAYER && player_id == game->second_player)
-            {
-                player->wins--;
-                player->points = player->points-2;
-            }
-                game = mapGet(games, mapGetNext(games));
-            }
-        }        
-        mapRemove(player->PlayerTournaments, tournament_id); //!! verify we did the correct destroy function
-        
+    Player player;
 
-        player = mapGet(chess->players_map, mapGetNext(chess->players_map));
+    while (player_id != NULL)
+    {
+        player = mapGet(chess->players_map, player_id);
+        player_remove_tournament(player, tournament_id, player_id);
+        player_id = mapGetNext(chess->players_map);
     }
-    mapRemove(chess->tournaments_map, tournament_id);
+    mapRemove(chess->tournaments_map, tournament_id); // verify we delete the games as well
     return CHESS_SUCCESS;
 }
 

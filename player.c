@@ -170,5 +170,35 @@ add_game_to_players (Player player1, Player player2, Game game, int first_player
 
         player1->games++;
         player2->games++;
-
 }
+
+
+MapResult player_remove_tournament (Player player, int tournament_id, int player_id)
+{
+    if (mapContains(player->PlayerTournaments, tournament_id))
+        {
+            Map games = mapGet(player->PlayerTournaments, tournament_id);
+            Game game = mapGet(games, mapGetFirst(games));
+            while (game != NULL)
+            {
+                player->games--;
+                int points_to_remove = points_achieved_in_game(game, player_id);
+                player->points = player->points - points_to_remove;
+                if (points_to_remove == 2)
+                    player->wins--;
+                if (points_to_remove == 0)
+                    player->losses--;
+
+                game = mapGet(games, mapGetNext(games));
+            }
+            mapRemove(player->PlayerTournaments, tournament_id); //!! verify we did the correct destroy function- need to destroy the map but not the games in the map. (createPlayerTournamentsMap)
+        }        
+    return MAP_SUCCESS;    
+}
+
+
+
+
+
+
+
