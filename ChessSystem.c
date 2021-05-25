@@ -5,6 +5,11 @@
 #include <string.h>
 #define EMPTY 0
 
+
+
+// Koren Changes check
+
+
 /*
 Maps list:
 Tournaments_map- key=tournament ID, data=Tournament
