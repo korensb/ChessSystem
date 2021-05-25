@@ -172,3 +172,13 @@ add_game_to_players (Player player1, Player player2, Game game, int first_player
         player2->games++;
 
 }
+
+ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index){
+    int draw = player->points - (2*(player->wins));
+    double player_level = (double)((6*player->wins) - (10*player->losses) + (2*draw))/(player->games);
+    if (mapPut(levels, &player_id, &player_level) != MAP_SUCCESS){
+        return MAP_OUT_OF_MEMORY;
+    }
+    array[array_index] = player_level;
+    return MAP_SUCCESS;
+}
