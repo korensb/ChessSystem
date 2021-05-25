@@ -154,11 +154,55 @@ bool is_tournament_active (Tournament tournament)
      assert(game != NULL);
      if (mapPut(tournament->gamesMap, &(tournament->num_games), game) != MAP_SUCCESS)
         {
-            chessDestroy(chess);
             return MAP_OUT_OF_MEMORY;
         }
      tournament->num_games++;
      return MAP_SUCCESS;
  }
 
+MapResult add_game_to_tournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time)
+{
+    int points;
+    tournament->total_time = (tournament->total_time) + play_time;
+    if (tournament->longest_time < play_time)
+        tournament->longest_time = play_time;
+
+    if (winner == DRAW)
+        {
+            points = mapGet(tournament->standing, &first_player) + 1;
+            if (mapPut(tournament->standing, &first_player, &points) != MAP_SUCCESS)
+            {
+                return MAP_OUT_OF_MEMORY;
+            }
+            points = mapGet(tournament->standing, &second_player) + 1;
+            if (mapPut(tournament->standing, &second_player, &points) != MAP_SUCCESS)
+            {
+                return MAP_OUT_OF_MEMORY;
+            }
+        }
+    else if (winner == FIRST_PLAYER)
+    {
+        points = mapGet(tournament->standing, &first_player) + 2;
+        if (mapPut(tournament->standing, &first_player, points) != MAP_SUCCESS)
+            {
+                return MAP_OUT_OF_MEMORY;
+            }
+    }
+    else
+    {
+        points = mapGet(tournament->standing, &second_player) + 2;
+        if (mapPut(tournament->standing, &second_player, points) != MAP_SUCCESS)
+            {
+                return MAP_OUT_OF_MEMORY;
+            }   
+    }
+}
+
+MapResult tournament_add_player_to_tournament(Tournament tournament, int player_id)
+{
+    int zero = 0;
+    if (mapPut(tournament->standing, &player_id, &zero) != MAP_SUCCESS)
+                return MAP_OUT_OF_MEMORY;
+    return MAP_SUCCESS;
+}
 

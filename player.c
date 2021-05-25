@@ -109,18 +109,19 @@ void playerDestroy(Player player)
     return;
 }
 
-ChessResult add_player_to_tournament_if_not_exist(Player player, int tournament_id)
+MapResult player_add_player_to_tournament_if_not_exist(Player player, Tournament tournament, int tournament_id, int player_id)
 {
     if (!mapContains(player->PlayerTournaments, tournament_id))
         {
-            if(mapPut(player->PlayerTournaments, tournament_id, createGamesPointersMap()) != MAP_SUCCESS)
-        {
-                chessDestroy(chess);
+            int zero = 0;
+            if(mapPut(player->PlayerTournaments, tournament_id, createGamesMap()) != MAP_SUCCESS)
                 return MAP_OUT_OF_MEMORY;
+
+            if (tournament_add_player_to_tournament(tournament, player_id) != MAP_SUCCESS)
+                return MAP_OUT_OF_MEMORY;
+                
         }
-                mapPut(tournament->standing,first_player,0);
-        }
-        return CHESS_SUCCESS;
+        return MAP_SUCCESS;
 }
 
 int player_games_in_tournament_num (Player player, int tournament_id)
@@ -135,4 +136,41 @@ bool is_game_existed (Player player1, int tournament_id, int player2)
     Map player1_games = mapGet(player1->PlayerTournaments, tournament_id);
     if (mapContains(player1_games, second_player)) //the keyElement is the opponent ID
         return true;
+}
+
+
+mapPut(player1_games, second_player, mapGet(tournament->gamesMap, tournament->num_games));
+
+add_game_to_players (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner)
+{
+    Map player1_games = mapGet(player1->PlayerTournaments, &tournament_id);
+    Map player1_games = mapGet(player2->PlayerTournaments, &tournament_id);
+
+    mapPut(player1_games, &second_player, game);
+    mapPut(player2_games, &second_player, game);
+
+    player1->total_time = (player->total_time) + play_time;
+    player2->total_time = (player->total_time) + play_time;
+
+    if (winner == FIRST_PLAYER)
+        {
+            player1->points = player1->points + 2;
+            player1->wins++;
+            player2->losses++;
+        }
+        else if (winner == SECOND_PLAYER)
+        {
+            player2->points = player2->points + 2;
+            player2->wins++;
+            player1->losses++;
+        }            
+        else
+        {
+        player1->points++;
+        player2->points++;
+        }
+
+        player1->games++;
+        player2->games++;
+
 }

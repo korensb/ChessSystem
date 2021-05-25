@@ -435,8 +435,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             Player player1 = mapGet(chess->players_map, first_player);
                             Player player2 = mapGet(chess->players_map, second_player);
                             
-                            add_player_to_tournament_if_not_exist(player1, tournament_id);
-                            add_player_to_tournament_if_not_exist(player2, tournament_id);
+                            player_add_player_to_tournament_if_not_exist(player1, tournament,tournament_id, first_player);
+                            player_add_player_to_tournament_if_not_exist(player2, tournament,tournament_id, second_player);
 
                             if (!is_game_existed)
                                 return CHESS_GAME_ALREADY_EXISTS;
@@ -448,42 +448,24 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             Game game = gameCreate(first_player,second_player, winner, play_time);
 
                             if (add_game_to_tournament_map(Tournament tournament, Game game) == MAP_OUT_OF_MEMORY)
+                            {
+                                chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;
-
-
-                            mapPut(player1_games, second_player, mapGet(tournament->gamesMap, tournament->num_games));
-                            mapPut(player2_games, first_player, mapGet(tournament->gamesMap, tournament->num_games));
-                            player1->total_time = (player1->total_time) + play_time;
-                            player2->total_time = (player2->total_time) + play_time;
-                            tournament->total_time = (tournament->total_time) + play_time;
-                            if (tournament->longest_time < play_time)
-                                tournament->longest_time = play_time;
-                            if (winner == FIRST_PLAYER)
-                            {
-                                player1->points = player1->points + 2;
-                                player1->wins++;
-                                player2->losses++;
-                                int points = mapGet(tournament->standing, first_player)+2;
-                                mapPut(tournament->standing, first_player, points);
                             }
-                            else if (winner == SECOND_PLAYER)
+                            if (add_game_to_players(player1, player2, game, first_player, second_player, tournament_id, play_time, winner) == MAP_OUT_OF_MEMORY)
                             {
-                                 player2->points = player2->points + 2;
-                                 player2->wins++;
-                                 player1->losses++;
-                                 int points = mapGet(tournament->standing, second_player)+2;
-                                mapPut(tournament->standing, second_player, points);
-                            }            
-                            else
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
+                            }
+                            if (add_game_to_tournament(tournament, first_player, second_player, winner, play_time) == MAP_OUT_OF_MEMORY)
                             {
-                                player1->points++;
-                                player2->points++;
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
                             }
 
-                            player1->games++;
-                            player2->games++;
                             return CHESS_SUCCESS;
-                         }
+
+                        }
 
 ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
 {
