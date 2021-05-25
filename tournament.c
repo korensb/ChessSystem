@@ -124,6 +124,13 @@ static bool location_validation(const char* tournament_location)
     return true;
 }
 
+bool players_games_num_in_tournament_validation (Player player1, Player player2, Tournament tournament)
+{
+    if (player_games_in_tournament_num(player1, tournament_id) ==  tournament->max_games_per_player || player_games_in_tournament_num (player2, tournament_id) == tournament->max_games_per_player))
+        return false;
+    return true;    
+}
+
 bool is_tournament_active (Tournament tournament)
 {
     if (tournament->is_active == TRUE)

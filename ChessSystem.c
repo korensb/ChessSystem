@@ -1,5 +1,5 @@
 #include "chessSystem.h"
-#include "map.h"
+#include "./mtm_map/map.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -573,7 +573,6 @@ else
 ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                          int second_player, Winner winner, int play_time)
                          {
-                            bool game_existed = true;
 
                             if (chess == NULL)
                                 return CHESS_NULL_ARGUMENT;   
@@ -592,9 +591,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             if (!(is_tournament_active(tournament))
                                 return CHESS_TOURNAMENT_ENDED;
 
-                            game_existed = add_player_to_system_if_not_exist(chess, first_player);
-                            if (add_player_to_system_if_not_exist(chess, second_player) == false)
-                                game_existed = false;
+                            add_player_to_system_if_not_exist(chess, first_player);
+                            add_player_to_system_if_not_exist(chess, second_player);
 
                             Player player1 = mapGet(chess->players_map, first_player);
                             Player player2 = mapGet(chess->players_map, second_player);
@@ -606,14 +604,22 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                                 return CHESS_GAME_ALREADY_EXISTS;
                              
                             Map player2_games = mapGet(player2->PlayerTournaments, tournament_id);
+                            player_games_in_tournament_num (Player player, tournament_id)
 
-                            if (mapGetSize(player1_games) ==  tournament->max_games_per_player || mapGetSize(player2_games) == tournament->max_games_per_player)
-                                return CHESS_EXCEEDED_GAMES;                           
+
+
+                            if (!players_games_num_in_tournament_validation (player1, player2, tournament)
+                                return CHESS_EXCEEDED_GAMES;
+
+
+
                             if (mapPut(tournament->gamesMap, ++tournament->num_games, gameCreate(first_player,
                          second_player, winner, play_time)) != MAP_SUCCESS){
                              chessDestroy(chess);
                              return MAP_OUT_OF_MEMORY;
                          }
+
+
                             mapPut(player1_games, second_player, mapGet(tournament->gamesMap, tournament->num_games));
                             mapPut(player2_games, first_player, mapGet(tournament->gamesMap, tournament->num_games));
                             player1->total_time = (player1->total_time) + play_time;
@@ -791,7 +797,7 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
         return CHESS_TOURNAMENT_NOT_EXIST;
     }
     
-    Tournament tournament = mapGet(chess->tournaments_map, tournament_id);
+    Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
 
     if (!tournament->is_active)
     {

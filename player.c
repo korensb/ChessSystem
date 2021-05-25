@@ -112,6 +112,12 @@ ChessResult add_player_to_tournament_if_not_exist(Player player, int tournament_
         return CHESS_SUCCESS;
 }
 
+int player_games_in_tournament_num (Player player, int tournament_id)
+{
+    Map player_games = mapGet(player->PlayerTournaments, tournament_id);
+    return mapGetSize(player_games);
+}
+
 
 bool is_game_existed (Player player1, int tournament_id, int player2)
 {

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "chesssystem.h": "c",
+        "stdlib.h": "c",
+        "tournament.h": "c"
+    }
+}
