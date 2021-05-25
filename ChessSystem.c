@@ -1,5 +1,5 @@
 #include "chessSystem.h"
-#include "./mtm_map/map.h"
+#include "map.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +14,7 @@ standing- key= player ID, data = int player score
 PlayerTournaments- key= tournament ID, data = GamesPointersMap
 GamesPointersMap- key= opponent ID, data- pointer to Game
 */
-// Koren gdgrr
+
 /*
 ==========================================================================================
 Declarations:
@@ -31,25 +31,30 @@ static Map createPlayersMap();
 static Map createTournamentsMap();
 static Map createGamesMap();
 static Map createDoublesMap();
+static Map createIntsMap(); //ARAD adeed createintsmaps declaration
 static Map createPlayerTournamentsMap(); // key: tournament ID, data: Map of pointers to games
 static Map createGamesPointersMap(); // key: opponent ID, data: pointer to the game
 /* functions that will be used by the Maps */
 //COPY
-static int* intCopy(int i);
-static double* doubleCopy(double i);
-static Player playerCopy(Player element);
-static Tournament tournamentCopy(Tournament element);
-static Game gameCopy(Game element);
-static Game* gamePointerCopy(Game* element);
+static MapKeyElement intCopyKey(MapKeyElement i);
+static MapDataElement intCopyData(MapDataElement i);
+static MapDataElement doubleCopy(MapDataElement i);
+static MapDataElement playerCopy(MapDataElement element);
+static MapDataElement tournamentCopy(MapDataElement element);
+static MapDataElement gameCopy(MapDataElement element);
+static MapDataElement gamePointerCopy(MapDataElement element);
+static MapDataElement mapDataCopy (MapDataElement element);
 //Destroy:
-static void gamePointerDestroy(Game* game);
-static void tournamentDestroy(Tournament tournament);
-static void gameDestroy(Game game);
-static void playerDestroy(Player player);
-static void intDestroy(int* id);
-static void doubleDestroy(double* id);
+static void gamePointerDestroy(MapDataElement game);
+static void tournamentDestroy(MapDataElement tournament);
+static void gameDestroy(MapDataElement game);
+static void playerDestroy(MapDataElement player);
+static void intKeyDestroy(MapKeyElement id);
+static void intDataDestroy(MapDataElement id);
+static void doubleDestroy(MapDataElement id);
+static void mapDataDestroy(MapDataElement map);
 //compare:
-static int intCompare(const int num1, const int num2);
+static int intCompare(MapKeyElement num1, MapKeyElement num2);
 /* Aux functions: */
 static void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses);
 static bool location_validation(const char* tournament_location);
@@ -69,7 +74,7 @@ struct chess_system_t
 struct tournament
 {
     int max_games_per_player;
-    char* tournament_location;
+    const char* tournament_location; // arad added const
     Map gamesMap;
     Map standing;
     int num_games;
@@ -159,9 +164,9 @@ static Tournament tournamentCreate(int max_games_per_player, const char* tournam
 static Map createPlayersMap()
 {
     Map newMap = mapCreate(playerCopy,
-              intCopy,
+              intCopyKey,
               playerDestroy,
-              intDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -170,9 +175,9 @@ static Map createPlayersMap()
 static Map createTournamentsMap()
 {
     Map newMap = mapCreate(tournamentCopy,
-              intCopy,
+              intCopyKey,
               tournamentDestroy,
-              intDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -181,9 +186,9 @@ static Map createTournamentsMap()
 static Map createGamesMap()
 {
     Map newMap = mapCreate(gameCopy,
-              intCopy,
+              intCopyKey,
               gameDestroy,
-              intDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -191,10 +196,10 @@ static Map createGamesMap()
 
 static Map createIntsMap()
 {
-    Map newMap = mapCreate(intCopy,
-              intCopy,
-              intDestroy,
-              intDestroy,
+    Map newMap = mapCreate(intCopyData,
+              intCopyKey,
+              intDataDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -203,9 +208,9 @@ static Map createIntsMap()
 static Map createDoublesMap()
 {
     Map newMap = mapCreate(doubleCopy,
-              intCopy,
+              intCopyKey,
               doubleDestroy,
-              intDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -214,10 +219,10 @@ static Map createDoublesMap()
 static Map createPlayerTournamentsMap() // key: tournament ID, data: GamesPointersMap
 {
     Map newMap = mapCreate(
-              mapCopy, // used my func
-              intCopy,
-              mapDestroy, // used the map.h func
-              intDestroy,
+              mapDataCopy, // used my func
+              intCopyKey,
+              mapDataDestroy, // used the map.h func
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -227,9 +232,9 @@ static Map createGamesPointersMap() // key: opponent ID, data: pointer to the ga
 {
     Map newMap = mapCreate(
               gamePointerCopy,
-              intCopy,
+              intCopyKey,
               gamePointerDestroy,
-              intDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -237,7 +242,9 @@ static Map createGamesPointersMap() // key: opponent ID, data: pointer to the ga
 
 /* functions that will be used by the Maps */
 //COPY
-static int* intPointerCopy(int i)
+
+//arad commented this function - 
+/* static int* intPointerCopy(int i)
 {
     int* ip = malloc(sizeof(int));
     if (ip == NULL){
@@ -246,28 +253,39 @@ static int* intPointerCopy(int i)
     *ip = i;
     return ip;
 }
-
-static int intCopy(int i)
+*/
+// all copy and destroy functions changed to data and key elemnets
+static MapKeyElement intCopyKey(MapKeyElement i)
 {
-    int ip = malloc(sizeof(int));
+    int *ip = malloc(sizeof(int));
     if (ip == NULL){
         return NULL;
     }
-    ip = i;
+    *ip = *(int*)i;
     return ip;
 }
 
-static double* doubleCopy(double i)
+static MapDataElement intCopyData(MapDataElement i)
+{
+    int *ip = malloc(sizeof(int));
+    if (ip == NULL){
+        return NULL;
+    }
+    *ip = *(int*)i;
+    return ip;
+}
+
+static MapDataElement doubleCopy(MapDataElement i)
 {
     double* ip = malloc(sizeof(double));
     if (ip == NULL){
         return NULL;
     }
-    *ip = i;
+    *ip = *(double*)i;
     return ip;
 }
 
-static Player playerCopy(Player element) // hold the tourments object
+static MapDataElement playerCopy(MapDataElement element) // hold the tourments object
 {
 	if (element == NULL) {
 		return NULL;
@@ -276,11 +294,11 @@ static Player playerCopy(Player element) // hold the tourments object
     if (player == NULL)
     return NULL;
 
-	*player = *element;
+	player = (Player) element;
 	return player;
 }
 
-static Tournament tournamentCopy(Tournament element) // hold the tourments object
+static MapDataElement tournamentCopy(MapDataElement element) // hold the tourments object
 {
 	if (element == NULL) {
 		return NULL;
@@ -289,24 +307,24 @@ static Tournament tournamentCopy(Tournament element) // hold the tourments objec
     if (tournament == NULL)
     return NULL;
 
-	*tournament = *element;
+	tournament = (Tournament)element;
 	return tournament;
 }
 
-static Game gameCopy(Game element) // hold the game object
+static MapDataElement gameCopy(MapDataElement element) // hold the game object
 {
 	if (element == NULL) {
 		return NULL;
 	}
-    Game game = malloc(sizeof(game));
+    Game game = malloc(sizeof(*game));
     if (game == NULL)
     return NULL;
 
-	*game = *element;
+	game = (Game)element;
 	return game;
 }
 
-static Game* gamePointerCopy(Game* element) // hold pointers to games object
+static MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games object
 {
 	if (element == NULL) {
 		return NULL;
@@ -315,12 +333,20 @@ static Game* gamePointerCopy(Game* element) // hold pointers to games object
     if (game == NULL)
     return NULL;
 
-	*game = *element;
+	*game = *(Game*) element;
 	return game;
 }
 
+static MapDataElement mapDataCopy (MapDataElement element){
+    Map map = mapCopy ((Map)element);
+    if (map == NULL){
+        return NULL;
+    }
+    return map;
+}
+
 //Destroy:
-static void gamePointerDestroy(Game* game)
+static void gamePointerDestroy(MapDataElement game)
 {
     if(game != NULL)
     {
@@ -330,50 +356,76 @@ static void gamePointerDestroy(Game* game)
     return;
 }
 
-static void tournamentDestroy(Tournament tournament)
+static void tournamentDestroy(MapDataElement tournament)
 {
     if(tournament != NULL)
     {
-        mapDestroy(tournament->gamesMap);
+        Tournament tournament_to_destroy = (Tournament) tournament;
+        mapDestroy(tournament_to_destroy->gamesMap);
         free(tournament);
     }
 
     return;
 }
 
-static void gameDestroy(Game game)
+static void gameDestroy(MapDataElement game)
 {
     if(game != NULL)
     free(game);
     return;
 }
 
-static void playerDestroy(Player player)
+static void playerDestroy(MapDataElement player)
 {
     if(player != NULL)
     {
-        mapDestroy(player->PlayerTournaments);
+        Player player_to_destroy = (Player) player;
+        mapDestroy(player_to_destroy->PlayerTournaments);
         free(player);
     }
 
     return;
 }
 
-static void intDestroy(int* id) {
+static void intKeyDestroy(MapKeyElement id) {
     free(id);
 }
 
-static void doubleDestroy(double* id) {
+static void intDataDestroy(MapDataElement id) {
     free(id);
+}
+
+static void doubleDestroy(MapDataElement id) {
+    free(id);
+}
+
+static void mapDataDestroy (MapDataElement map) {
+    Map map_to_destroy = (Map) map;
+    mapDestroy(map_to_destroy);
 }
 
 //compare:
 
-static int intCompare(const int num1, const int num2) {
-    if (num1 < num2) return -1;
-    if (num1 > num2) return +1;
+static int intCompare(MapKeyElement num1, MapKeyElement num2) {
+	int b = *(int*)num2;
+	int a = *(int*)num1;
+    if (a < b) return -1;
+    if (a > b) return +1;
     return 0;
 }
+
+/* if int compare doesnt work
+static int intCompare(MapKeyElement num1, MapKeyElement num2) {
+    int a,b;
+	int* num1_ptr = &a;
+	int* num2_ptr = &b;
+	*num2_ptr = *(int*)num2;
+	*num1_ptr = *(int*)num1;
+    if (*num1_ptr < *num2_ptr) return -1;
+    if (*num1_ptr > *num2_ptr) return +1;
+    return 0;
+}
+*/
 
 /*==============================================================*/
 
