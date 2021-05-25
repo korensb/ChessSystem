@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define EMPTY 0
-
+// changed by Koren
 /*
 Maps list:
 Tournaments_map- key=tournament ID, data=Tournament
