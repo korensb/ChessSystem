@@ -31,240 +31,6 @@ struct chess_system_t
 };
 
 
-
-static Map createIntsMap()
-{
-    Map newMap = mapCreate(intCopyData,
-              intCopyKey,
-              intDataDestroy,
-              intKeyDestroy,
-              intCompare);
-
-    return newMap;
-}
-
-static Map createDoublesMap()
-{
-    Map newMap = mapCreate(doubleCopy,
-              intCopyKey,
-              doubleDestroy,
-              intKeyDestroy,
-              intCompare);
-
-    return newMap;
-}
-
-static Map createPlayerTournamentsMap() // key: tournament ID, data: GamesPointersMap
-{
-    Map newMap = mapCreate(
-              mapDataCopy, // used my func
-              intCopyKey,
-              mapDataDestroy, // used the map.h func
-              intKeyDestroy,
-              intCompare);
-
-    return newMap;
-}
-
-static Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
-{
-    Map newMap = mapCreate(
-              gamePointerCopy,
-              intCopyKey,
-              gamePointerDestroy,
-              intKeyDestroy,
-              intCompare);
-
-    return newMap;
-}
-
-/* functions that will be used by the Maps */
-//COPY
-
-//arad commented this function - 
-/* static int* intPointerCopy(int i)
-{
-    int* ip = malloc(sizeof(int));
-    if (ip == NULL){
-        return NULL;
-    }
-    *ip = i;
-    return ip;
-}
-*/
-// all copy and destroy functions changed to data and key elemnets
-static MapKeyElement intCopyKey(MapKeyElement i)
-{
-    int *ip = malloc(sizeof(int));
-    if (ip == NULL){
-        return NULL;
-    }
-    *ip = *(int*)i;
-    return ip;
-}
-
-static MapDataElement intCopyData(MapDataElement i)
-{
-    int *ip = malloc(sizeof(int));
-    if (ip == NULL){
-        return NULL;
-    }
-    *ip = *(int*)i;
-    return ip;
-}
-
-static MapDataElement doubleCopy(MapDataElement i)
-{
-    double* ip = malloc(sizeof(double));
-    if (ip == NULL){
-        return NULL;
-    }
-    *ip = *(double*)i;
-    return ip;
-}
-
-static MapDataElement playerCopy(MapDataElement element) // hold the tourments object
-{
-	if (element == NULL) {
-		return NULL;
-	}
-    Player player = malloc(sizeof(*player));
-    if (player == NULL)
-    return NULL;
-
-	player = (Player) element;
-	return player;
-}
-
-static MapDataElement tournamentCopy(MapDataElement element) // hold the tourments object
-{
-	if (element == NULL) {
-		return NULL;
-	}
-    Tournament tournament = malloc(sizeof(*tournament));
-    if (tournament == NULL)
-    return NULL;
-
-	tournament = (Tournament)element;
-	return tournament;
-}
-
-static MapDataElement gameCopy(MapDataElement element) // hold the game object
-{
-	if (element == NULL) {
-		return NULL;
-	}
-    Game game = malloc(sizeof(*game));
-    if (game == NULL)
-    return NULL;
-
-	game = (Game)element;
-	return game;
-}
-
-static MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games object
-{
-	if (element == NULL) {
-		return NULL;
-	}
-    Game* game = malloc(sizeof(game));
-    if (game == NULL)
-    return NULL;
-
-	*game = *(Game*) element;
-	return game;
-}
-
-static MapDataElement mapDataCopy (MapDataElement element){
-    Map map = mapCopy ((Map)element);
-    if (map == NULL){
-        return NULL;
-    }
-    return map;
-}
-
-//Destroy:
-static void gamePointerDestroy(MapDataElement game)
-{
-    if(game != NULL)
-    {
-        free(game);
-    }
-
-    return;
-}
-
-static void tournamentDestroy(MapDataElement tournament)
-{
-    if(tournament != NULL)
-    {
-        Tournament tournament_to_destroy = (Tournament) tournament;
-        mapDestroy(tournament_to_destroy->gamesMap);
-        free(tournament);
-    }
-
-    return;
-}
-
-static void gameDestroy(MapDataElement game)
-{
-    if(game != NULL)
-    free(game);
-    return;
-}
-
-static void playerDestroy(MapDataElement player)
-{
-    if(player != NULL)
-    {
-        Player player_to_destroy = (Player) player;
-        mapDestroy(player_to_destroy->PlayerTournaments);
-        free(player);
-    }
-
-    return;
-}
-
-static void intKeyDestroy(MapKeyElement id) {
-    free(id);
-}
-
-static void intDataDestroy(MapDataElement id) {
-    free(id);
-}
-
-static void doubleDestroy(MapDataElement id) {
-    free(id);
-}
-
-static void mapDataDestroy (MapDataElement map) {
-    Map map_to_destroy = (Map) map;
-    mapDestroy(map_to_destroy);
-}
-
-//compare:
-
-static int intCompare(MapKeyElement num1, MapKeyElement num2) {
-	int b = *(int*)num2;
-	int a = *(int*)num1;
-    if (a < b) return -1;
-    if (a > b) return +1;
-    return 0;
-}
-
-/* if int compare doesnt work
-static int intCompare(MapKeyElement num1, MapKeyElement num2) {
-    int a,b;
-	int* num1_ptr = &a;
-	int* num2_ptr = &b;
-	*num2_ptr = *(int*)num2;
-	*num1_ptr = *(int*)num1;
-    if (*num1_ptr < *num2_ptr) return -1;
-    if (*num1_ptr > *num2_ptr) return +1;
-    return 0;
-}
-*/
-
 /*==============================================================*/
 
 static void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses)
@@ -279,9 +45,9 @@ static void losses_and_wins_in_tournament_calculator(Map player_games, int playe
         if (game->first_player == player_id)
         {
             if (game->winner == FIRST_PLAYER)
-                *wins++;
+                *wins = *wins +1;
             if (game->winner == SECOND_PLAYER)
-                *losses++;
+                *losses = *losses +1;
         }   
         if (game->second_player == player_id)
         {
@@ -295,22 +61,7 @@ static void losses_and_wins_in_tournament_calculator(Map player_games, int playe
     return;
 }
 
-//checks the location is valid
-static bool location_validation(const char* tournament_location)
-{ 
-    if (tournament_location[0] < 'A' || tournament_location[0] > 'Z' )
-        return false;
-    int i = 1;
-    while (tournament_location[i] != NULL){
-        if ((tournament_location[i] >= 'a' && tournament_location[i] <= 'z') || (tournament_location[i] == ' ')){
-            i++;
-        }
-        else{
-            return false;
-        } 
-    }
-    return true;
-}
+
 
     int bubble(double a[], int n) {
         int i, swapped = 0;
@@ -734,32 +485,8 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
     Tournament tournament = mapGet(chess->tournaments_map, mapGetFirst(chess->tournaments_map));
     while (tournament != NULL)
     {
-        if (!tournament->is_active)
-        {
+        if (printTournamentStatistics(tournament, path_file) == true){
             no_tournament_ended = false;
-            float average_time = (float)tournament->total_time/mapGetSize(tournament->gamesMap);
-            FILE* stream = fopen(path_file, "a");
-            if (stream == NULL)
-            {
-                return CHESS_NULL_ARGUMENT;
-            }
-            fprintf(stream,  "%d\n" , tournament->tournament_winner);
-            fprintf(stream,  "%d\n" , tournament->longest_time);
-            fprintf(stream, "%f\n", average_time);
-            fprintf(stream, "%s\n" , tournament->tournament_location);
-            fprintf(stream,  "%d\n" , mapGetSize(tournament->gamesMap));
-            fprintf(stream,  "%d\n" , mapGetSize(tournament->standing));
-            fclose(stream);
-
-                /*
-                Print:
-                winner = tournament->tournament_winner
-                longest game time = tournament->longest_time
-                average game time = (double)tournament->total_time/mapGetSize(tournament->gamesMap)
-                location = tournament->tournament_location
-                number of games = mapGetSize(tournament->gamesMap)
-                number of players = mapGetSize(tournament->standing)
-                */
         }
         tournament = mapGet(chess->tournaments_map, mapGetNext(chess->tournaments_map));
     }

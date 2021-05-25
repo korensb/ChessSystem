@@ -37,26 +37,73 @@ Map createGamesMap()
 
     return newMap;
 }
+/*
+Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
+{
+    Map newMap = mapCreate(
+              gamePointerCopy,
+              intCopyKey,
+              gamePointerDestroy,
+              intKeyDestroy,
+              intCompare);
 
+    return newMap;
+}
+*/
 
 void gameAddGame (...) // need to make the function
 
-Game gameCopy(Game element) // hold the game object
+MapDataElement gameCopy(MapDataElement element) // hold the game object
 {
 	if (element == NULL) {
 		return NULL;
 	}
-    Game game = malloc(sizeof(game));
+    Game game = malloc(sizeof(*game));
     if (game == NULL)
     return NULL;
 
-	*game = *element;
+	game = (Game)element;
 	return game;
 }
 
-void gameDestroy(Game game)
+/*
+MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games object
+{
+	if (element == NULL) {
+		return NULL;
+	}
+    Game* game = malloc(sizeof(game));
+    if (game == NULL)
+    return NULL;
+
+	*game = *(Game*) element;
+	return game;
+}
+*/
+
+MapDataElement mapDataCopy (MapDataElement element){
+    Map map = mapCopy ((Map)element);
+    if (map == NULL){
+        return NULL;
+    }
+    return map;
+}
+
+ /* 
+ void gamePointerDestroy(MapDataElement game)
+{
+    if(game != NULL)
+    {
+        free(game);
+    }
+
+    return;
+}
+*/
+
+ void gameDestroy(MapDataElement game)
 {
     if(game != NULL)
     free(game);
-    return 0;
+    return;
 }
