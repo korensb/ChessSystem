@@ -211,19 +211,16 @@ bool is_tournament_active (Tournament tournament)
     return false;
 }
 
- add_game_to_tournament_map(Tournament tournament, Game game)
+ MapResult add_game_to_tournament_map(Tournament tournament, Game game)
  {
+     assert(game != NULL);
      if (mapPut(tournament->gamesMap, &(tournament->num_games), game) != MAP_SUCCESS)
         {
             chessDestroy(chess);
-            return CHESS_OUT_OF_MEMORY;
-
+            return MAP_OUT_OF_MEMORY;
         }
      tournament->num_games++;
-
+     return MAP_SUCCESS;
  }
 
-if (mapPut(tournament->gamesMap, tournament->num_games, ) != MAP_SUCCESS){
-                             chessDestroy(chess);
-                             return MAP_OUT_OF_MEMORY;
-                         }
+

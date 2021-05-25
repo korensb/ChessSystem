@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
 #define EMPTY 0
+// #define NDEBUG
 
 /*
 Maps list:
@@ -215,13 +218,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
 
                             Game game = gameCreate(first_player,second_player, winner, play_time);
 
-
-
-                            if (mapPut(tournament->gamesMap, ++tournament->num_games, gameCreate(first_player,
-                         second_player, winner, play_time)) != MAP_SUCCESS){
-                             chessDestroy(chess);
-                             return MAP_OUT_OF_MEMORY;
-                         }
+                            if (add_game_to_tournament_map(Tournament tournament, Game game) == MAP_OUT_OF_MEMORY)
+                                return CHESS_OUT_OF_MEMORY;
 
 
                             mapPut(player1_games, second_player, mapGet(tournament->gamesMap, tournament->num_games));

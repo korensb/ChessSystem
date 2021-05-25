@@ -1,4 +1,3 @@
-#include "tournament.h"
 #include "game.h"
 #include "player.h"
 #include "map.h"
@@ -32,4 +31,4 @@ int intCompare(MapKeyElement num1, MapKeyElement num2);
 bool is_tournament_active (Tournament tournament);
 
 void tournamentAddGame (....) //need to make the functiong
-
+MapResult add_game_to_tournament_map(Tournament tournament, Game game);
