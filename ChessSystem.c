@@ -438,51 +438,59 @@ double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessRes
     return (double)player->total_time/player->games;
 }
 
+// problem with this function - we dont adress the option that the levels
+// are tied and we need to print according to id according to the pdf
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
 {
     if (chess == NULL || file == NULL)
         return CHESS_NULL_ARGUMENT;
-
+    if (mapGetSize(chess->players_map) == 0){
+        return MAP_SUCCESS;
+    }
     FILE* stream = fopen(file, "a");
             if (stream == NULL)
             {
-                return CHESS_NULL_ARGUMENT;
+                return CHESS_SAVE_FAILURE;
             }
     Map levels = createDoublesMap(); //key= ID ,data = level
-    int player_id = mapGetFirst(chess->players_map);
+    int player_id = *(int*)mapGetFirst(chess->players_map);
     Player player;
-    double player_level;
-    int draw;
     int remain_players = mapGetSize(chess->players_map);
-    double array [remain_players] = { 0 };
-    int i = 0;
-
+    double *array = malloc(sizeof(double)*remain_players));
+    if (array == NULL){
+        fclose(file);
+        return MAP_OUT_OF_MEMORY;
+    }
+    for (int i = 0; i<remain_players; i++){
+        array[i] = 0;
+    }
+    int j = 0;
     while (player_id != NULL)
     {
-        player = mapGet(chess->players_map, player_id);
-        draw = player->points - (2*player->wins);
-        player_level = (double)((6*player->wins) - (10*player->losses) + (2*draw))/player->games;
-        mapPut(levels, player_id, player_level);
-        array[i] = player_level;
-        i++;
-        player_id = mapGetNext(chess->players_map);
+        player = mapGet(chess->players_map, &player_id);
+        if (playerLevelCalculate (player, player_id, levels, array, j) == MAP_OUT_OF_MEMORY){
+            fclose(file);
+            return MAP_OUT_OF_MEMORY;
+        }
+        j++;
+        player_id = *(int*)mapGetNext(chess->players_map);
     }
-
+    j--;
     bubble_sort(array, remain_players);
-
-    while (i >= 0)
+    while (j >= 0)
     {
-        player_id = mapGetFirst(chess->players_map);
-        while (mapGet(levels, player_id) != array[i])
+        player_id = *(int*)mapGetFirst(chess->players_map);
+        while (*(double*)mapGet(levels, &player_id) != array[j])
         {
-            player_id = mapGetNext(chess->players_map);
+            player_id = *(int*)mapGetNext(chess->players_map);
         }
         fprintf(stream,  "%d\n" , player_id);
-        fprintf(stream, "%f\n", array[i]);
-        mapRemove(levels, player_id);
-        i--;
+        fprintf(stream, "%f\n", array[j]);
+        // arad thinks this line is wrong - mapRemove(levels, &player_id);
+        j--;
     }
     fclose(stream);
+    return MAP_SUCCESS;
 }
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
@@ -491,6 +499,11 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
         return CHESS_NULL_ARGUMENT;
     bool no_tournament_ended = true;
     Tournament tournament = mapGet(chess->tournaments_map, mapGetFirst(chess->tournaments_map));
+    FILE* stream = fopen(path_file, "a");
+            if (stream == NULL)
+            {
+                return CHESS_SAVE_FAILURE;
+            }
     while (tournament != NULL)
     {
         if (printTournamentStatistics(tournament, path_file) == true){
@@ -498,6 +511,7 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
         }
         tournament = mapGet(chess->tournaments_map, mapGetNext(chess->tournaments_map));
     }
+    fclose(path_file);
     if (no_tournament_ended)
         return CHESS_NO_TOURNAMENTS_ENDED;
     return CHESS_SUCCESS;

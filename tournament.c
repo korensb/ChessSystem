@@ -246,11 +246,6 @@ bool printTournamentStatistics (Tournament tournament, char* path_file){
         {
             tournament_ended = true;
             float average_time = (float)tournament->total_time/mapGetSize(tournament->gamesMap);
-            FILE* stream = fopen(path_file, "a");
-            if (stream == NULL)
-            {
-                return CHESS_NULL_ARGUMENT;
-            }
             fprintf(stream,  "%d\n" , tournament->tournament_winner);
             fprintf(stream,  "%d\n" , tournament->longest_time);
             fprintf(stream, "%f\n", average_time);
