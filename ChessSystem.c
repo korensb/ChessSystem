@@ -204,16 +204,16 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                                 return CHESS_OUT_OF_MEMORY;
                             }
 
-                            if (!is_game_existed)
+                            if (!is_game_existed(player1, tournament_id, second_player))
                                 return CHESS_GAME_ALREADY_EXISTS;
                              
-                            if (!players_games_num_in_tournament_validation (player1, player2, tournament)
+                            if (!players_games_num_in_tournament_validation (player1, player2, tournament))
                                 return CHESS_EXCEEDED_GAMES;
 
 
                             Game game = gameCreate(first_player,second_player, winner, play_time);
 
-                            if (add_game_to_tournament_map(Tournament tournament, Game game) == MAP_OUT_OF_MEMORY)
+                            if (add_game_to_tournament_map(tournament, game) == MAP_OUT_OF_MEMORY)
                             {
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;
