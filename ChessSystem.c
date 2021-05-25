@@ -82,18 +82,17 @@ static void losses_and_wins_in_tournament_calculator(Map player_games, int playe
     }
 
 /*==============================================================*/
-bool add_player_to_system_if_not_exist(ChessSystem chess, int player_id) // return true if already exist
+MapResult add_player_to_system_if_not_exist(ChessSystem chess, int player_id)
 {
-    if (!mapContains(chess->players_map, first_player))
+    if (!mapContains(chess->players_map, &player_id))
         {
-            if(mapPut(chess->players_map, first_player, playerCreate()) != MAP_SUCCESS)
+            if(mapPut(chess->players_map, &player_id, playerCreate()) != MAP_SUCCESS)
             {
                 chessDestroy(chess);
                 return MAP_OUT_OF_MEMORY;
             }
-            return false;
+            return MAP_SUCCESS;
         }
-        return true;
 }
 
 bool verify_id (int num)
@@ -177,17 +176,33 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
 
                             Tournament tournament = mapGet(chess->tournaments_map, tournament_id);
 
-                            if (!(is_tournament_active(tournament))
+                            if (!(is_tournament_active(tournament)))
                                 return CHESS_TOURNAMENT_ENDED;
 
-                            add_player_to_system_if_not_exist(chess, first_player);
-                            add_player_to_system_if_not_exist(chess, second_player);
+                            if (add_player_to_system_if_not_exist(chess, first_player) == MAP_OUT_OF_MEMORY)
+                            {
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
+                            }
+                            if (add_player_to_system_if_not_exist(chess, second_player) == MAP_OUT_OF_MEMORY)
+                            {
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
+                            }
 
                             Player player1 = mapGet(chess->players_map, first_player);
                             Player player2 = mapGet(chess->players_map, second_player);
                             
-                            player_add_player_to_tournament_if_not_exist(player1, tournament,tournament_id, first_player);
-                            player_add_player_to_tournament_if_not_exist(player2, tournament,tournament_id, second_player);
+                            if (player_add_player_to_tournament_if_not_exist(player1, tournament,tournament_id, first_player) == MAP_OUT_OF_MEMORY)
+                            {
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
+                            }
+                            if (player_add_player_to_tournament_if_not_exist(player2, tournament,tournament_id, second_player) == MAP_OUT_OF_MEMORY)
+                            {
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
+                            }
 
                             if (!is_game_existed)
                                 return CHESS_GAME_ALREADY_EXISTS;
