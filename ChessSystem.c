@@ -460,7 +460,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     FILE* stream = fopen(file, "a");
             if (stream == NULL)
             {
-                return CHESS_NULL_ARGUMENT;
+                return CHESS_SAVE_FAILURE;
             }
     Map levels = createDoublesMap(); //key= ID ,data = level
     int player_id = mapGetFirst(chess->players_map);
@@ -491,12 +491,15 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         {
             player_id = mapGetNext(chess->players_map);
         }
-        fprintf(stream,  "%d\n" , player_id);
-        fprintf(stream, "%f\n", array[i]);
+        if (fprintf(stream,  "%d\n" , player_id) < 0 || fprintf(stream, "%f\n", array[i]) < 0 ){
+            return CHESS_SAVE_FAILURE;
+        }
+        ;
         mapRemove(levels, player_id);
         i--;
     }
     fclose(stream);
+    return MAP_SUCCESS;
 }
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
