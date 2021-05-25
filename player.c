@@ -49,22 +49,21 @@ Map createPlayersMap()
 Map createPlayerTournamentsMap() // key: tournament ID, data: GamesPointersMap
 {
     Map newMap = mapCreate(
-              mapCopy, // used my func
-              intCopy,
-              mapDestroy, // used the map.h func
-              intDestroy,
+              mapDataCopy, // used my func
+              intCopyKey,
+              mapDataDestroy, // used the map.h func
+              intKeyDestroy,
               intCompare);
 
     return newMap;
 }
 
-Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
+Map createDoublesMap()
 {
-    Map newMap = mapCreate(
-              gamePointerCopy,
-              intCopy,
-              gamePointerDestroy,
-              intDestroy,
+    Map newMap = mapCreate(doubleCopy,
+              intCopyKey,
+              doubleDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;
@@ -72,7 +71,17 @@ Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
 
 void playerAddGame (...) // need to make the function
 
-Player playerCopy(Player element) // hold the tourments object
+MapDataElement doubleCopy(MapDataElement i)
+{
+    double* ip = malloc(sizeof(double));
+    if (ip == NULL){
+        return NULL;
+    }
+    *ip = *(double*)i;
+    return ip;
+}
+
+MapDataElement playerCopy(MapDataElement element) // hold the tourments object
 {
 	if (element == NULL) {
 		return NULL;
@@ -81,32 +90,30 @@ Player playerCopy(Player element) // hold the tourments object
     if (player == NULL)
     return NULL;
 
-	*player = *element;
+	player = (Player) element;
 	return player;
 }
 
-Game* gamePointerCopy(Game* element) // hold pointers to games object
-{
-	if (element == NULL) {
-		return NULL;
-	}
-    Game* game = malloc(sizeof(game));
-    if (game == NULL)
-    return NULL;
 
-	*game = *element;
-	return game;
-}
-
-void playerDestroy(Player player)
+void playerDestroy(MapDataElement player)
 {
     if(player != NULL)
     {
-        mapDestroy(player->PlayerTournaments);
+        Player player_to_destroy = (Player) player;
+        mapDestroy(player_to_destroy->PlayerTournaments);
         free(player);
     }
 
     return;
+}
+
+void doubleDestroy(MapDataElement id) {
+    free(id);
+}
+
+void mapDataDestroy (MapDataElement map) {
+    Map map_to_destroy = (Map) map;
+    mapDestroy(map_to_destroy);
 }
 
 ChessResult add_player_to_tournament_if_not_exist(Player player, int tournament_id)

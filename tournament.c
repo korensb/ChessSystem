@@ -67,7 +67,38 @@ Map createGamesMap()
     return newMap;
 }
 
-Tournament tournamentCopy(Tournament element) 
+Map createIntsMap()
+{
+    Map newMap = mapCreate(intCopyData,
+              intCopyKey,
+              intDataDestroy,
+              intKeyDestroy,
+              intCompare);
+
+    return newMap;
+}
+
+MapKeyElement intCopyKey(MapKeyElement i)
+{
+    int *ip = malloc(sizeof(int));
+    if (ip == NULL){
+        return NULL;
+    }
+    *ip = *(int*)i;
+    return ip;
+}
+
+MapDataElement intCopyData(MapDataElement i)
+{
+    int *ip = malloc(sizeof(int));
+    if (ip == NULL){
+        return NULL;
+    }
+    *ip = *(int*)i;
+    return ip;
+}
+
+MapDataElement tournamentCopy(MapDataElement element) // hold the tourments object
 {
 	if (element == NULL) {
 		return NULL;
@@ -76,20 +107,51 @@ Tournament tournamentCopy(Tournament element)
     if (tournament == NULL)
     return NULL;
 
-	*tournament = *element;
+	tournament = (Tournament)element;
 	return tournament;
 }
 
-void tournamentDestroy(Tournament tournament)
+void tournamentDestroy(MapDataElement tournament)
 {
     if(tournament != NULL)
     {
-        mapDestroy(tournament->gamesMap);
+        Tournament tournament_to_destroy = (Tournament) tournament;
+        mapDestroy(tournament_to_destroy->gamesMap);
         free(tournament);
     }
 
+    return;
+}
+
+void intKeyDestroy(MapKeyElement id) {
+    free(id);
+}
+
+void intDataDestroy(MapDataElement id) {
+    free(id);
+}
+
+int intCompare(MapKeyElement num1, MapKeyElement num2) {
+	int b = *(int*)num2;
+	int a = *(int*)num1;
+    if (a < b) return -1;
+    if (a > b) return +1;
     return 0;
 }
+
+
+/* if int compare doesnt work
+static int intCompare(MapKeyElement num1, MapKeyElement num2) {
+    int a,b;
+	int* num1_ptr = &a;
+	int* num2_ptr = &b;
+	*num2_ptr = *(int*)num2;
+	*num1_ptr = *(int*)num1;
+    if (*num1_ptr < *num2_ptr) return -1;
+    if (*num1_ptr > *num2_ptr) return +1;
+    return 0;
+}
+*/
 
 void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses)
 {
