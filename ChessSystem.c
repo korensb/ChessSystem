@@ -379,21 +379,22 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
 double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessResult* chess_result)
 {
     if (chess == NULL || chess_result == NULL)
-        return CHESS_NULL_ARGUMENT;
+        *chess_result = CHESS_NULL_ARGUMENT;
+        return 0;
     if (player_id < 1)
     {
         *chess_result = CHESS_INVALID_ID;
-        return;
+        return 0;
     }
-    if (!mapContains(chess->players_map, player_id))
+    if (!mapContains(chess->players_map, &player_id))
     {
         *chess_result = CHESS_PLAYER_NOT_EXIST;
-        return;
+        return 0;
     }
 
-    Player player = mapGet(chess->players_map, player_id);
+    Player player = mapGet(chess->players_map, &player_id);
     *chess_result = MAP_SUCCESS;
-    return (double)player->total_time/player->games;
+    return calculatePlayerAveragePlayTime(player) player->total_time/player->games;
 }
 
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)

@@ -37,3 +37,4 @@ void mapDataDestroy(MapDataElement map);
 
 //functions to receive the data needed for the chessSystem functions
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index);
+double calculatePlayerAveragePlayTime(Player player);
