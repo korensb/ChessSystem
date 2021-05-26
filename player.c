@@ -132,8 +132,6 @@ void mapDataDestroy(MapDataElement map)
 }
 
 
-
-
 MapResult player_add_player_to_tournament_if_not_exist(Player player, Tournament tournament, int tournament_id, int player_id)
 {
     if (!mapContains(player->PlayerTournaments, tournament_id))
