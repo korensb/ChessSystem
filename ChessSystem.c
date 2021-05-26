@@ -396,8 +396,6 @@ double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessRes
     return (double)player->total_time/player->games;
 }
 
-// problem with this function - we dont adress the option that the levels
-// are tied and we need to print according to id according to the pdf
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
 {
     if (chess == NULL || file == NULL)
