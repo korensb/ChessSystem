@@ -366,9 +366,9 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
     int* tournament_id = playerFirstTournament(player);
     while (tournament_id != NULL)
     {
-        if (is_tournament_active_by_id(chess, tournament_id))
+        if (is_tournament_active_by_id(chess, *tournament_id))
             {
-                system_remove_player_from_tournament(chess, tournament_id, player_id);
+                system_remove_player_from_tournament(chess, *tournament_id, player_id);
                 Game game = playerFirstGameInTournament(player,tournament_id);
                 int points_to_opponent;
                 int opponent_id;
@@ -379,7 +379,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
                         opponent_id = game_return_opponent_id(game, player_id);
                         if (opponent_id != EMPTY)
                             {
-                                system_update_player_stats_after_remove_opponent(chess, opponent_id, points_to_opponent, tournament_id);
+                                system_update_player_stats_after_remove_opponent(chess, opponent_id, points_to_opponent, *tournament_id);
                             }
                         game = playerNextGameInTournament(player,tournament_id,opponent_id);     
                     }
