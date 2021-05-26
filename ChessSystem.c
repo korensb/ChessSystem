@@ -94,12 +94,13 @@ MapResult system_remove_player_from_tournament(ChessSystem chess, int tournament
     return tournament_remove_player(tournament, player_id);
 }
 
-system_update_player_stats_after_remove_opponent(int player_id, int points_to_add, int tournament_id)
+void system_update_player_stats_after_remove_opponent(int player_id, int points_to_add, int tournament_id)
     {
-        Player player = mapGet(chess->players_map, player_id);
+        Player player = mapGet(chess->players_map, &player_id);
         player_update_opponent_stats_after_remove(player, points_to_add);
         Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
         tournament_update_opponent_score_after_remove_player(tournament, player_id, points_to_add);
+        return;
     }
 
 void system_calculate_player_wins_losses_in_tournament(ChessSystem chess, int tournament_id, int player_id, int* wins, int* losses)
