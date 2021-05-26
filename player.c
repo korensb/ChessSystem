@@ -222,3 +222,7 @@ ChessResult playerLevelCalculate (Player player, int player_id, Map levels, doub
     array[array_index] = player_level;
     return MAP_SUCCESS;
 }
+
+double calculatePlayerAveragePlayTime(Player player){
+    return (double) (player->total_time)/(player->games);
+}

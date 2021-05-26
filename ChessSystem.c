@@ -394,7 +394,7 @@ double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessRes
 
     Player player = mapGet(chess->players_map, &player_id);
     *chess_result = MAP_SUCCESS;
-    return calculatePlayerAveragePlayTime(player) player->total_time/player->games;
+    return calculatePlayerAveragePlayTime(player);
 }
 
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
