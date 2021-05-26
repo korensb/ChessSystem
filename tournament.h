@@ -45,7 +45,4 @@ bool printTournamentStatistics (Tournament tournament, char* path_file);
 int tournament_num_of_games(Tournament tournament);
 MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournament_id);
 
-
-
-
 #endif

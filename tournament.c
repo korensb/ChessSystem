@@ -59,9 +59,9 @@ Map createTournamentsMap()
 Map createGamesMap()
 {
     Map newMap = mapCreate(gameCopy,
-              intCopy,
+              intCopyKey,
               gameDestroy,
-              intDestroy,
+              intKeyDestroy,
               intCompare);
 
     return newMap;

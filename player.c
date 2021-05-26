@@ -50,9 +50,9 @@ Map createPlayersMap()
 Map createPlayerTournamentsMap() // key: tournament ID, data: GamesPointersMap
 {
     Map newMap = mapCreate(
-              mapDataCopy, // used my func
+              mapDataCopy,
               intCopyKey,
-              mapDataDestroy, // used the map.h func
+              mapDataDestroy,
               intKeyDestroy,
               intCompare);
 
@@ -93,6 +93,15 @@ MapDataElement playerCopy(MapDataElement element) // hold the tourments object
 	return player;
 }
 
+MapDataElement mapDataCopy (MapDataElement element)
+{
+    Map map = mapCopy ((Map)element);
+    if (map == NULL){
+        return NULL;
+    }
+    return map;
+}
+
 void playerDestroy(MapDataElement player)
 {
     if(player != NULL)
@@ -104,6 +113,26 @@ void playerDestroy(MapDataElement player)
 
     return;
 }
+
+void doubleDestroy(MapDataElement d)
+{
+    free(d);
+}
+
+void mapDataDestroy(MapDataElement map)
+{
+    if(map != NULL)
+    {
+        Map map = (Map) map;
+        mapDestroy(map);
+        free(map);
+    }
+
+    return;
+}
+
+
+
 
 MapResult player_add_player_to_tournament_if_not_exist(Player player, Tournament tournament, int tournament_id, int player_id)
 {

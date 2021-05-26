@@ -52,8 +52,6 @@ Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
 }
 */
 
-void gameAddGame (...) // need to make the function
-
 MapDataElement gameCopy(MapDataElement element) // hold the game object
 {
 	if (element == NULL) {
@@ -81,14 +79,6 @@ MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games
 	return game;
 }
 */
-
-MapDataElement mapDataCopy (MapDataElement element){
-    Map map = mapCopy ((Map)element);
-    if (map == NULL){
-        return NULL;
-    }
-    return map;
-}
 
  /* 
  void gamePointerDestroy(MapDataElement game)
