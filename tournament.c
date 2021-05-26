@@ -55,8 +55,6 @@ Map createTournamentsMap()
     return newMap;
 }
 
-void tournamentAddGame (....) //need to make the functiong
-
 Map createGamesMap()
 {
     Map newMap = mapCreate(gameCopy,
