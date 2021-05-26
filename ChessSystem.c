@@ -406,12 +406,11 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         return MAP_SUCCESS;
     }
     FILE* stream = fopen(file, "a");
-            if (stream == NULL)
-            {
-                return CHESS_SAVE_FAILURE;
-            }
+    if (stream == NULL){
+        return CHESS_SAVE_FAILURE;
+    }
     Map levels = createDoublesMap(); //key= ID ,data = level
-    int player_id = *(int*)mapGetFirst(chess->players_map);
+    int* player_id = (int*)mapGetFirst(chess->players_map);
     Player player;
     int remain_players = mapGetSize(chess->players_map);
     double *array = malloc(sizeof(double)*remain_players));
@@ -423,28 +422,28 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         array[i] = 0;
     }
     int j = 0;
-    while (player_id != 0)
+    while (player_id != NULL)
     {
-        player = mapGet(chess->players_map, &player_id);
-        if (playerLevelCalculate (player, player_id, levels, array, j) == MAP_OUT_OF_MEMORY){
+        player = mapGet(chess->players_map, player_id);
+        if (playerLevelCalculate (player, *player_id, levels, array, j) == MAP_OUT_OF_MEMORY){
             fclose(file);
             return MAP_OUT_OF_MEMORY;
         }
         j++;
-        player_id = *(int*)mapGetNext(chess->players_map);
+        player_id = (int*)mapGetNext(chess->players_map);
     }
     j--;
     bubble_sort(array, remain_players);
     while (j >= 0)
     {
-        player_id = *(int*)mapGetFirst(chess->players_map);
-        while (*(double*)mapGet(levels, &player_id) != array[j])
+        player_id = (int*)mapGetFirst(chess->players_map);
+        while (!mapContains(levels, player_id) || *(double*)mapGet(levels, player_id) != array[j])
         {
-            player_id = *(int*)mapGetNext(chess->players_map);
+            player_id = (int*)mapGetNext(chess->players_map);
         }
         fprintf(stream,  "%d\n" , player_id);
         fprintf(stream, "%f\n", array[j]);
-        // arad thinks this line is wrong - mapRemove(levels, &player_id);
+        mapRemove(levels, player_id);
         j--;
     }
     fclose(stream);
