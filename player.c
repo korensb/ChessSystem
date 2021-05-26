@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
 #define EMPTY 0
 
 struct player
@@ -159,8 +161,11 @@ void player_wins_losses_in_tournament_calculate(Player player, int player_id, in
 bool is_game_existed (Player player1, int tournament_id, int player2)
 {
     Map player1_games = mapGet(player1->PlayerTournaments, &tournament_id);
-    if (mapContains(player1_games, &player2)) //the keyElement is the opponent ID
+    if (mapContains(player1_games, &player2)){ //the keyElement is the opponent ID
         return true;
+    }
+    return false;
+    
 }
 
 // mapPut(player1_games, second_player, mapGet(tournament->gamesMap, tournament->num_games)); - why is it here?

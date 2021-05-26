@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 struct tournament
 {
@@ -234,15 +235,15 @@ MapResult tournament_add_player_to_tournament(Tournament tournament, int player_
 
 void tournament_update_opponent_score_after_remove_player(Tournament tournament, int player_id, int points)
 {
-    int* player_score = mapGet(tournament->standing, player_id);
-    assert(*player_score != NULL);
+    int* player_score = mapGet(tournament->standing, &player_id);
+    assert(player_score != NULL);
     *player_score = *player_score + points;
     return;
 }
 
 MapResult tournament_remove_player(Tournament tournament, int player_id)
 {
-    return mapRemove(tournament->standing, player_id);
+    return mapRemove(tournament->standing, &player_id);
 }
 
 bool printTournamentStatistics (Tournament tournament, FILE* stream)
@@ -291,12 +292,12 @@ MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournamen
 
     while (current_id != NULL)
     {
-        if (*(int *)mapGet(tournament->standing, &current_id) >= winner_score)
+        if (*(int *)mapGet(tournament->standing, current_id) >= winner_score)
         {
-            if (*(int *)mapGet(tournament->standing, &current_id) > winner_score) //if current player has higher score update the winner stats to his stats
+            if (*(int *)mapGet(tournament->standing, current_id) > winner_score) //if current player has higher score update the winner stats to his stats
             {
-                winner_ID = current_id;
-                winner_score = *(int *)mapGet(tournament->standing, &current_id);
+                winner_ID = *current_id;
+                winner_score = *(int *)mapGet(tournament->standing, current_id);
                 system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &winner_wins, &winner_losses); //update the current id stats to winner stats
             }
             else 
@@ -304,7 +305,7 @@ MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournamen
                 system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &check_wins, &check_losses);
                 if (check_losses < winner_losses || (check_losses == winner_losses && check_wins > winner_wins))
                     {
-                        winner_ID = current_id;
+                        winner_ID = *current_id;
                         winner_wins = check_wins;
                         winner_losses = check_losses;
                     }
