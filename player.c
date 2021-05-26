@@ -248,10 +248,10 @@ ChessResult playerLevelCalculate (Player player, int player_id, Map levels, doub
     int draw = player->points - (2*(player->wins));
     double player_level = (double)((6*player->wins) - (10*player->losses) + (2*draw))/(player->games);
     if (mapPut(levels, &player_id, &player_level) != MAP_SUCCESS){
-        return MAP_OUT_OF_MEMORY;
+        return CHESS_OUT_OF_MEMORY;
     }
     array[array_index] = player_level;
-    return MAP_SUCCESS;
+    return CHESS_SUCCESS;
 }
 
 double calculatePlayerAveragePlayTime(Player player)
