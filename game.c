@@ -101,7 +101,6 @@ void gameDestroy(MapDataElement game)
     return;
 }
 
-
 void game_losses_and_wins_in_tournament_calculate(Map player_games, int player_id, int* wins, int* losses)
 {
     Game game;

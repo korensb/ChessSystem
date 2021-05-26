@@ -244,7 +244,8 @@ void player_update_opponent_stats_after_remove(Player opponent, int points)
     return;
 }
 
-ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index){
+ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index)
+{
     int draw = player->points - (2*(player->wins));
     double player_level = (double)((6*player->wins) - (10*player->losses) + (2*draw))/(player->games);
     if (mapPut(levels, &player_id, &player_level) != MAP_SUCCESS){
@@ -289,4 +290,3 @@ ChessResult player_remove_from_system(ChessSystem chess, Player player, int play
     }
     return CHESS_SUCCESS;
 }
-
