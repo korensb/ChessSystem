@@ -107,7 +107,7 @@ void game_losses_and_wins_in_tournament_calculate(Map player_games, int player_i
     Game game;
     *wins = 0;
     *losses = 0;
-    int game_id = mapGetFirst(player_games);
+    int* game_id = mapGetFirst(player_games);
     while (game_id != NULL)
     {
         game = mapGet(player_games, game_id);
@@ -121,9 +121,9 @@ void game_losses_and_wins_in_tournament_calculate(Map player_games, int player_i
         if (game->second_player == player_id)
         {
             if (game->winner == SECOND_PLAYER)
-                *wins++;
+                *wins = *wins + 1;
             if (game->winner == FIRST_PLAYER)
-                *losses++;
+                *losses = *losses +1;
         }   
         game_id = mapGetNext(player_games);
     }
@@ -134,7 +134,7 @@ int game_points_achieved(Game game, int player_id)
 {
     if(game->winner == DRAW)
         return 1;
-    if (game->winner == FIRST_PLAYER && player_id == game->first_player || game->winner == SECOND_PLAYER && player_id == game->second_player)
+    if ((game->winner == FIRST_PLAYER && player_id == game->first_player) || (game->winner == SECOND_PLAYER && player_id == game->second_player))
         return 2;
     return 0;
 }

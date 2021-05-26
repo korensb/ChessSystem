@@ -418,7 +418,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     int* player_id = (int*)mapGetFirst(chess->players_map);
     Player player;
     int remain_players = mapGetSize(chess->players_map);
-    double *array = malloc(sizeof(double)*remain_players));
+    double *array = malloc(sizeof(double)*remain_players);
     if (array == NULL){
         fclose(file);
         return MAP_OUT_OF_MEMORY;

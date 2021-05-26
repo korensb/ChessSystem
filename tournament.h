@@ -33,7 +33,7 @@ void intDataDestroy(MapDataElement id);
 int intCompare(MapKeyElement num1, MapKeyElement num2);
 
 /* aux functions*/
-static bool location_validation(const char* tournament_location);
+bool location_validation(const char* tournament_location);
 bool players_games_num_in_tournament_validation (Player player1, Player player2, Tournament tournament);
 bool is_tournament_active (Tournament tournament);
 MapResult add_game_to_tournament_map(Tournament tournament, Game game);

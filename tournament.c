@@ -153,7 +153,7 @@ static int intCompare(MapKeyElement num1, MapKeyElement num2) {
 }
 */
 
-static bool location_validation(const char* tournament_location)
+bool location_validation(const char* tournament_location)
 { 
     if (tournament_location[0] < 'A' || tournament_location[0] > 'Z' )
         return false;
@@ -281,7 +281,7 @@ MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournamen
     int winner_score = 0;
     int winner_losses = 0;
     int winner_wins = 0;
-    int current_id = mapGetFirst(tournament->standing);
+    int* current_id = mapGetFirst(tournament->standing);
     int check_wins;
     int check_losses;
 
