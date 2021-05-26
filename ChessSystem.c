@@ -361,8 +361,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
 
     //player_remove_from_system(chess, player, player_id); moved here
 
-
-    int* tournament_id = mapGetFirst(player->PlayerTournaments);
+    int* tournament_id = playerFirstTournament(player);
     while (tournament_id != NULL)
     {
         if (is_tournament_active_by_id(chess, tournament_id))
@@ -386,7 +385,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
                         game = mapGet(tournament_map, mapGetNext(tournament_map));
                     }
             }
-            tournament_id = mapGetNext(player->PlayerTournaments);
+            tournament_id = playerNextTournament(player, tournament_id);
 
     return CHESS_SUCCESS;
 }

@@ -260,7 +260,20 @@ double calculatePlayerAveragePlayTime(Player player)
     return (double) (player->total_time)/(player->games);
 }
 
-ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id)
+int* playerFirstTournament(Player player){
+    return (int*)mapGetFirst(player->PlayerTournaments);
+}
+
+int* playerNextTournament(Player player, int* tournament_id){
+    int* current_tournament = (int*)mapGetFirst(player->PlayerTournaments);
+    while (current_tournament != NULL && current_tournament != tournament_id){
+        current_tournament = (int*)mapGetNext(player->PlayerTournaments);
+    }
+    current_tournament = (int*)mapGetNext(player->PlayerTournaments);
+    return current_tournament;
+}
+
+/* ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id)
 {
     int* tournament_id = mapGetFirst(player->PlayerTournaments);
     while (tournament_id != NULL)
@@ -290,3 +303,4 @@ ChessResult player_remove_from_system(ChessSystem chess, Player player, int play
     }
     return CHESS_SUCCESS;
 }
+*/
