@@ -284,7 +284,7 @@ Game playerFirstGameInTournament(Player player ,int* tournament_id){
 Game playerNextGameInTournament(Player player,int* tournament_id, int opponent_id){
     Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
     int *current_opponent_id = (int*) mapGetFirst(tournament_map);
-    while (current_opponent_id != NULL && current_opponent_id != opponent_id){
+    while (current_opponent_id != NULL && *current_opponent_id != opponent_id){
         current_opponent_id = (int*)mapGetNext(tournament_map);
     }
     current_opponent_id = (int*)mapGetNext(tournament_map);
