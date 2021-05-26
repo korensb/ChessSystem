@@ -15,6 +15,7 @@ struct tournament
     int total_time;
     int longest_time;
     int tournament_winner;
+    int num_games;
     bool is_active;
 };
 
@@ -183,7 +184,7 @@ bool is_tournament_active (Tournament tournament)
     return false;
 }
 
- MapResult add_game_to_tournament_map(Tournament tournament, Game game)
+MapResult add_game_to_tournament_map(Tournament tournament, Game game)
  {
      assert(game != NULL);
      if (mapPut(tournament->gamesMap, &(tournament->num_games), game) != MAP_SUCCESS)
@@ -276,4 +277,50 @@ bool printTournamentStatistics (Tournament tournament, char* path_file){
                 */
         }
     return tournament_ended;
+}
+
+int tournament_num_of_games(Tournament tournament)
+{
+    return tournament->num_games;
+}
+
+
+end_tournament(Tournament tournament)
+{
+    tournament->is_active = false;
+
+    int winner_ID;
+    int winner_score = 0;
+    int winner_losses = 0;
+    int winner_wins = 0;
+    int current_id = mapGetFirst(tournament->standing);
+    int check_wins;
+    int check_losses;
+    Player player;
+
+    while (current_id != NULL)
+    {
+        if (*(int *)mapGet(tournament->standing, &current_id) >= winner_score)
+        {
+            if (*(int *)mapGet(tournament->standing, &current_id) > winner_score) //if current player has higher score update the winner stats to his stats
+            {
+                winner_ID = current_id;
+                winner_score = *(int *)mapGet(tournament->standing, &current_id);
+                losses_and_wins_in_tournament_calculator(mapGet(player->PlayerTournaments, tournament_id), current_id, &winner_wins, &winner_losses); //update the current id stats to winner stats
+            }
+            else 
+            {
+                player = mapGet(chess->players_map, current_id);
+                losses_and_wins_in_tournament_calculator(mapGet(player->PlayerTournaments, tournament_id), current_id, &check_wins, &check_losses);
+                if (check_losses < winner_losses || check_losses == winner_losses && check_wins > winner_wins)
+                    {
+                        winner_ID = current_id;
+                        winner_wins = check_wins;
+                        winner_losses = check_losses;
+                    }
+            }
+        }
+        current_id = mapGetNext(tournament->standing);
+    }
+    tournament->tournament_winner = winner_ID;
 }

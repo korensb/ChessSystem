@@ -32,9 +32,6 @@ bool is_tournament_active (Tournament tournament);
 
 void tournamentAddGame (....) //need to make the functiong
 MapResult add_game_to_tournament_map(Tournament tournament, Game game);
-<<<<<<< HEAD
 MapResult add_game_to_tournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time);
-=======
 
 bool printTournamentStatistics (Tournament tournament, char* path_file);
->>>>>>> 01b6b8d32dab4e2483260af22f2286093f44a2c0

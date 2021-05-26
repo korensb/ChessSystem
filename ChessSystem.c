@@ -33,34 +33,6 @@ struct chess_system_t
 
 /*==============================================================*/
 
-static void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses)
-{
-    Game game;
-    *wins = 0;
-    *losses = 0;
-    int game_id = mapGetFirst(player_games);
-    while (game_id != NULL)
-    {
-        game = mapGet(player_games, game_id);
-        if (game->first_player == player_id)
-        {
-            if (game->winner == FIRST_PLAYER)
-                *wins = *wins +1;
-            if (game->winner == SECOND_PLAYER)
-                *losses = *losses +1;
-        }   
-        if (game->second_player == player_id)
-        {
-            if (game->winner == SECOND_PLAYER)
-                *wins++;
-            if (game->winner == FIRST_PLAYER)
-                *losses++;
-        }   
-        game_id = mapGetNext(player_games);
-    }
-    return;
-}
-
 static bool is_tournament_existed (ChessSystem chess, int tournament_id)
 {
     if(mapContains(chess, tournament_id))
@@ -282,7 +254,6 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
     return CHESS_SUCCESS;
 }
 
-
 /* chessRemovePlayer: VERSION 1- using iterators
 VERSION 1- using iterators
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
@@ -357,25 +328,30 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
 ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
 {
     if (chess == NULL)
+    {
         return CHESS_NULL_ARGUMENT;
+    }        
     if (tournament_id < 1)
     {
         return CHESS_INVALID_ID;
     }
-    if (!mapContains(chess->tournaments_map, tournament_id))
+    if (!is_tournament_existed (chess, tournament_id))
     {
         return CHESS_TOURNAMENT_NOT_EXIST;
     }
     
     Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
 
-    if (!tournament->is_active)
+    if (!is_tournament_active(tournament))
     {
         return CHESS_TOURNAMENT_ENDED;
     }
-    if (mapGetSize(tournament) == 0){
+    if (tournament_num_of_games(tournament) == 0)
+    {
         return CHESS_NO_GAMES;
     }
+
+
 
     tournament->is_active = false;
 
@@ -413,6 +389,7 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
         current_id = mapGetNext(tournament->standing);
     }
     tournament->tournament_winner = winner_ID;
+
     return CHESS_SUCCESS;
 }
 

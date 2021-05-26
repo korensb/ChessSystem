@@ -127,6 +127,13 @@ int player_games_in_tournament_num (Player player, int tournament_id)
     return mapGetSize(player_games);
 }
 
+void player_wins_losses_in_tournament_calculate(int player_id, int* wins, int* losses)
+{
+    Map games_in_tournament = mapGet(player->PlayerTournaments, tournament_id);
+    losses_and_wins_in_tournament_calculator(games_in_tournament, player_id, &wins, &losses);
+    return;
+}
+
 bool is_game_existed (Player player1, int tournament_id, int player2)
 {
     Map player1_games = mapGet(player1->PlayerTournaments, tournament_id);
@@ -217,7 +224,8 @@ ChessResult playerLevelCalculate (Player player, int player_id, Map levels, doub
     return MAP_SUCCESS;
 }
 
-double calculatePlayerAveragePlayTime(Player player){
+double calculatePlayerAveragePlayTime(Player player)
+{
     return (double) (player->total_time)/(player->games);
 }
 

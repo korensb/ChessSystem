@@ -108,6 +108,34 @@ MapDataElement mapDataCopy (MapDataElement element){
     return;
 }
 
+void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses)
+{
+    Game game;
+    *wins = 0;
+    *losses = 0;
+    int game_id = mapGetFirst(player_games);
+    while (game_id != NULL)
+    {
+        game = mapGet(player_games, game_id);
+        if (game->first_player == player_id)
+        {
+            if (game->winner == FIRST_PLAYER)
+                *wins = *wins +1;
+            if (game->winner == SECOND_PLAYER)
+                *losses = *losses +1;
+        }   
+        if (game->second_player == player_id)
+        {
+            if (game->winner == SECOND_PLAYER)
+                *wins++;
+            if (game->winner == FIRST_PLAYER)
+                *losses++;
+        }   
+        game_id = mapGetNext(player_games);
+    }
+    return;
+}
+
 int points_achieved_in_game(Game game, int player_id)
 {
     if(game->winner == DRAW)
