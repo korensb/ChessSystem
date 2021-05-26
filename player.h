@@ -1,7 +1,10 @@
+#ifndef _PLAYER_H
+#define _PLAYER_H
+
 #include "tournament.h"
 #include "game.h"
-#include "player.h"
-#include "map.h"
+#include "./mtm_map/map.h"
+#include "chessSystem.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,3 +41,5 @@ void mapDataDestroy(MapDataElement map);
 //functions to receive the data needed for the chessSystem functions
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index);
 double calculatePlayerAveragePlayTime(Player player);
+
+#endif

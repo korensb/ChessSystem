@@ -1,3 +1,5 @@
+#include "tournament.h"
+#include "player.h"
 #include "chessSystem.h"
 #include "./mtm_map/map.h"
 #include <stdio.h>

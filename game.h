@@ -1,7 +1,10 @@
+#ifndef _GAME_H
+#define _GAME_H
+
 #include "tournament.h"
-#include "game.h"
 #include "player.h"
-#include "map.h"
+#include "./mtm_map/map.h"
+#include "chessSystem.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,3 +34,5 @@ void gameDestroy(MapDataElement game);
 /* functions to update data of game after adding a game */
 
 void gameAddGame (...) // need to make the function
+
+#endif
