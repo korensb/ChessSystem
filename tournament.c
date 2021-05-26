@@ -299,11 +299,11 @@ MapResult end_tournament(Tournament tournament, int tournament_id)
             {
                 winner_ID = *current_id;
                 winner_score = *(int *)mapGet(tournament->standing, current_id);
-                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, current_id, &winner_wins, &winner_losses);
+                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, *current_id, &winner_wins, &winner_losses);
             }
             else 
             {
-                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, current_id, &check_wins, &check_losses);
+                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, *current_id, &check_wins, &check_losses);
                 if (check_losses < winner_losses || (check_losses == winner_losses && check_wins > winner_wins))
                     {
                         winner_ID = *current_id;

@@ -389,11 +389,6 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
     return CHESS_SUCCESS;
 }
 
-
-
-
-
-
     mapRemove(chess->players_map, &player_id);
     return CHESS_SUCCESS;
 }
