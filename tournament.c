@@ -278,7 +278,8 @@ int tournament_num_of_games(Tournament tournament)
     return tournament->num_games;
 }
 
-MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournament_id)
+
+MapResult end_tournament(Tournament tournament, int tournament_id)
 {
     tournament->is_active = false;
 
@@ -298,11 +299,11 @@ MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournamen
             {
                 winner_ID = *current_id;
                 winner_score = *(int *)mapGet(tournament->standing, current_id);
-                system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &winner_wins, &winner_losses); //update the current id stats to winner stats
+                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, current_id, &winner_wins, &winner_losses);
             }
             else 
             {
-                system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &check_wins, &check_losses);
+                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, current_id, &check_wins, &check_losses);
                 if (check_losses < winner_losses || (check_losses == winner_losses && check_wins > winner_wins))
                     {
                         winner_ID = *current_id;

@@ -122,12 +122,14 @@ void system_update_player_stats_after_remove_opponent(ChessSystem chess, int pla
         return;
     }
 
+/*
 void system_calculate_player_wins_losses_in_tournament(ChessSystem chess, int tournament_id, int player_id, int* wins, int* losses)
 {
     Player player = mapGet(chess->players_map, &player_id);
     player_wins_losses_in_tournament_calculate(player, player_id, tournament_id, wins, losses);
     return;
 }
+*/
 
 /*==============================================================*/
 
@@ -425,7 +427,7 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
         return CHESS_NO_GAMES;
     }
 
-    end_tournament(chess, tournament, tournament_id);
+    end_tournament(tournament, tournament_id);
 
     return CHESS_SUCCESS;
 }
