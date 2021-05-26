@@ -218,6 +218,7 @@ MapResult add_game_to_tournament(Tournament tournament, int first_player, int se
         points = mapGet(tournament->standing, &second_player);
         *points = *points + 2; 
     }
+    return MAP_SUCCESS;
 }
 
 MapResult tournament_add_player_to_tournament(Tournament tournament, int player_id)
@@ -293,12 +294,12 @@ MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournamen
             {
                 winner_ID = current_id;
                 winner_score = *(int *)mapGet(tournament->standing, &current_id);
-                calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &winner_wins, &winner_losses); //update the current id stats to winner stats
+                system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &winner_wins, &winner_losses); //update the current id stats to winner stats
             }
             else 
             {
                 system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &check_wins, &check_losses);
-                if (check_losses < winner_losses || check_losses == winner_losses && check_wins > winner_wins)
+                if (check_losses < winner_losses || (check_losses == winner_losses && check_wins > winner_wins))
                     {
                         winner_ID = current_id;
                         winner_wins = check_wins;
