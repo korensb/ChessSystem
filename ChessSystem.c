@@ -108,6 +108,28 @@ bool verify_id (int num)
     return true;
 }
 
+bool is_tournament_active_by_id (ChessSystem chess, int tournament_id)
+{
+    Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
+    if (tournament->is_active == true)
+        return true;
+    return false;
+}
+
+MapResult chess_remove_player_from_tournament(ChessSystem chess, int tournament_id, int player_id)
+{
+    Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
+    return tournament_remove_player(tournament, player_id);
+}
+
+chess_update_player_stats_after_remove_opponent(int player_id, int points_to_add, int tournament_id)
+    {
+        Player player = mapGet(chess->players_map, player_id);
+        update_opponent_stats_after_remove_player(player, points_to_add);
+        Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
+        update_opponent_score_in_tournament_after_remove_player(tournament, player_id, points_to_add);
+    }
+
 /*==============================================================*/
 
 ChessSystem chessCreate()
@@ -261,8 +283,8 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
 }
 
 
-
-
+/* chessRemovePlayer: VERSION 1- using iterators
+VERSION 1- using iterators
 ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
 {
     if (chess == NULL)
@@ -271,6 +293,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
         return CHESS_INVALID_ID;
     if (!mapContains(chess->players_map, player_id))
         return CHESS_PLAYER_NOT_EXIST;
+
 
     Player player = mapGet(chess->players_map, player_id);
     int tournament_id = mapGetFirst(player->PlayerTournaments);
@@ -281,34 +304,51 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
     int points_to_opponent;
     int opponent_id;
 
+    // Tachles- needs iterator that gives the tournament_id of all the tournaments of this player.
     while (tournament_id != NULL)
     {
-        tournament = mapGet(chess->tournaments_map, &tournament_id);        
-        // Map attempt = mapGet(chess->tournaments_map, *tournament_id)->standing; will work?
+        tournament = mapGet(chess->tournaments_map, &tournament_id);
+
         if (is_tournament_active (tournament))
             {
-            tournament_remove_player(tournament, player_id);
-            
-            tournament_map = mapGet(player->PlayerTournaments, &tournament_id);
-            game = mapGet(tournament_map, mapGetFirst(tournament_map));
-
-            while (game != NULL)
-            {
-                points_to_opponent = points_achieved_in_game(game, player_id);
-                game_remove_player(game, player_id);
-                opponent_id = return_opponent_id(game, player_id);
-                if (opponent_id != EMPTY)
+                tournament_remove_player(tournament, player_id);
+                tournament_map = mapGet(player->PlayerTournaments, &tournament_id);
+                game = mapGet(tournament_map, mapGetFirst(tournament_map));
+                // needs iterator that gives all the games in the PlayerTournamentGamesMap (2 lines above)
+                while (game != NULL)
                     {
-                        opponent = mapGet(chess->players_map, opponent_id);
-                        update_opponent_stats_after_remove_player(opponent, points_to_opponent);
-                        update_opponent_score_in_tournament_after_remove_player(tournament, opponent_id, points_to_opponent);
-                    }               
+                        points_to_opponent = points_achieved_in_game(game, player_id);
+                        game_remove_player(game, player_id);
+                        opponent_id = return_opponent_id(game, player_id);
+                        if (opponent_id != EMPTY)
+                            {
+                                opponent = mapGet(chess->players_map, opponent_id);
+                                update_opponent_stats_after_remove_player(opponent, points_to_opponent);
+                                update_opponent_score_in_tournament_after_remove_player(tournament, opponent_id, points_to_opponent);
+                            }     
+                        game = mapGet(tournament_map, mapGetNext(tournament_map));
+                    }
             }
-                game = mapGet(tournament_map, mapGetNext(tournament_map));
-            }
-        }
-        tournament_id = mapGetNext(player->PlayerTournaments);
+            tournament_id = mapGetNext(player->PlayerTournaments);
     }
+
+    mapRemove(chess->players_map, player_id);
+    return CHESS_SUCCESS;
+}
+*/
+
+/* VERSION 2- without iterators (more functions) */
+ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
+{
+    if (chess == NULL)
+        return CHESS_NULL_ARGUMENT;
+    if (!verify_id(player_id))
+        return CHESS_INVALID_ID;
+    if (!mapContains(chess->players_map, player_id))
+        return CHESS_PLAYER_NOT_EXIST;
+
+    Player player = mapGet(chess->players_map, player_id);
+    player_remove_from_system(chess, player);
 
     mapRemove(chess->players_map, player_id);
     return CHESS_SUCCESS;

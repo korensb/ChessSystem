@@ -94,7 +94,6 @@ MapDataElement playerCopy(MapDataElement element) // hold the tourments object
 	return player;
 }
 
-
 void playerDestroy(MapDataElement player)
 {
     if(player != NULL)
@@ -128,14 +127,12 @@ int player_games_in_tournament_num (Player player, int tournament_id)
     return mapGetSize(player_games);
 }
 
-
 bool is_game_existed (Player player1, int tournament_id, int player2)
 {
     Map player1_games = mapGet(player1->PlayerTournaments, tournament_id);
     if (mapContains(player1_games, second_player)) //the keyElement is the opponent ID
         return true;
 }
-
 
 mapPut(player1_games, second_player, mapGet(tournament->gamesMap, tournament->num_games));
 
@@ -172,7 +169,6 @@ add_game_to_players (Player player1, Player player2, Game game, int first_player
         player2->games++;
 }
 
-
 MapResult player_remove_tournament (Player player, int tournament_id, int player_id)
 {
     if (mapContains(player->PlayerTournaments, tournament_id))
@@ -196,7 +192,6 @@ MapResult player_remove_tournament (Player player, int tournament_id, int player
     return MAP_SUCCESS;    
 }
 
-
 update_opponent_stats_after_remove_player(player opponent, int points)
 {
     if (points == 2)
@@ -212,7 +207,6 @@ update_opponent_stats_after_remove_player(player opponent, int points)
     }
 }
 
-
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index){
     int draw = player->points - (2*(player->wins));
     double player_level = (double)((6*player->wins) - (10*player->losses) + (2*draw))/(player->games);
@@ -226,3 +220,32 @@ ChessResult playerLevelCalculate (Player player, int player_id, Map levels, doub
 double calculatePlayerAveragePlayTime(Player player){
     return (double) (player->total_time)/(player->games);
 }
+
+player_remove_from_system(ChessSystem chess, Player player)
+{
+    int tournament_id = mapGetFirst(player->PlayerTournaments);
+    while (tournament_id != NULL)
+    {
+        if (is_tournament_active_by_id(chess, tournament_id))
+            {
+                chess_remove_player_from_tournament(chess, tournament_id, player_id);
+
+                tournament_map = mapGet(player->PlayerTournaments, &tournament_id);
+                game = mapGet(tournament_map, mapGetFirst(tournament_map));
+
+                while (game != NULL)
+                    {
+                        points_to_opponent = points_achieved_in_game(game, player_id);
+                        game_remove_player(game, player_id);
+                        opponent_id = return_opponent_id(game, player_id);
+                        if (opponent_id != EMPTY)
+                            {
+                                chess_update_player_stats_after_remove_opponent(opponent_id, points_to_opponent, tournament_id);
+                            }     
+                        game = mapGet(tournament_map, mapGetNext(tournament_map));
+                    }
+            }
+            tournament_id = mapGetNext(player->PlayerTournaments);
+    }
+}
+
