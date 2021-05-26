@@ -1,6 +1,10 @@
 #ifndef _TOURNAMENT_H
 #define _TOURNAMENT_H
 
+/* the pointer to use of the tournament struct */
+
+typedef struct tournament *Tournament;
+
 #include "game.h"
 #include "player.h"
 #include "./mtm_map/map.h"
@@ -9,8 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* the pointer to use of the tournament struct */
-typedef struct tournament *Tournament;
 
 /* functions to create tournaments and games map */ 
 Tournament tournamentCreate(int max_games_per_player, const char* tournament_location);

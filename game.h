@@ -1,6 +1,10 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+/* the pointer to use of the game struct */
+
+typedef struct game *Game;
+
 #include "tournament.h"
 #include "player.h"
 #include "./mtm_map/map.h"
@@ -9,9 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* the pointer to use of the game struct */
 
-typedef struct game *Game;
 
 /* functions to create games */
 
