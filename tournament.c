@@ -241,15 +241,17 @@ MapResult tournament_add_player_to_tournament(Tournament tournament, int player_
     return MAP_SUCCESS;
 }
 
-update_opponent_score_in_tournament_after_remove_player(Tournament tournament, int player_id, int points)
+void tournament_update_opponent_score_after_remove_player(Tournament tournament, int player_id, int points)
 {
-    int* player_score = mapGet(tournament->standing, game->player_id);
+    int* player_score = mapGet(tournament->standing, player_id);
+    assert(*player_score != NULL);
     *player_score = *player_score + points;
+    return;
 }
 
-tournament_remove_player(Tournament tournament, int player_id)
+MapResult tournament_remove_player(Tournament tournament, int player_id)
 {
-    mapRemove(tournament->standing, player_id);
+    return mapRemove(tournament->standing, player_id);
 }
 
 bool printTournamentStatistics (Tournament tournament, char* path_file){
@@ -284,8 +286,7 @@ int tournament_num_of_games(Tournament tournament)
     return tournament->num_games;
 }
 
-
-end_tournament(ChessSystem chess, Tournament tournament, int tournament_id)
+MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournament_id)
 {
     tournament->is_active = false;
 
@@ -321,4 +322,5 @@ end_tournament(ChessSystem chess, Tournament tournament, int tournament_id)
         current_id = mapGetNext(tournament->standing);
     }
     tournament->tournament_winner = winner_ID;
+    return MAP_SUCCESS;
 }

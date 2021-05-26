@@ -97,9 +97,9 @@ MapResult system_remove_player_from_tournament(ChessSystem chess, int tournament
 system_update_player_stats_after_remove_opponent(int player_id, int points_to_add, int tournament_id)
     {
         Player player = mapGet(chess->players_map, player_id);
-        update_opponent_stats_after_remove_player(player, points_to_add);
+        player_update_opponent_stats_after_remove(player, points_to_add);
         Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
-        update_opponent_score_in_tournament_after_remove_player(tournament, player_id, points_to_add);
+        tournament_update_opponent_score_after_remove_player(tournament, player_id, points_to_add);
     }
 
 void system_calculate_player_wins_losses_in_tournament(ChessSystem chess, int tournament_id, int player_id, int* wins, int* losses)
@@ -224,7 +224,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;
                             }
-                            if (add_game_to_players(player1, player2, game, first_player, second_player, tournament_id, play_time, winner) == MAP_OUT_OF_MEMORY)
+                            if (player_add_game_to_players(player1, player2, game, first_player, second_player, tournament_id, play_time, winner) == MAP_OUT_OF_MEMORY)
                             {
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;

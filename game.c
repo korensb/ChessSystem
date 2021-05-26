@@ -108,7 +108,7 @@ MapDataElement mapDataCopy (MapDataElement element){
     return;
 }
 
-void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, int* wins, int* losses)
+void game_losses_and_wins_in_tournament_calculate(Map player_games, int player_id, int* wins, int* losses)
 {
     Game game;
     *wins = 0;
@@ -136,7 +136,7 @@ void losses_and_wins_in_tournament_calculator(Map player_games, int player_id, i
     return;
 }
 
-int points_achieved_in_game(Game game, int player_id)
+int game_points_achieved(Game game, int player_id)
 {
     if(game->winner == DRAW)
         return 1;
@@ -145,7 +145,7 @@ int points_achieved_in_game(Game game, int player_id)
     return 0;
 }
 
-int return_opponent_id(Game game, int player_id)
+int game_return_opponent_id(Game game, int player_id)
 {
     if(player_id == game->first_player)
         return game->second_player;
