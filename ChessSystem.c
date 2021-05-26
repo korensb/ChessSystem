@@ -399,7 +399,7 @@ double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessRes
     }
 
     Player player = mapGet(chess->players_map, &player_id);
-    *chess_result = MAP_SUCCESS;
+    *chess_result = CHESS_SUCCESS;
     return calculatePlayerAveragePlayTime(player);
 }
 
@@ -408,20 +408,15 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     if (chess == NULL || file == NULL)
         return CHESS_NULL_ARGUMENT;
     if (mapGetSize(chess->players_map) == 0){
-        return MAP_SUCCESS;
-    }
-    FILE* stream = fopen(file, "a");
-    if (stream == NULL){
-        return CHESS_SAVE_FAILURE;
+        return CHESS_SUCCESS;
     }
     Map levels = createDoublesMap(); //key= ID ,data = level
     int* player_id = (int*)mapGetFirst(chess->players_map);
     Player player;
     int remain_players = mapGetSize(chess->players_map);
-    double *array = malloc(sizeof(double)*remain_players));
+    double *array = malloc(sizeof(double)*remain_players);
     if (array == NULL){
-        fclose(file);
-        return MAP_OUT_OF_MEMORY;
+        return CHESS_OUT_OF_MEMORY;
     }
     for (int i = 0; i<remain_players; i++){
         array[i] = 0;
@@ -430,9 +425,9 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     while (player_id != NULL)
     {
         player = mapGet(chess->players_map, player_id);
-        if (playerLevelCalculate (player, *player_id, levels, array, j) == MAP_OUT_OF_MEMORY){
+        if (playerLevelCalculate (player, *player_id, levels, array, j) == CHESS_OUT_OF_MEMORY){
             fclose(file);
-            return MAP_OUT_OF_MEMORY;
+            return CHESS_OUT_OF_MEMORY;
         }
         j++;
         player_id = (int*)mapGetNext(chess->players_map);
@@ -446,13 +441,12 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         {
             player_id = (int*)mapGetNext(chess->players_map);
         }
-        fprintf(stream,  "%d\n" , player_id);
-        fprintf(stream, "%f\n", array[j]);
+        fprintf(file,  "%d\n" , *player_id);
+        fprintf(file, "%f\n", array[j]);
         mapRemove(levels, player_id);
         j--;
     }
-    fclose(stream);
-    return MAP_SUCCESS;
+    return CHESS_SUCCESS;
 }
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
@@ -474,7 +468,7 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
         }
         tournament = mapGet(chess->tournaments_map, mapGetNext(chess->tournaments_map));
     }
-    fclose(path_file);
+    fclose(stream);
     if (no_tournament_ended)
         return CHESS_NO_TOURNAMENTS_ENDED;
     return CHESS_SUCCESS;

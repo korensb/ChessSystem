@@ -41,7 +41,7 @@ MapResult add_game_to_tournament(Tournament tournament, int first_player, int se
 MapResult tournament_add_player_to_tournament(Tournament tournament, int player_id);
 void tournament_update_opponent_score_after_remove_player(Tournament tournament, int player_id, int points);
 MapResult tournament_remove_player(Tournament tournament, int player_id);
-bool printTournamentStatistics (Tournament tournament, char* path_file);
+bool printTournamentStatistics (Tournament tournament, FILE* stream);
 int tournament_num_of_games(Tournament tournament);
 MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournament_id);
 
