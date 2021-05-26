@@ -69,8 +69,6 @@ Map createDoublesMap()
     return newMap;
 }
 
-void playerAddGame (...) // need to make the function
-
 MapDataElement doubleCopy(MapDataElement i)
 {
     double* ip = malloc(sizeof(double));
@@ -127,10 +125,10 @@ int player_games_in_tournament_num (Player player, int tournament_id)
     return mapGetSize(player_games);
 }
 
-void player_wins_losses_in_tournament_calculate(int player_id, int* wins, int* losses)
+void player_wins_losses_in_tournament_calculate(Player player, int tournament_id, int* wins, int* losses)
 {
     Map games_in_tournament = mapGet(player->PlayerTournaments, tournament_id);
-    losses_and_wins_in_tournament_calculator(games_in_tournament, player_id, &wins, &losses);
+    losses_and_wins_in_tournament_calculator(games_in_tournament, player_id, wins, losses);
     return;
 }
 

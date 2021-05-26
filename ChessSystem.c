@@ -73,7 +73,7 @@ MapResult add_player_to_system_if_not_exist(ChessSystem chess, int player_id)
         }
 }
 
-bool verify_id (int num)
+static bool verify_id (int num)
 {
     if (num < 1)
         return false;
@@ -101,6 +101,13 @@ chess_update_player_stats_after_remove_opponent(int player_id, int points_to_add
         Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
         update_opponent_score_in_tournament_after_remove_player(tournament, player_id, points_to_add);
     }
+
+void calculate_player_wins_losses_in_tournament(ChessSystem chess, int tournament_id, int player_id, int* wins, int* losses)
+{
+    Player player = mapGet(chess->players_map, &player_id);
+    player_wins_losses_in_tournament_calculate(player, tournament_id, wins, losses);
+    return;
+}
 
 /*==============================================================*/
 
@@ -351,44 +358,7 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
         return CHESS_NO_GAMES;
     }
 
-
-
-    tournament->is_active = false;
-
-    int winner_ID;
-    int winner_score = 0;
-    int winner_losses = 0;
-    int winner_wins = 0;
-    int current_id = mapGetFirst(tournament->standing);
-    int check_wins;
-    int check_losses;
-    Player player;
-
-    while (current_id != NULL)
-    {
-        if (*(int *)mapGet(tournament->standing, current_id) >= winner_score)
-        {
-            if (*(int *)mapGet(tournament->standing, current_id) > winner_score)
-            {
-                winner_ID = current_id;
-                winner_score = *(int *)mapGet(tournament->standing, current_id);
-                losses_and_wins_in_tournament_calculator(mapGet(player->PlayerTournaments, tournament_id), current_id, &winner_wins, &winner_losses);
-            }
-            else 
-            {
-                player = mapGet(chess->players_map, current_id);
-                losses_and_wins_in_tournament_calculator(mapGet(player->PlayerTournaments, tournament_id), current_id, &check_wins, &check_losses);
-                if (check_losses < winner_losses || check_losses == winner_losses && check_wins > winner_wins)
-                    {
-                        winner_ID = current_id;
-                        winner_wins = check_wins;
-                        winner_losses = check_losses;
-                    }
-            }
-        }
-        current_id = mapGetNext(tournament->standing);
-    }
-    tournament->tournament_winner = winner_ID;
+    end_tournament(chess, tournament, tournament_id);
 
     return CHESS_SUCCESS;
 }
