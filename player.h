@@ -16,30 +16,33 @@ typedef struct player *Player;
 /* functions to create players, playersTournaments and gamePointersMap */
 
 Player playerCreate();
-Map createPlayerTournamentsMap(); // key: tournament ID, data: Map of pointers to games
 Map createPlayersMap();
+Map createPlayerTournamentsMap(); // key: tournament ID, data: Map of pointers to games
 Map createDoublesMap();
 
-/* functions to update data of player after adding a game */
-bool is_game_existed (Player player1, int tournament_id, int player2);
-void playerAddGame (...) // need to make the function
-ChessResult add_player_to_tournament_if_not_exist(Player player, int tournament_id);
-MapResult player_remove_tournament (Player player, int tournament_id, int player_id);
-add_game_to_players (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner);
 /* functions that will be used by the Maps */
-//copy
 
+//copy
 MapDataElement doubleCopy(MapDataElement i);
 MapDataElement playerCopy(MapDataElement element);
 MapDataElement mapDataCopy (MapDataElement element);
-//destroy
 
+//destroy
 void playerDestroy(MapDataElement player);
 void doubleDestroy(MapDataElement id);
 void mapDataDestroy(MapDataElement map);
 
-//functions to receive the data needed for the chessSystem functions
+
+/* aux functions*/
+MapResult player_add_player_to_tournament_if_not_exist(Player player, Tournament tournament, int tournament_id, int player_id);
+int player_games_in_tournament_num (Player player, int tournament_id);
+void player_wins_losses_in_tournament_calculate(Player player, int tournament_id, int* wins, int* losses);
+bool is_game_existed (Player player1, int tournament_id, int player2);
+MapResult player_add_game_to_players (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner);
+MapResult player_remove_tournament (Player player, int tournament_id, int player_id);
+void player_update_opponent_stats_after_remove(player opponent, int points);
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index);
 double calculatePlayerAveragePlayTime(Player player);
+MapResult player_remove_from_system(ChessSystem chess, Player player);
 
 #endif
