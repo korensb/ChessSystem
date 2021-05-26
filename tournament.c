@@ -57,17 +57,6 @@ Map createTournamentsMap()
     return newMap;
 }
 
-Map createGamesMap()
-{
-    Map newMap = mapCreate(gameCopy,
-              intCopyKey,
-              gameDestroy,
-              intKeyDestroy,
-              intCompare);
-
-    return newMap;
-}
-
 Map createIntsMap()
 {
     Map newMap = mapCreate(intCopyData,

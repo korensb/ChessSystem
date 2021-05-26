@@ -17,7 +17,6 @@ typedef struct tournament *Tournament;
 /* functions to create tournaments and games map */ 
 Tournament tournamentCreate(int max_games_per_player, const char* tournament_location);
 Map createTournamentsMap();
-Map createGamesMap();
 Map createIntsMap();
 
 /* functions that will be used by the Maps */

@@ -245,7 +245,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             
                             
                             
-                            if (!is_game_existed(player1, tournament_id, second_player))
+                            if (is_game_existed(player1, tournament_id, second_player))
                                 return CHESS_GAME_ALREADY_EXISTS;
                              
                             if (!players_games_num_in_tournament_validation (player_games_in_tournament_num (player1, tournament_id), player_games_in_tournament_num (player2, tournament_id), tournament, tournament_id))
@@ -478,8 +478,8 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     bubble_sort(array, remain_players);
     while (j >= 0)
     {
-        player_id = (int*)mapGetFirst(chess->players_map);
-        while (!mapContains(levels, player_id) || *(double*)mapGet(levels, player_id) != array[j])
+        player_id = (int*)mapGetFirst(levels);
+        while (*(double*)mapGet(levels, player_id) != array[j])
         {
             player_id = (int*)mapGetNext(chess->players_map);
         }
