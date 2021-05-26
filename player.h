@@ -43,6 +43,6 @@ MapResult player_remove_tournament (Player player, int tournament_id, int player
 void player_update_opponent_stats_after_remove(Player opponent, int points);
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index);
 double calculatePlayerAveragePlayTime(Player player);
-MapResult player_remove_from_system(ChessSystem chess, Player player);
+ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id);
 
 #endif

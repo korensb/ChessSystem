@@ -150,20 +150,20 @@ MapResult player_add_player_to_tournament_if_not_exist(Player player, Tournament
 
 int player_games_in_tournament_num (Player player, int tournament_id)
 {
-    Map player_games = mapGet(player->PlayerTournaments, tournament_id);
+    Map player_games = mapGet(player->PlayerTournaments, &tournament_id);
     return mapGetSize(player_games);
 }
 
 void player_wins_losses_in_tournament_calculate(Player player, int player_id, int tournament_id, int* wins, int* losses)
 {
-    Map games_in_tournament = mapGet(player->PlayerTournaments, tournament_id);
+    Map games_in_tournament = mapGet(player->PlayerTournaments, &tournament_id);
     game_losses_and_wins_in_tournament_calculate(games_in_tournament, player_id, wins, losses);
     return;
 }
 
 bool is_game_existed (Player player1, int tournament_id, int player2)
 {
-    Map player1_games = mapGet(player1->PlayerTournaments, tournament_id);
+    Map player1_games = mapGet(player1->PlayerTournaments, &tournament_id);
     if (mapContains(player1_games, &player2)) //the keyElement is the opponent ID
         return true;
 }
@@ -207,9 +207,9 @@ MapResult player_add_game_to_players (Player player1, Player player2, Game game,
 
 MapResult player_remove_tournament (Player player, int tournament_id, int player_id)
 {
-    if (mapContains(player->PlayerTournaments, tournament_id))
+    if (mapContains(player->PlayerTournaments, &tournament_id))
         {
-            Map games = mapGet(player->PlayerTournaments, tournament_id);
+            Map games = mapGet(player->PlayerTournaments, &tournament_id);
             Game game = mapGet(games, mapGetFirst(games));
             while (game != NULL)
             {
@@ -223,7 +223,7 @@ MapResult player_remove_tournament (Player player, int tournament_id, int player
 
                 game = mapGet(games, mapGetNext(games));
             }
-            mapRemove(player->PlayerTournaments, tournament_id); //!! verify we did the correct destroy function- need to destroy the map but not the games in the map. (createPlayerTournamentsMap)
+            mapRemove(player->PlayerTournaments, &tournament_id); //!! verify we did the correct destroy function- need to destroy the map but not the games in the map. (createPlayerTournamentsMap)
         }        
     return MAP_SUCCESS;    
 }
@@ -259,7 +259,7 @@ double calculatePlayerAveragePlayTime(Player player)
     return (double) (player->total_time)/(player->games);
 }
 
-MapResult player_remove_from_system(ChessSystem chess, Player player, int player_id)
+ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id)
 {
     int* tournament_id = mapGetFirst(player->PlayerTournaments);
     while (tournament_id != NULL)
@@ -287,6 +287,6 @@ MapResult player_remove_from_system(ChessSystem chess, Player player, int player
             }
             tournament_id = mapGetNext(player->PlayerTournaments);
     }
-    return MAP_SUCCESS;
+    return CHESS_SUCCESS;
 }
 
