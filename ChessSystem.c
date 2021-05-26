@@ -267,7 +267,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
 {
     if (chess == NULL)
         return CHESS_NULL_ARGUMENT;
-    if (player_id < 1)
+    if (!verify_id(player_id))
         return CHESS_INVALID_ID;
     if (!mapContains(chess->players_map, player_id))
         return CHESS_PLAYER_NOT_EXIST;
