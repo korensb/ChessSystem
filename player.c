@@ -199,7 +199,7 @@ MapResult player_remove_tournament (Player player, int tournament_id, int player
     return MAP_SUCCESS;    
 }
 
-player_update_opponent_stats_after_remove(player opponent, int points)
+void player_update_opponent_stats_after_remove(player opponent, int points)
 {
     if (points == 2)
     {
@@ -212,6 +212,7 @@ player_update_opponent_stats_after_remove(player opponent, int points)
         opponent->points = opponent->points + 1;
         opponent->wins++;
     }
+    return;
 }
 
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index){
@@ -229,7 +230,7 @@ double calculatePlayerAveragePlayTime(Player player)
     return (double) (player->total_time)/(player->games);
 }
 
-player_remove_from_system(ChessSystem chess, Player player)
+MapResult player_remove_from_system(ChessSystem chess, Player player)
 {
     int* tournament_id = mapGetFirst(player->PlayerTournaments);
     while (tournament_id != NULL)
@@ -255,5 +256,6 @@ player_remove_from_system(ChessSystem chess, Player player)
             }
             tournament_id = mapGetNext(player->PlayerTournaments);
     }
+    return MAP_SUCCESS;
 }
 
