@@ -232,9 +232,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             if (!is_game_existed(player1, tournament_id, second_player))
                                 return CHESS_GAME_ALREADY_EXISTS;
                              
-                            if (!players_games_num_in_tournament_validation (player1, player2, tournament, tournament_id))
+                            if (!players_games_num_in_tournament_validation (player_games_in_tournament_num (player1, tournament_id), player_games_in_tournament_num (player2, tournament_id), tournament, tournament_id))
                                 return CHESS_EXCEEDED_GAMES;
-
 
                             Game game = gameCreate(first_player,second_player, winner, play_time);
 
