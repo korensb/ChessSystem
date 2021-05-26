@@ -1,6 +1,10 @@
+#ifndef _TOURNAMENT_H
+#define _TOURNAMENT_H
+
 #include "game.h"
 #include "player.h"
-#include "map.h"
+#include "./mtm_map/map.h"
+#include "chessSystem.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,3 +39,5 @@ MapResult add_game_to_tournament_map(Tournament tournament, Game game);
 MapResult add_game_to_tournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time);
 
 bool printTournamentStatistics (Tournament tournament, char* path_file);
+
+#endif
