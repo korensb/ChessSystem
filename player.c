@@ -275,6 +275,25 @@ int* playerNextTournament(Player player, int* tournament_id){
     return current_tournament;
 }
 
+Game playerFirstGameInTournament(Player player ,int* tournament_id){
+    Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
+    Game game = mapGet(tournament_map, mapGetFirst(tournament_map));
+    return game;
+}
+
+Game playerNextGameInTournament(Player player,int* tournament_id, int opponent_id){
+    Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
+    int *current_opponent_id = (int*) mapGetFirst(tournament_map);
+    while (current_opponent_id != NULL && current_opponent_id != opponent_id){
+        current_opponent_id = (int*)mapGetNext(tournament_map);
+    }
+    current_opponent_id = (int*)mapGetNext(tournament_map);
+    Game game = mapGet(tournament_map, current_opponent_id);
+    return game;
+}
+
+
+
 /* ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id)
 {
     int* tournament_id = mapGetFirst(player->PlayerTournaments);
