@@ -102,7 +102,7 @@ MapDataElement mapDataCopy (MapDataElement element){
 }
 */
 
- void gameDestroy(MapDataElement game)
+void gameDestroy(MapDataElement game)
 {
     if(game != NULL)
     free(game);
@@ -153,7 +153,7 @@ int game_return_opponent_id(Game game, int player_id)
     return game->first_player;
 }
 
-game_remove_player(Game game, int player_id)
+void game_remove_player(Game game, int player_id)
 {
     if(player_id == game->first_player)
         {
@@ -167,4 +167,5 @@ game_remove_player(Game game, int player_id)
             if (game->first_player != EMPTY)
                 game->winner = FIRST_PLAYER;
     }
+    return;
 }
