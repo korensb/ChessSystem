@@ -87,6 +87,7 @@ MapResult system_add_player_if_not_exist(ChessSystem chess, int player_id)
             }
             return MAP_SUCCESS;
         }
+    return MAP_SUCCESS;
 }
 
 static bool verify_id (int num)
