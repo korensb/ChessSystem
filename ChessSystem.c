@@ -59,8 +59,8 @@ static bool is_tournament_existed (ChessSystem chess, int tournament_id)
             not_sorted = bubble(a, n--);
     }
 
-/*==============================================================*/
-MapResult add_player_to_system_if_not_exist(ChessSystem chess, int player_id)
+/*===============Aux Functions===============================================*/
+MapResult system_add_player_if_not_exist(ChessSystem chess, int player_id)
 {
     if (!mapContains(chess->players_map, &player_id))
         {
@@ -88,13 +88,13 @@ bool is_tournament_active_by_id (ChessSystem chess, int tournament_id)
     return false;
 }
 
-MapResult chess_remove_player_from_tournament(ChessSystem chess, int tournament_id, int player_id)
+MapResult system_remove_player_from_tournament(ChessSystem chess, int tournament_id, int player_id)
 {
     Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
     return tournament_remove_player(tournament, player_id);
 }
 
-chess_update_player_stats_after_remove_opponent(int player_id, int points_to_add, int tournament_id)
+system_update_player_stats_after_remove_opponent(int player_id, int points_to_add, int tournament_id)
     {
         Player player = mapGet(chess->players_map, player_id);
         update_opponent_stats_after_remove_player(player, points_to_add);
@@ -102,7 +102,7 @@ chess_update_player_stats_after_remove_opponent(int player_id, int points_to_add
         update_opponent_score_in_tournament_after_remove_player(tournament, player_id, points_to_add);
     }
 
-void calculate_player_wins_losses_in_tournament(ChessSystem chess, int tournament_id, int player_id, int* wins, int* losses)
+void system_calculate_player_wins_losses_in_tournament(ChessSystem chess, int tournament_id, int player_id, int* wins, int* losses)
 {
     Player player = mapGet(chess->players_map, &player_id);
     player_wins_losses_in_tournament_calculate(player, tournament_id, wins, losses);
@@ -185,12 +185,12 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             if (!(is_tournament_active(tournament)))
                                 return CHESS_TOURNAMENT_ENDED;
 
-                            if (add_player_to_system_if_not_exist(chess, first_player) == MAP_OUT_OF_MEMORY)
+                            if (system_add_player_if_not_exist(chess, first_player) == MAP_OUT_OF_MEMORY)
                             {
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;
                             }
-                            if (add_player_to_system_if_not_exist(chess, second_player) == MAP_OUT_OF_MEMORY)
+                            if (system_add_player_if_not_exist(chess, second_player) == MAP_OUT_OF_MEMORY)
                             {
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;

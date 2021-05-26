@@ -234,7 +234,7 @@ player_remove_from_system(ChessSystem chess, Player player)
     {
         if (is_tournament_active_by_id(chess, tournament_id))
             {
-                chess_remove_player_from_tournament(chess, tournament_id, player_id);
+                system_remove_player_from_tournament(chess, tournament_id, player_id);
 
                 tournament_map = mapGet(player->PlayerTournaments, &tournament_id);
                 game = mapGet(tournament_map, mapGetFirst(tournament_map));
@@ -246,7 +246,7 @@ player_remove_from_system(ChessSystem chess, Player player)
                         opponent_id = return_opponent_id(game, player_id);
                         if (opponent_id != EMPTY)
                             {
-                                chess_update_player_stats_after_remove_opponent(opponent_id, points_to_opponent, tournament_id);
+                                system_update_player_stats_after_remove_opponent(opponent_id, points_to_opponent, tournament_id);
                             }     
                         game = mapGet(tournament_map, mapGetNext(tournament_map));
                     }

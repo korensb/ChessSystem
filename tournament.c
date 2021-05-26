@@ -309,7 +309,7 @@ end_tournament(ChessSystem chess, Tournament tournament, int tournament_id)
             }
             else 
             {
-                calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &check_wins, &check_losses) 
+                system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &check_wins, &check_losses) 
                 if (check_losses < winner_losses || check_losses == winner_losses && check_wins > winner_wins)
                     {
                         winner_ID = current_id;
