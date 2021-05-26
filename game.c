@@ -102,15 +102,15 @@ void gameDestroy(MapDataElement game)
     return;
 }
 
-void game_losses_and_wins_in_tournament_calculate(Map player_games, int player_id, int* wins, int* losses)
+void game_losses_and_wins_in_tournament_calculate(Map games, int player_id, int* wins, int* losses)
 {
     Game game;
     *wins = 0;
     *losses = 0;
-    int* game_id = mapGetFirst(player_games);
+    int* game_id = mapGetFirst(games);
     while (game_id != NULL)
     {
-        game = mapGet(player_games, game_id);
+        game = mapGet(games, game_id);
         if (game->first_player == player_id)
         {
             if (game->winner == FIRST_PLAYER)
@@ -125,7 +125,7 @@ void game_losses_and_wins_in_tournament_calculate(Map player_games, int player_i
             if (game->winner == FIRST_PLAYER)
                 *losses = *losses +1;
         }   
-        game_id = mapGetNext(player_games);
+        game_id = mapGetNext(games);
     }
     return;
 }

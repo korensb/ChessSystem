@@ -45,6 +45,6 @@ void tournament_update_opponent_score_after_remove_player(Tournament tournament,
 MapResult tournament_remove_player(Tournament tournament, int player_id);
 bool printTournamentStatistics (Tournament tournament, FILE* stream);
 int tournament_num_of_games(Tournament tournament);
-MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournament_id);
+MapResult end_tournament(Tournament tournament, int tournament_id);
 
 #endif
