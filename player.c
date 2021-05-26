@@ -213,11 +213,6 @@ update_opponent_stats_after_remove_player(player opponent, int points)
 }
 
 
-
-
-
-
-
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index){
     int draw = player->points - (2*(player->wins));
     double player_level = (double)((6*player->wins) - (10*player->losses) + (2*draw))/(player->games);
@@ -226,4 +221,8 @@ ChessResult playerLevelCalculate (Player player, int player_id, Map levels, doub
     }
     array[array_index] = player_level;
     return MAP_SUCCESS;
+}
+
+double calculatePlayerAveragePlayTime(Player player){
+    return (double) (player->total_time)/(player->games);
 }

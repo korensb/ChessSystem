@@ -379,25 +379,24 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
 double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessResult* chess_result)
 {
     if (chess == NULL || chess_result == NULL)
-        return CHESS_NULL_ARGUMENT;
+        *chess_result = CHESS_NULL_ARGUMENT;
+        return 0;
     if (player_id < 1)
     {
         *chess_result = CHESS_INVALID_ID;
-        return;
+        return 0;
     }
-    if (!mapContains(chess->players_map, player_id))
+    if (!mapContains(chess->players_map, &player_id))
     {
         *chess_result = CHESS_PLAYER_NOT_EXIST;
-        return;
+        return 0;
     }
 
-    Player player = mapGet(chess->players_map, player_id);
+    Player player = mapGet(chess->players_map, &player_id);
     *chess_result = MAP_SUCCESS;
-    return (double)player->total_time/player->games;
+    return calculatePlayerAveragePlayTime(player);
 }
 
-// problem with this function - we dont adress the option that the levels
-// are tied and we need to print according to id according to the pdf
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
 {
     if (chess == NULL || file == NULL)
@@ -406,12 +405,11 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         return MAP_SUCCESS;
     }
     FILE* stream = fopen(file, "a");
-            if (stream == NULL)
-            {
-                return CHESS_SAVE_FAILURE;
-            }
+    if (stream == NULL){
+        return CHESS_SAVE_FAILURE;
+    }
     Map levels = createDoublesMap(); //key= ID ,data = level
-    int player_id = *(int*)mapGetFirst(chess->players_map);
+    int* player_id = (int*)mapGetFirst(chess->players_map);
     Player player;
     int remain_players = mapGetSize(chess->players_map);
     double *array = malloc(sizeof(double)*remain_players));
@@ -425,26 +423,26 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     int j = 0;
     while (player_id != NULL)
     {
-        player = mapGet(chess->players_map, &player_id);
-        if (playerLevelCalculate (player, player_id, levels, array, j) == MAP_OUT_OF_MEMORY){
+        player = mapGet(chess->players_map, player_id);
+        if (playerLevelCalculate (player, *player_id, levels, array, j) == MAP_OUT_OF_MEMORY){
             fclose(file);
             return MAP_OUT_OF_MEMORY;
         }
         j++;
-        player_id = *(int*)mapGetNext(chess->players_map);
+        player_id = (int*)mapGetNext(chess->players_map);
     }
     j--;
     bubble_sort(array, remain_players);
     while (j >= 0)
     {
-        player_id = *(int*)mapGetFirst(chess->players_map);
-        while (*(double*)mapGet(levels, &player_id) != array[j])
+        player_id = (int*)mapGetFirst(chess->players_map);
+        while (!mapContains(levels, player_id) || *(double*)mapGet(levels, player_id) != array[j])
         {
-            player_id = *(int*)mapGetNext(chess->players_map);
+            player_id = (int*)mapGetNext(chess->players_map);
         }
         fprintf(stream,  "%d\n" , player_id);
         fprintf(stream, "%f\n", array[j]);
-        // arad thinks this line is wrong - mapRemove(levels, &player_id);
+        mapRemove(levels, player_id);
         j--;
     }
     fclose(stream);
