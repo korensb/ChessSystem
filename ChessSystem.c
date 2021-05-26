@@ -219,17 +219,30 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             Player player1 = mapGet(chess->players_map, &first_player);
                             Player player2 = mapGet(chess->players_map, &second_player);
                             
-                            if (player_add_player_to_tournament_if_not_exist(player1, tournament,tournament_id, first_player) == MAP_OUT_OF_MEMORY)
+                            if (player_add_player_to_tournament_if_not_exist(player1, tournament_id) == MAP_OUT_OF_MEMORY)
                             {
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;
                             }
-                            if (player_add_player_to_tournament_if_not_exist(player2, tournament,tournament_id, second_player) == MAP_OUT_OF_MEMORY)
+                            if (player_add_player_to_tournament_if_not_exist(player2, tournament_id) == MAP_OUT_OF_MEMORY)
+                            {
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
+                            }
+                            if (tournament_add_player_to_tournament(tournament, first_player) == MAP_OUT_OF_MEMORY)
+                            {
+                                chessDestroy(chess);
+                                return CHESS_OUT_OF_MEMORY;
+                            }
+                            if (tournament_add_player_to_tournament(tournament, second_player) == MAP_OUT_OF_MEMORY)
                             {
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;
                             }
 
+                            
+                            
+                            
                             if (!is_game_existed(player1, tournament_id, second_player))
                                 return CHESS_GAME_ALREADY_EXISTS;
                              

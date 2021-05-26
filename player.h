@@ -36,7 +36,7 @@ void mapDataDestroy(MapDataElement map);
 
 
 /* aux functions*/
-MapResult player_add_player_to_tournament_if_not_exist(Player player, Tournament tournament, int tournament_id, int player_id);
+MapResult player_add_player_to_tournament_if_not_exist(Player player, int tournament_id);
 int player_games_in_tournament_num (Player player, int tournament_id);
 void player_wins_losses_in_tournament_calculate(Player player, int player_id, int tournament_id, int* wins, int* losses);
 bool is_game_existed (Player player1, int tournament_id, int player2);

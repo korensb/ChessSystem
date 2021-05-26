@@ -133,16 +133,12 @@ void mapDataDestroy(MapDataElement map)
 }
 
 
-MapResult player_add_player_to_tournament_if_not_exist(Player player, Tournament tournament, int tournament_id, int player_id)
+MapResult player_add_player_to_tournament_if_not_exist(Player player, int tournament_id)
 {
     if (!mapContains(player->PlayerTournaments, &tournament_id))
         {
             if(mapPut(player->PlayerTournaments, &tournament_id, createGamesMap()) != MAP_SUCCESS)
                 return MAP_OUT_OF_MEMORY;
-
-            if (tournament_add_player_to_tournament(tournament, player_id) != MAP_SUCCESS)
-                return MAP_OUT_OF_MEMORY;
-
         }
         return MAP_SUCCESS;
 }

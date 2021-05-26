@@ -223,9 +223,12 @@ MapResult add_game_to_tournament(Tournament tournament, int first_player, int se
 
 MapResult tournament_add_player_to_tournament(Tournament tournament, int player_id)
 {
-    int zero = 0;
-    if (mapPut(tournament->standing, &player_id, &zero) != MAP_SUCCESS)
-                return MAP_OUT_OF_MEMORY;
+    if (!mapContains(tournament->standing, &player_id))
+    {
+        int zero = 0;
+        if (mapPut(tournament->standing, &player_id, &zero) != MAP_SUCCESS)
+            return MAP_OUT_OF_MEMORY;
+    }
     return MAP_SUCCESS;
 }
 
