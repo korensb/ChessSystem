@@ -423,7 +423,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         array[i] = 0;
     }
     int j = 0;
-    while (player_id != NULL)
+    while (player_id != 0)
     {
         player = mapGet(chess->players_map, &player_id);
         if (playerLevelCalculate (player, player_id, levels, array, j) == MAP_OUT_OF_MEMORY){
