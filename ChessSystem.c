@@ -1,6 +1,7 @@
 #include "tournament.h"
 #include "player.h"
 #include "chessSystem.h"
+#include "game.h"
 #include "./mtm_map/map.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,28 +39,41 @@ struct chess_system_t
 static bool is_tournament_existed (ChessSystem chess, int tournament_id)
 {
     if(mapContains(chess, tournament_id))
+    {
         return true;
+    }
     return false;
 
 }
 
-int bubble(double a[], int n) {
+void swap(int *xp, int *yp)
+{
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+
+int bubble(double a[], int n)
+{
         int i, swapped = 0;
-        for (i = 1; i < n; ++i)
+        for (i = 1; i < n; ++i){
             if (a[i - 1] > a[i])
             {
                 swap(&a[i], &a[i - 1]);
                 swapped = 1;
             }
+        }
         return swapped;
-    }
+}
 
 void bubble_sort(double a[], int n)
-    {
+{
         int not_sorted = 1;
         while ((n > 1) && not_sorted)
+        {
             not_sorted = bubble(a, n--);
-    }
+        }
+}
 
 /*===============Aux Functions===============================================*/
 MapResult system_add_player_if_not_exist(ChessSystem chess, int player_id)
@@ -461,4 +475,4 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
     if (no_tournament_ended)
         return CHESS_NO_TOURNAMENTS_ENDED;
     return CHESS_SUCCESS;
-};
+}
