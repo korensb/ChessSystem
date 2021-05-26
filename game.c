@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define EMPTY 0
+
 struct game
 {
     int first_player;

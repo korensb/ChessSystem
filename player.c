@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define EMPTY 0
 
 struct player
 {
@@ -153,7 +154,7 @@ int player_games_in_tournament_num (Player player, int tournament_id)
     return mapGetSize(player_games);
 }
 
-void player_wins_losses_in_tournament_calculate(Player player, int tournament_id, int* wins, int* losses)
+void player_wins_losses_in_tournament_calculate(Player player, int player_id, int tournament_id, int* wins, int* losses)
 {
     Map games_in_tournament = mapGet(player->PlayerTournaments, tournament_id);
     game_losses_and_wins_in_tournament_calculate(games_in_tournament, player_id, wins, losses);
@@ -163,7 +164,7 @@ void player_wins_losses_in_tournament_calculate(Player player, int tournament_id
 bool is_game_existed (Player player1, int tournament_id, int player2)
 {
     Map player1_games = mapGet(player1->PlayerTournaments, tournament_id);
-    if (mapContains(player1_games, second_player)) //the keyElement is the opponent ID
+    if (mapContains(player1_games, &player2)) //the keyElement is the opponent ID
         return true;
 }
 
@@ -172,13 +173,13 @@ bool is_game_existed (Player player1, int tournament_id, int player2)
 MapResult player_add_game_to_players (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner)
 {
     Map player1_games = mapGet(player1->PlayerTournaments, &tournament_id);
-    Map player1_games = mapGet(player2->PlayerTournaments, &tournament_id);
+    Map player2_games = mapGet(player2->PlayerTournaments, &tournament_id);
 
     mapPut(player1_games, &second_player, game);
     mapPut(player2_games, &second_player, game);
 
-    player1->total_time = (player->total_time) + play_time;
-    player2->total_time = (player->total_time) + play_time;
+    player1->total_time = (player1->total_time) + play_time;
+    player2->total_time = (player2->total_time) + play_time;
 
     if (winner == FIRST_PLAYER)
         {
@@ -227,7 +228,7 @@ MapResult player_remove_tournament (Player player, int tournament_id, int player
     return MAP_SUCCESS;    
 }
 
-void player_update_opponent_stats_after_remove(player opponent, int points)
+void player_update_opponent_stats_after_remove(Player opponent, int points)
 {
     if (points == 2)
     {
@@ -258,7 +259,7 @@ double calculatePlayerAveragePlayTime(Player player)
     return (double) (player->total_time)/(player->games);
 }
 
-MapResult player_remove_from_system(ChessSystem chess, Player player)
+MapResult player_remove_from_system(ChessSystem chess, Player player, int player_id)
 {
     int* tournament_id = mapGetFirst(player->PlayerTournaments);
     while (tournament_id != NULL)
@@ -267,8 +268,10 @@ MapResult player_remove_from_system(ChessSystem chess, Player player)
             {
                 system_remove_player_from_tournament(chess, tournament_id, player_id);
 
-                tournament_map = mapGet(player->PlayerTournaments, &tournament_id);
-                game = mapGet(tournament_map, mapGetFirst(tournament_map));
+                Map tournament_map = mapGet(player->PlayerTournaments, &tournament_id);
+                Game game = mapGet(tournament_map, mapGetFirst(tournament_map));
+                int points_to_opponent;
+                int opponent_id;
 
                 while (game != NULL)
                     {
@@ -277,7 +280,7 @@ MapResult player_remove_from_system(ChessSystem chess, Player player)
                         opponent_id = game_return_opponent_id(game, player_id);
                         if (opponent_id != EMPTY)
                             {
-                                system_update_player_stats_after_remove_opponent(opponent_id, points_to_opponent, tournament_id);
+                                system_update_player_stats_after_remove_opponent(chess, opponent_id, points_to_opponent, tournament_id);
                             }     
                         game = mapGet(tournament_map, mapGetNext(tournament_map));
                     }

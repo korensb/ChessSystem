@@ -169,16 +169,16 @@ static bool location_validation(const char* tournament_location)
     return true;
 }
 
-bool players_games_num_in_tournament_validation (Player player1, Player player2, Tournament tournament)
+bool players_games_num_in_tournament_validation (Player player1, Player player2, Tournament tournament, int tournament_id)
 {
-    if (player_games_in_tournament_num(player1, tournament_id) ==  tournament->max_games_per_player || player_games_in_tournament_num (player2, tournament_id) == tournament->max_games_per_player))
+    if (player_games_in_tournament_num(player1, tournament_id) ==  tournament->max_games_per_player || player_games_in_tournament_num (player2, tournament_id) == tournament->max_games_per_player)
         return false;
     return true;    
 }
 
 bool is_tournament_active (Tournament tournament)
 {
-    if (tournament->is_active == TRUE)
+    if (tournament->is_active == true)
         return true;
     return false;
 }
@@ -196,39 +196,27 @@ MapResult add_game_to_tournament_map(Tournament tournament, Game game)
 
 MapResult add_game_to_tournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time)
 {
-    int points;
+    int* points;
     tournament->total_time = (tournament->total_time) + play_time;
     if (tournament->longest_time < play_time)
         tournament->longest_time = play_time;
 
     if (winner == DRAW)
         {
-            points = mapGet(tournament->standing, &first_player) + 1;
-            if (mapPut(tournament->standing, &first_player, &points) != MAP_SUCCESS)
-            {
-                return MAP_OUT_OF_MEMORY;
-            }
-            points = mapGet(tournament->standing, &second_player) + 1;
-            if (mapPut(tournament->standing, &second_player, &points) != MAP_SUCCESS)
-            {
-                return MAP_OUT_OF_MEMORY;
-            }
+            points = mapGet(tournament->standing, &first_player);
+            *points = *points + 1;
+            points = mapGet(tournament->standing, &second_player);
+            *points = *points + 1;
         }
     else if (winner == FIRST_PLAYER)
     {
-        points = mapGet(tournament->standing, &first_player) + 2;
-        if (mapPut(tournament->standing, &first_player, points) != MAP_SUCCESS)
-            {
-                return MAP_OUT_OF_MEMORY;
-            }
+        points = mapGet(tournament->standing, &first_player);
+        *points = *points + 2;
     }
     else
     {
-        points = mapGet(tournament->standing, &second_player) + 2;
-        if (mapPut(tournament->standing, &second_player, points) != MAP_SUCCESS)
-            {
-                return MAP_OUT_OF_MEMORY;
-            }   
+        points = mapGet(tournament->standing, &second_player);
+        *points = *points + 2; 
     }
 }
 
@@ -253,7 +241,8 @@ MapResult tournament_remove_player(Tournament tournament, int player_id)
     return mapRemove(tournament->standing, player_id);
 }
 
-bool printTournamentStatistics (Tournament tournament, char* path_file){
+bool printTournamentStatistics (Tournament tournament, FILE* stream)
+{
     bool tournament_ended = false;
     if (!tournament->is_active)
         {
@@ -265,7 +254,6 @@ bool printTournamentStatistics (Tournament tournament, char* path_file){
             fprintf(stream, "%s\n" , tournament->tournament_location);
             fprintf(stream,  "%d\n" , mapGetSize(tournament->gamesMap));
             fprintf(stream,  "%d\n" , mapGetSize(tournament->standing));
-            fclose(stream);
 
                 /*
                 Print:
@@ -305,11 +293,11 @@ MapResult end_tournament(ChessSystem chess, Tournament tournament, int tournamen
             {
                 winner_ID = current_id;
                 winner_score = *(int *)mapGet(tournament->standing, &current_id);
-                calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &winner_wins, &winner_losses) //update the current id stats to winner stats
+                calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &winner_wins, &winner_losses); //update the current id stats to winner stats
             }
             else 
             {
-                system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &check_wins, &check_losses) 
+                system_calculate_player_wins_losses_in_tournament(chess, tournament_id, current_id, &check_wins, &check_losses);
                 if (check_losses < winner_losses || check_losses == winner_losses && check_wins > winner_wins)
                     {
                         winner_ID = current_id;

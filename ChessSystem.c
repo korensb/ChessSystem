@@ -124,7 +124,7 @@ void system_update_player_stats_after_remove_opponent(ChessSystem chess, int pla
 void system_calculate_player_wins_losses_in_tournament(ChessSystem chess, int tournament_id, int player_id, int* wins, int* losses)
 {
     Player player = mapGet(chess->players_map, &player_id);
-    player_wins_losses_in_tournament_calculate(player, tournament_id, wins, losses);
+    player_wins_losses_in_tournament_calculate(player, player_id, tournament_id, wins, losses);
     return;
 }
 
@@ -232,7 +232,7 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                             if (!is_game_existed(player1, tournament_id, second_player))
                                 return CHESS_GAME_ALREADY_EXISTS;
                              
-                            if (!players_games_num_in_tournament_validation (player1, player2, tournament))
+                            if (!players_games_num_in_tournament_validation (player1, player2, tournament, tournament_id))
                                 return CHESS_EXCEEDED_GAMES;
 
 
@@ -345,7 +345,7 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
         return CHESS_PLAYER_NOT_EXIST;
 
     Player player = mapGet(chess->players_map, &player_id);
-    player_remove_from_system(chess, player);
+    player_remove_from_system(chess, player, player_id);
 
     mapRemove(chess->players_map, &player_id);
     return CHESS_SUCCESS;
@@ -468,7 +468,8 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
             }
     while (tournament != NULL)
     {
-        if (printTournamentStatistics(tournament, path_file) == true){
+        if (printTournamentStatistics(tournament, stream) == true)
+        {
             no_tournament_ended = false;
         }
         tournament = mapGet(chess->tournaments_map, mapGetNext(chess->tournaments_map));
