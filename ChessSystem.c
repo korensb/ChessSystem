@@ -41,7 +41,7 @@ static bool is_tournament_existed (ChessSystem chess, int tournament_id)
 
 }
 
-    int bubble(double a[], int n) {
+int bubble(double a[], int n) {
         int i, swapped = 0;
         for (i = 1; i < n; ++i)
             if (a[i - 1] > a[i])
@@ -52,7 +52,7 @@ static bool is_tournament_existed (ChessSystem chess, int tournament_id)
         return swapped;
     }
 
-    void bubble_sort(double a[], int n)
+void bubble_sort(double a[], int n)
     {
         int not_sorted = 1;
         while ((n > 1) && not_sorted)
