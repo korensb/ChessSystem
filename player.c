@@ -75,6 +75,9 @@ Map createDoublesMap()
 
 MapDataElement doubleCopy(MapDataElement i)
 {
+    if (i == NULL){
+        return NULL;
+    }
     double* ip = malloc(sizeof(double));
     if (ip == NULL){
         return NULL;
@@ -98,6 +101,9 @@ MapDataElement playerCopy(MapDataElement element) // hold the tourments object
 
 MapDataElement mapDataCopy (MapDataElement element)
 {
+    if (element == NULL){
+        return NULL;
+    }
     Map map = mapCopy ((Map)element);
     if (map == NULL){
         return NULL;
@@ -126,11 +132,9 @@ void mapDataDestroy(MapDataElement map)
 {
     if(map != NULL)
     {
-        Map map = (Map) map;
-        mapDestroy(map);
-        free(map);
+        Map map_to_destroy = (Map) map;
+        mapDestroy(map_to_destroy);
     }
-
     return;
 }
 
@@ -142,7 +146,7 @@ MapResult player_add_player_to_tournament_if_not_exist(Player player, int tourna
             if(mapPut(player->PlayerTournaments, &tournament_id, createGamesMap()) != MAP_SUCCESS)
                 return MAP_OUT_OF_MEMORY;
         }
-        return MAP_SUCCESS;
+    return MAP_SUCCESS;
 }
 
 int player_games_in_tournament_num (Player player, int tournament_id)

@@ -70,6 +70,9 @@ Map createIntsMap()
 
 MapKeyElement intCopyKey(MapKeyElement i)
 {
+    if (i == NULL){
+        return NULL;
+    }
     int *ip = malloc(sizeof(int));
     if (ip == NULL){
         return NULL;
@@ -80,6 +83,9 @@ MapKeyElement intCopyKey(MapKeyElement i)
 
 MapDataElement intCopyData(MapDataElement i)
 {
+    if (i == NULL){
+        return NULL;
+    }
     int *ip = malloc(sizeof(int));
     if (ip == NULL){
         return NULL;
@@ -122,6 +128,7 @@ void intDataDestroy(MapDataElement id) {
 }
 
 int intCompare(MapKeyElement num1, MapKeyElement num2) {
+    assert(num1 != NULL && num2 != NULL);
 	int b = *(int*)num2;
 	int a = *(int*)num1;
     if (a < b) return -1;
