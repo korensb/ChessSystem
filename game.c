@@ -41,6 +41,17 @@ Map createGamesMap()
 
     return newMap;
 }
+
+Map createGamesMapForPlayerTournamentsMap()
+{
+    Map newMap = mapCreate(gameCopyForPlayerTournamentsMap,
+              intCopyKey,
+              gameDestroyForPlayerTournamentsMap,
+              intKeyDestroy,
+              intCompare);
+
+    return newMap;
+}
 /*
 Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
 {
@@ -68,6 +79,14 @@ MapDataElement gameCopy(MapDataElement element) // hold the game object
 	return game;
 }
 
+MapDataElement gameCopyForPlayerTournamentsMap(MapDataElement element) 
+{
+	if (element == NULL) {
+		return NULL;
+	}
+    Game game = (Game) element;
+    return game;
+}
 /*
 MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games object
 {
@@ -101,6 +120,11 @@ void gameDestroy(MapDataElement game)
         Game game_to_destroy = (Game) game;
         free(game_to_destroy);
     }
+    return;
+}
+
+void gameDestroyForPlayerTournamentsMap(MapDataElement game)
+{
     return;
 }
 

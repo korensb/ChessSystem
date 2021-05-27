@@ -464,7 +464,6 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     {
         player = mapGet(chess->players_map, player_id);
         if (playerLevelCalculate (player, *player_id, levels, array, j) == CHESS_OUT_OF_MEMORY){
-            fclose(file);
             return CHESS_OUT_OF_MEMORY;
         }
         j++;
@@ -477,7 +476,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         player_id = (int*)mapGetFirst(levels);
         while (*(double*)mapGet(levels, player_id) != array[j])
         {
-            player_id = (int*)mapGetNext(chess->players_map);
+            player_id = (int*)mapGetNext(levels);
         }
         fprintf(file,  "%d\n" , *player_id);
         fprintf(file, "%f\n", array[j]);

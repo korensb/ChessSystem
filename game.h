@@ -20,15 +20,20 @@ typedef struct game *Game;
 Game gameCreate(int first_player, int second_player, Winner winner, int play_time);
 Map createGamesMap();
 // Map createGamesPointersMap(); // key: opponent ID, data: pointer to the game
+Map createGamesMapForPlayerTournamentsMap(); // key: opponent ID, data: pointer to the game
 
 /* functions that will be used by the Maps */
 //COPY
 MapDataElement gameCopy(MapDataElement element);
 // MapDataElement gamePointerCopy(MapDataElement element);
+MapDataElement gameCopyForPlayerTournamentsMap(MapDataElement element);
+
 
 //destroy
 // void gamePointerDestroy(MapDataElement game);
 void gameDestroy(MapDataElement game);
+void gameDestroyForPlayerTournamentsMap(MapDataElement game);
+
 
 
 /* aux functions*/

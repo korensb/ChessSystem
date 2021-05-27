@@ -41,6 +41,9 @@ Tournament tournamentCreate(int max_games_per_player, const char* tournament_loc
     tournament->max_games_per_player = max_games_per_player;
     tournament->tournament_location = tournament_location;
     tournament->is_active = true;
+    tournament->longest_time = 0;
+    tournament->total_time = 0;
+    tournament->num_games = 0;
 
     return tournament;
 }
@@ -200,7 +203,7 @@ MapResult add_game_to_tournament(Tournament tournament, int first_player, int se
 {
     int* points;
     tournament->total_time = (tournament->total_time) + play_time;
-    if (tournament->longest_time < play_time)
+    if ((tournament->longest_time) < play_time)
         tournament->longest_time = play_time;
 
     if (winner == DRAW)

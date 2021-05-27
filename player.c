@@ -147,7 +147,7 @@ MapResult player_add_player_to_tournament_if_not_exist(Player player, int tourna
 {
     if (!mapContains(player->PlayerTournaments, &tournament_id))
         {
-            if(mapPut(player->PlayerTournaments, &tournament_id, createGamesMap()) != MAP_SUCCESS)
+            if(mapPut(player->PlayerTournaments, &tournament_id, createGamesMapForPlayerTournamentsMap()) != MAP_SUCCESS)
                 return MAP_OUT_OF_MEMORY;
         }
     return MAP_SUCCESS;
@@ -186,7 +186,7 @@ MapResult player_add_game_to_players (Player player1, Player player2, Game game,
     Map player2_games = mapGet(player2->PlayerTournaments, &tournament_id);
 
     mapPut(player1_games, &second_player, game);
-    mapPut(player2_games, &second_player, game);
+    mapPut(player2_games, &first_player, game);
 
     player1->total_time = (player1->total_time) + play_time;
     player2->total_time = (player2->total_time) + play_time;
