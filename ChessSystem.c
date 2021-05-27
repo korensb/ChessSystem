@@ -423,8 +423,11 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
 double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessResult* chess_result)
 {
     if (chess == NULL || chess_result == NULL)
+    {
         *chess_result = CHESS_NULL_ARGUMENT;
         return 0;
+    }
+
     if (player_id < 1)
     {
         *chess_result = CHESS_INVALID_ID;
