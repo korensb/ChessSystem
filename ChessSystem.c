@@ -168,22 +168,29 @@ ChessResult chessAddTournament (ChessSystem chess, int
 tournament_id, int max_games_per_player, const char*
 tournament_location)
 {
-if (chess == NULL || tournament_location == NULL)
-    return CHESS_NULL_ARGUMENT;   
-if (tournament_id < 1)
-    return CHESS_INVALID_ID;
-if (mapContains(chess->tournaments_map,&tournament_id))
-    return CHESS_TOURNAMENT_ALREADY_EXISTS;
-if (!location_validation (tournament_location))
-    return CHESS_INVALID_LOCATION;
-if(max_games_per_player < 1){
-    return CHESS_INVALID_MAX_GAMES;
-}
-if (mapPut(chess->tournaments_map, &tournament_id, tournamentCreate(max_games_per_player, tournament_location)) == MAP_SUCCESS)
-    return CHESS_SUCCESS;
-else
-    chessDestroy(chess);
-    return CHESS_OUT_OF_MEMORY;
+    if (chess == NULL || tournament_location == NULL)
+        return CHESS_NULL_ARGUMENT;   
+    if (tournament_id < 1){
+        return CHESS_INVALID_ID;
+    }
+    if (mapContains(chess->tournaments_map,&tournament_id)){
+        return CHESS_TOURNAMENT_ALREADY_EXISTS;
+    }
+    if (!location_validation (tournament_location)){
+        return CHESS_INVALID_LOCATION;
+    }
+    if(max_games_per_player < 1){
+        return CHESS_INVALID_MAX_GAMES;
+    }
+    if (mapPut(chess->tournaments_map, &tournament_id, tournamentCreate(max_games_per_player, tournament_location)) == MAP_SUCCESS){
+        return CHESS_SUCCESS;
+    }
+    else
+    {
+        chessDestroy(chess);
+        return CHESS_OUT_OF_MEMORY;
+    }
+    
 }
 
 ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
