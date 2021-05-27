@@ -241,10 +241,6 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                                 chessDestroy(chess);
                                 return CHESS_OUT_OF_MEMORY;
                             }
-
-                            
-                            
-                            
                             if (is_game_existed(player1, tournament_id, second_player))
                                 return CHESS_GAME_ALREADY_EXISTS;
                              

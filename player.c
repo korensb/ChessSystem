@@ -78,7 +78,7 @@ MapDataElement doubleCopy(MapDataElement i)
     if (i == NULL){
         return NULL;
     }
-    double* ip = malloc(sizeof(double));
+    double* ip = malloc(sizeof(*ip));
     if (ip == NULL){
         return NULL;
     }
@@ -117,7 +117,7 @@ void playerDestroy(MapDataElement player)
     {
         Player player_to_destroy = (Player) player;
         mapDestroy(player_to_destroy->PlayerTournaments);
-        free(player);
+        free(player_to_destroy);
     }
 
     return;
@@ -125,7 +125,11 @@ void playerDestroy(MapDataElement player)
 
 void doubleDestroy(MapDataElement d)
 {
-    free(d);
+    if( d != NULL){
+        double* double_to_destroy = (double*) d;
+        free(double_to_destroy);
+    }
+    
 }
 
 void mapDataDestroy(MapDataElement map)

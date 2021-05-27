@@ -97,8 +97,10 @@ MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games
 
 void gameDestroy(MapDataElement game)
 {
-    if(game != NULL)
-    free(game);
+    if(game != NULL){
+        Game game_to_destroy = (Game) game;
+        free(game_to_destroy);
+    }
     return;
 }
 

@@ -26,7 +26,6 @@ Tournament tournamentCreate(int max_games_per_player, const char* tournament_loc
     Tournament tournament = malloc(sizeof(*tournament));
     if (tournament == NULL)
     return NULL;
-
 	tournament->gamesMap = createGamesMap();
 	if (tournament->gamesMap == NULL)
     {
@@ -73,7 +72,7 @@ MapKeyElement intCopyKey(MapKeyElement i)
     if (i == NULL){
         return NULL;
     }
-    int *ip = malloc(sizeof(int));
+    int *ip = malloc(sizeof(*ip));
     if (ip == NULL){
         return NULL;
     }
@@ -86,7 +85,7 @@ MapDataElement intCopyData(MapDataElement i)
     if (i == NULL){
         return NULL;
     }
-    int *ip = malloc(sizeof(int));
+    int *ip = malloc(sizeof(*ip));
     if (ip == NULL){
         return NULL;
     }
@@ -113,18 +112,24 @@ void tournamentDestroy(MapDataElement tournament)
     {
         Tournament tournament_to_destroy = (Tournament) tournament;
         mapDestroy(tournament_to_destroy->gamesMap);
-        free(tournament);
+        free(tournament_to_destroy);
     }
 
     return;
 }
 
 void intKeyDestroy(MapKeyElement id) {
-    free(id);
+    if (id != NULL){
+        int* int_to_destroy = (int*)id;
+        free(int_to_destroy);
+    }
 }
 
 void intDataDestroy(MapDataElement id) {
-    free(id);
+     if (id != NULL){
+        int* int_to_destroy = (int*)id;
+        free(int_to_destroy);
+    }
 }
 
 int intCompare(MapKeyElement num1, MapKeyElement num2) {
@@ -187,7 +192,7 @@ MapResult add_game_to_tournament_map(Tournament tournament, Game game)
         {
             return MAP_OUT_OF_MEMORY;
         }
-     tournament->num_games++;
+     tournament->num_games = tournament->num_games + 1;
      return MAP_SUCCESS;
  }
 
