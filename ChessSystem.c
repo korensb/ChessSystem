@@ -476,14 +476,9 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     {
         return CHESS_OUT_OF_MEMORY;
     }
-<<<<<<< HEAD
-    for (int i = 0; i<remain_players; i++){
-        array[i] = 0.5;
-=======
     for (int i = 0; i < remain_players; i++)
     {
         array[i] = 0;
->>>>>>> 976916832ac3bbe022ccc4119494b7d4a5c240d8
     }
     int j = 0;
     while (player_id != NULL)
