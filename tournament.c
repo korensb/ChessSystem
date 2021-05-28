@@ -316,6 +316,7 @@ MapResult end_tournament(Tournament tournament, int tournament_id)
                     }
             }
         }
+        free(current_id);
         current_id = mapGetNext(tournament->standing);
     }
     tournament->tournament_winner = winner_ID;
