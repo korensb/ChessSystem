@@ -450,29 +450,36 @@ double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessRes
     return calculatePlayerAveragePlayTime(player);
 }
 
+
+
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
 {
     if (chess == NULL || file == NULL)
         return CHESS_NULL_ARGUMENT;
-    if (mapGetSize(chess->players_map) == 0){
+    if (mapGetSize(chess->players_map) == 0)
+    {
         return CHESS_SUCCESS;
     }
+
     Map levels = createDoublesMap(); //key= ID ,data = level
-    int* player_id = (int*)mapGetFirst(chess->players_map);
+    int* player_id = mapGetFirst(chess->players_map);
     Player player;
     int remain_players = mapGetSize(chess->players_map);
-    double *array = malloc(sizeof(double)*remain_players);
-    if (array == NULL){
+    double* array = malloc(sizeof(double)*remain_players);
+    if (array == NULL)
+    {
         return CHESS_OUT_OF_MEMORY;
     }
-    for (int i = 0; i<remain_players; i++){
+    for (int i = 0; i < remain_players; i++)
+    {
         array[i] = 0;
     }
     int j = 0;
     while (player_id != NULL)
     {
         player = mapGet(chess->players_map, player_id);
-        if (playerLevelCalculate (player, *player_id, levels, array, j) == CHESS_OUT_OF_MEMORY){
+        if (playerLevelCalculate (player, *player_id, levels, array, j) == CHESS_OUT_OF_MEMORY)
+        {
             return CHESS_OUT_OF_MEMORY;
         }
         j++;
@@ -485,10 +492,12 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     while (j >= 0)
     {
         player_id = (int*)mapGetFirst(levels);
-        while (*(double*)mapGet(levels, player_id) != array[j])
+        double* level = mapGet(levels, player_id);
+        while (*level != array[j])
         {
             free(player_id);
             player_id = (int*)mapGetNext(levels);
+            level = mapGet(levels, player_id);
         }
         fprintf(file,  "%d\n" , *player_id);
         fprintf(file, "%f\n", array[j]);
@@ -498,6 +507,8 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     }
     return CHESS_SUCCESS;
 }
+
+
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
 {
