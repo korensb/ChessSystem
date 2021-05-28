@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
-#include "map.h"
+#include "./mtm_map/map.h"
 
 
 typedef struct MapElements *MapElement;

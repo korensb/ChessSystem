@@ -43,7 +43,7 @@ bool is_game_existed (Player player1, int tournament_id, int player2);
 MapResult player_add_game_to_players (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner);
 MapResult player_remove_tournament (Player player, int tournament_id, int player_id);
 void player_update_opponent_stats_after_remove(Player opponent, int points);
-ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double* array, int array_index);
+ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double array[], int array_index);
 double calculatePlayerAveragePlayTime(Player player);
 ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id);
 int* playerFirstTournament(Player player);

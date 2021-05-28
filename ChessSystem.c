@@ -7,8 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 
 #define EMPTY 0
+#define EPSILON 0.001
 // #define NDEBUG
 
 /*
@@ -48,7 +50,7 @@ static bool is_tournament_existed (ChessSystem chess, int tournament_id)
 
 void swap(double *xp, double *yp)
 {
-    int temp = *xp;
+    double temp = *xp;
     *xp = *yp;
     *yp = temp;
 }
@@ -75,6 +77,10 @@ void bubble_sort(double a[], int n)
         }
 }
 
+bool AreSame(double a, double b)
+{
+    return (fabs(a-b) < EPSILON);
+}
 /*===============Aux Functions===============================================*/
 MapResult system_add_player_if_not_exist(ChessSystem chess, int player_id)
 {
@@ -466,7 +472,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         return CHESS_OUT_OF_MEMORY;
     }
     for (int i = 0; i<remain_players; i++){
-        array[i] = 0;
+        array[i] = 0.5;
     }
     int j = 0;
     while (player_id != NULL)
@@ -480,13 +486,15 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         player_id = (int*)mapGetNext(chess->players_map);
 
     }
-    j--;
     bubble_sort(array, remain_players);
+    j--;
     while (j >= 0)
     {
         player_id = (int*)mapGetFirst(levels);
-        while (*(double*)mapGet(levels, player_id) != array[j])
+        double player_level = *(double*)mapGet(levels, player_id);
+        while (!AreSame(player_level,array[j]))
         {
+            player_level = *(double*)mapGet(levels, player_id);
             free(player_id);
             player_id = (int*)mapGetNext(levels);
         }
