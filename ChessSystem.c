@@ -498,21 +498,15 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     while (j >= 0)
     {
         player_id = (int*)mapGetFirst(levels);
-<<<<<<< HEAD
         double player_level = *(double*)mapGet(levels, player_id);
         while (!AreSame(player_level,array[j]))
-=======
-        double* level = mapGet(levels, player_id);
-        while (*level != array[j])
->>>>>>> 976916832ac3bbe022ccc4119494b7d4a5c240d8
         {
             player_level = *(double*)mapGet(levels, player_id);
             free(player_id);
             player_id = (int*)mapGetNext(levels);
-            level = mapGet(levels, player_id);
         }
-        fprintf(file,  "%d\n" , *player_id);
-        fprintf(file, "%f\n", array[j]);
+        fprintf(file,  "%d " , *player_id);
+        fprintf(file, "%0.2f\n", array[j]);
         mapRemove(levels, player_id);
         free(player_id);
         j--;
