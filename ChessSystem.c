@@ -292,6 +292,7 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
     {
         player = mapGet(chess->players_map, player_id);
         player_remove_tournament(player, tournament_id, *player_id);
+        free(player_id);
         player_id = mapGetNext(chess->players_map);
     }
     mapRemove(chess->tournaments_map, &tournament_id); // verify we delete the games as well
@@ -477,7 +478,9 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
             return CHESS_OUT_OF_MEMORY;
         }
         j++;
+        free(player_id);
         player_id = (int*)mapGetNext(chess->players_map);
+
     }
     j--;
     bubble_sort(array, remain_players);
@@ -486,11 +489,13 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         player_id = (int*)mapGetFirst(levels);
         while (*(double*)mapGet(levels, player_id) != array[j])
         {
+            free(player_id);
             player_id = (int*)mapGetNext(levels);
         }
         fprintf(file,  "%d\n" , *player_id);
         fprintf(file, "%f\n", array[j]);
         mapRemove(levels, player_id);
+        free(player_id);
         j--;
     }
     return CHESS_SUCCESS;
