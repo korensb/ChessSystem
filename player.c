@@ -220,7 +220,8 @@ MapResult player_remove_tournament (Player player, int tournament_id, int player
     if (mapContains(player->PlayerTournaments, &tournament_id))
         {
             Map games = mapGet(player->PlayerTournaments, &tournament_id);
-            Game game = mapGet(games, mapGetFirst(games));
+            int* game_id = mapGetFirst(games);
+            Game game = mapGet(games, game_id);
             while (game != NULL)
             {
                 player->games--;
@@ -230,8 +231,9 @@ MapResult player_remove_tournament (Player player, int tournament_id, int player
                     player->wins--;
                 if (points_to_remove == 0)
                     player->losses--;
-
-                game = mapGet(games, mapGetNext(games));
+                free (game_id);
+                game_id = mapGetNext(games);
+                game = mapGet(games, game_id);
             }
             mapRemove(player->PlayerTournaments, &tournament_id); //!! verify we did the correct destroy function- need to destroy the map but not the games in the map. (createPlayerTournamentsMap)
         }        
@@ -277,6 +279,7 @@ int* playerFirstTournament(Player player){
 int* playerNextTournament(Player player, int* tournament_id){
     int* current_tournament = (int*)mapGetFirst(player->PlayerTournaments);
     while (current_tournament != NULL && current_tournament != tournament_id){
+        free(current_tournament);
         current_tournament = (int*)mapGetNext(player->PlayerTournaments);
     }
     current_tournament = (int*)mapGetNext(player->PlayerTournaments);
@@ -285,6 +288,7 @@ int* playerNextTournament(Player player, int* tournament_id){
 
 Game playerFirstGameInTournament(Player player ,int* tournament_id){
     Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
+    tournament_id
     Game game = mapGet(tournament_map, mapGetFirst(tournament_map));
     return game;
 }

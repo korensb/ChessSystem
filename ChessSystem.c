@@ -371,28 +371,26 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
     while (tournament_id != NULL)
     {
         if (is_tournament_active_by_id(chess, *tournament_id))
+        {
+            system_remove_player_from_tournament(chess, *tournament_id, player_id);
+            Game game = playerFirstGameInTournament(player,tournament_id);
+            int points_to_opponent;
+            int opponent_id;
+            while (game != NULL)
             {
-                system_remove_player_from_tournament(chess, *tournament_id, player_id);
-                Game game = playerFirstGameInTournament(player,tournament_id);
-                int points_to_opponent;
-                int opponent_id;
-                while (game != NULL)
-                    {
-                        points_to_opponent = game_points_achieved(game, player_id);
-                        game_remove_player(game, player_id);
-                        opponent_id = game_return_opponent_id(game, player_id);
-                        if (opponent_id != EMPTY)
-                            {
-                                system_update_player_stats_after_remove_opponent(chess, opponent_id, points_to_opponent, *tournament_id);
-                            }
-                        game = playerNextGameInTournament(player,tournament_id,opponent_id);     
-                    }
+                points_to_opponent = game_points_achieved(game, player_id);
+                game_remove_player(game, player_id);
+                opponent_id = game_return_opponent_id(game, player_id);
+                if (opponent_id != EMPTY)
+                {
+                   system_update_player_stats_after_remove_opponent(chess, opponent_id, points_to_opponent, *tournament_id);
+                }
+                game = playerNextGameInTournament(player,tournament_id,opponent_id);     
             }
-            tournament_id = playerNextTournament(player, tournament_id);
-
-    return CHESS_SUCCESS;
-}
-
+        }
+        free(tournament_id);
+        tournament_id = playerNextTournament(player, tournament_id);
+    }
     mapRemove(chess->players_map, &player_id);
     return CHESS_SUCCESS;
 }
@@ -506,7 +504,8 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
     if (chess == NULL || path_file == NULL)
         return CHESS_NULL_ARGUMENT;
     bool no_tournament_ended = true;
-    Tournament tournament = mapGet(chess->tournaments_map, mapGetFirst(chess->tournaments_map));
+    int* tournament_id = mapGetFirst(chess->tournaments_map);
+    Tournament tournament = mapGet(chess->tournaments_map, tournament_id);
     FILE* stream = fopen(path_file, "a");
             if (stream == NULL)
             {
@@ -518,7 +517,9 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
         {
             no_tournament_ended = false;
         }
-        tournament = mapGet(chess->tournaments_map, mapGetNext(chess->tournaments_map));
+        free (tournament_id);
+        tournament_id = mapGetNext(chess->tournaments_map);
+        tournament = mapGet(chess->tournaments_map, tournament_id);
     }
     fclose(stream);
     if (no_tournament_ended)

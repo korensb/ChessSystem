@@ -150,7 +150,8 @@ void game_losses_and_wins_in_tournament_calculate(Map games, int player_id, int*
                 *wins = *wins + 1;
             if (game->winner == FIRST_PLAYER)
                 *losses = *losses +1;
-        }   
+        }
+        free(game_id);   
         game_id = mapGetNext(games);
     }
     return;
