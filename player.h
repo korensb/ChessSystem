@@ -36,16 +36,16 @@ void mapDataDestroy(MapDataElement map);
 
 
 /* aux functions*/
-MapResult player_add_player_to_tournament_if_not_exist(Player player, int tournament_id);
-int player_games_in_tournament_num (Player player, int tournament_id);
+MapResult playerAddPlayerToTournamentIfNotExist(Player player, int tournament_id);
+int playerGamesInTournamentNum (Player player, int tournament_id);
 // void player_wins_losses_in_tournament_calculate(Player player, int player_id, int tournament_id, int* wins, int* losses);
-bool is_game_existed (Player player1, int tournament_id, int player2);
-MapResult player_add_game_to_players (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner);
-MapResult player_remove_tournament (Player player, int tournament_id, int player_id);
-void player_update_opponent_stats_after_remove(Player opponent, int points);
+bool isGameExisted (Player player1, int tournament_id, int player2);
+MapResult playerAddGameToPlayers (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner);
+MapResult playerRemoveTournament (Player player, int tournament_id, int player_id);
+void playerUpdateOpponentStatsAfterRemove(Player opponent, int points);
 ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double array[], int array_index);
 double calculatePlayerAveragePlayTime(Player player);
-ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id);
+//ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id);
 int* playerFirstTournament(Player player);
 int* playerNextTournament(Player player, int* tournament_id);
 Game playerFirstGameInTournament(Player player ,int* tournament_id);

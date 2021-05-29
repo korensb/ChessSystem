@@ -36,7 +36,7 @@ struct chess_system_t
 };
 
 
-/*==============================================================*/
+/*===============Aux Functions===============================================*/
 static bool isTournamentExisted (ChessSystem chess, int tournament_id)
 {
     if(mapContains(chess->tournaments_map, &tournament_id))
@@ -80,7 +80,7 @@ static bool AreSame(double a, double b)
 {
     return (fabs(a-b) < EPSILON);
 }
-/*===============Aux Functions===============================================*/
+
 static MapResult systemAddPlayerIfNotExist(ChessSystem chess, int player_id)
 {
     if (!mapContains(chess->players_map, &player_id))

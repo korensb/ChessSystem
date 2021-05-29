@@ -37,10 +37,10 @@ void gameDestroyForPlayerTournamentsMap(MapDataElement game);
 
 
 /* aux functions*/
-void game_losses_and_wins_in_tournament_calculate(Map games, int player_id, int* wins, int* losses);
-int game_points_achieved(Game game, int player_id);
-int game_return_opponent_id(Game game, int player_id);
-void game_remove_player(Game game, int player_id);
+void gameLossesAndWinsInTournamentCalculate(Map games, int player_id, int* wins, int* losses);
+int gamePointsAchieved(Game game, int player_id);
+int gameReturnOpponentId(Game game, int player_id);
+void gameRemovePlayer(Game game, int player_id);
 
 
 

@@ -34,16 +34,16 @@ void intDataDestroy(MapDataElement id);
 int intCompare(MapKeyElement num1, MapKeyElement num2);
 
 /* aux functions*/
-bool location_validation(const char* tournament_location);
-bool players_games_num_in_tournament_validation (int player1_amount, int player2_amount, Tournament tournament, int tournament_id);
-bool is_tournament_active (Tournament tournament);
-MapResult add_game_to_tournament_map(Tournament tournament, Game game);
-MapResult add_game_to_tournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time);
-MapResult tournament_add_player_to_tournament(Tournament tournament, int player_id);
-void tournament_update_opponent_score_after_remove_player(Tournament tournament, int player_id, int points);
-MapResult tournament_remove_player(Tournament tournament, int player_id);
+bool locationValidation(const char* tournament_location);
+bool playersGamesNumInTournamentValidation (int player1_amount, int player2_amount, Tournament tournament, int tournament_id);
+bool isTournamentActive (Tournament tournament);
+MapResult addGameToTournamentMap(Tournament tournament, Game game);
+MapResult addGameToTournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time);
+MapResult tournamentAddPlayerToTournament(Tournament tournament, int player_id);
+void tournamentUpdateOpponentScoreAfterRemovePlayer(Tournament tournament, int player_id, int points);
+MapResult tournamentRemovePlayer(Tournament tournament, int player_id);
 bool printTournamentStatistics (Tournament tournament, FILE* stream);
-int tournament_num_of_games(Tournament tournament);
-MapResult end_tournament(Tournament tournament, int tournament_id);
+int tournamentNumOfGames(Tournament tournament);
+MapResult endTournament(Tournament tournament, int tournament_id);
 
 #endif
