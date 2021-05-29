@@ -121,21 +121,26 @@ void tournamentDestroy(MapDataElement tournament)
     return;
 }
 
-void intKeyDestroy(MapKeyElement id) {
-    if (id != NULL){
+void intKeyDestroy(MapKeyElement id)
+{
+    if (id != NULL)
+    {
         int* int_to_destroy = (int*)id;
         free(int_to_destroy);
     }
 }
 
-void intDataDestroy(MapDataElement id) {
-     if (id != NULL){
+void intDataDestroy(MapDataElement id)
+{
+     if (id != NULL)
+     {
         int* int_to_destroy = (int*)id;
         free(int_to_destroy);
     }
 }
 
-int intCompare(MapKeyElement num1, MapKeyElement num2) {
+int intCompare(MapKeyElement num1, MapKeyElement num2)
+{
     assert(num1 != NULL && num2 != NULL);
 	int b = *(int*)num2;
 	int a = *(int*)num1;
@@ -158,7 +163,7 @@ static int intCompare(MapKeyElement num1, MapKeyElement num2) {
 }
 */
 
-bool location_validation(const char* tournament_location)
+bool locationValidation(const char* tournament_location)
 { 
     if (tournament_location[0] < 'A' || tournament_location[0] > 'Z' )
         return false;
@@ -174,21 +179,21 @@ bool location_validation(const char* tournament_location)
     return true;
 }
 
-bool players_games_num_in_tournament_validation (int player1_amount, int player2_amount, Tournament tournament, int tournament_id)
+bool playersGamesNumInTournamentValidation (int player1_amount, int player2_amount, Tournament tournament, int tournament_id)
 {
     if (player1_amount ==  tournament->max_games_per_player || player2_amount == tournament->max_games_per_player)
         return false;
     return true;    
 }
 
-bool is_tournament_active (Tournament tournament)
+bool isTournamentActive (Tournament tournament)
 {
     if (tournament->is_active == true)
         return true;
     return false;
 }
 
-MapResult add_game_to_tournament_map(Tournament tournament, Game game)
+MapResult addGameToTournamentMap(Tournament tournament, Game game)
  {
      assert(game != NULL);
      if (mapPut(tournament->gamesMap, &(tournament->num_games), game) != MAP_SUCCESS)
@@ -199,7 +204,7 @@ MapResult add_game_to_tournament_map(Tournament tournament, Game game)
      return MAP_SUCCESS;
  }
 
-MapResult add_game_to_tournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time)
+MapResult addGameToTournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time)
 {
     int* points;
     tournament->total_time = (tournament->total_time) + play_time;
@@ -226,7 +231,7 @@ MapResult add_game_to_tournament(Tournament tournament, int first_player, int se
     return MAP_SUCCESS;
 }
 
-MapResult tournament_add_player_to_tournament(Tournament tournament, int player_id)
+MapResult tournamentAddPlayerToTournament(Tournament tournament, int player_id)
 {
     if (!mapContains(tournament->standing, &player_id))
     {
@@ -237,7 +242,7 @@ MapResult tournament_add_player_to_tournament(Tournament tournament, int player_
     return MAP_SUCCESS;
 }
 
-void tournament_update_opponent_score_after_remove_player(Tournament tournament, int player_id, int points)
+void tournamentUpdateOpponentScoreAfterRemovePlayer(Tournament tournament, int player_id, int points)
 {
     int* player_score = mapGet(tournament->standing, &player_id);
     assert(player_score != NULL);
@@ -245,7 +250,7 @@ void tournament_update_opponent_score_after_remove_player(Tournament tournament,
     return;
 }
 
-MapResult tournament_remove_player(Tournament tournament, int player_id)
+MapResult tournamentRemovePlayer(Tournament tournament, int player_id)
 {
     return mapRemove(tournament->standing, &player_id);
 }
@@ -277,13 +282,13 @@ bool printTournamentStatistics (Tournament tournament, FILE* stream)
     return tournament_ended;
 }
 
-int tournament_num_of_games(Tournament tournament)
+int tournamentNumOfGames(Tournament tournament)
 {
     return tournament->num_games;
 }
 
 
-MapResult end_tournament(Tournament tournament, int tournament_id)
+MapResult endTournament(Tournament tournament, int tournament_id)
 {
     tournament->is_active = false;
 
@@ -303,11 +308,11 @@ MapResult end_tournament(Tournament tournament, int tournament_id)
             {
                 winner_ID = *current_id;
                 winner_score = *(int *)mapGet(tournament->standing, current_id);
-                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, *current_id, &winner_wins, &winner_losses);
+                gameLossesAndWinsInTournamentCalculate(tournament->gamesMap, *current_id, &winner_wins, &winner_losses);
             }
             else 
             {
-                game_losses_and_wins_in_tournament_calculate(tournament->gamesMap, *current_id, &check_wins, &check_losses);
+                gameLossesAndWinsInTournamentCalculate(tournament->gamesMap, *current_id, &check_wins, &check_losses);
                 if (check_losses < winner_losses || (check_losses == winner_losses && check_wins > winner_wins))
                     {
                         winner_ID = *current_id;

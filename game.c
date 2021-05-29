@@ -128,7 +128,7 @@ void gameDestroyForPlayerTournamentsMap(MapDataElement game)
     return;
 }
 
-void game_losses_and_wins_in_tournament_calculate(Map games, int player_id, int* wins, int* losses)
+void gameLossesAndWinsInTournamentCalculate(Map games, int player_id, int* wins, int* losses)
 {
     Game game;
     *wins = 0;
@@ -157,7 +157,7 @@ void game_losses_and_wins_in_tournament_calculate(Map games, int player_id, int*
     return;
 }
 
-int game_points_achieved(Game game, int player_id)
+int gamePointsAchieved(Game game, int player_id)
 {
     if(game->winner == DRAW)
         return 1;
@@ -166,14 +166,14 @@ int game_points_achieved(Game game, int player_id)
     return 0;
 }
 
-int game_return_opponent_id(Game game, int player_id)
+int gameReturnOpponentId(Game game, int player_id)
 {
     if(player_id == game->first_player)
         return game->second_player;
     return game->first_player;
 }
 
-void game_remove_player(Game game, int player_id)
+void gameRemovePlayer(Game game, int player_id)
 {
     if(player_id == game->first_player)
         {

@@ -3,6 +3,7 @@
         "chesssystem.h": "c",
         "stdlib.h": "c",
         "tournament.h": "c",
-        "array": "c"
+        "array": "c",
+        "map.h": "c"
     }
 }
