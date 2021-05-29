@@ -502,12 +502,19 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         double player_level = *(double*)mapGet(levels, player_id);
         while (!AreSame(player_level,array[j]))
         {
-            player_level = *(double*)mapGet(levels, player_id);
+            
             free(player_id);
             player_id = (int*)mapGetNext(levels);
+            player_level = *(double*)mapGet(levels, player_id);
         }
+      /*  if (player_id == NULL)
+        {
+            printf("player_id is NULL");
+        }
+        printf("levels size is %d, player_id is %d, j is %d  " , mapGetSize(levels), *player_id, j);
+        */
 
-        fprintf(file,  "%d " , *player_id); // *player_id is NULL when levels size is 2
+        fprintf(file,  "%d " , *player_id);
         fprintf(file, "%0.2f\n", array[j]);
 
         mapRemove(levels, player_id);
