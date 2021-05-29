@@ -6,7 +6,7 @@ CFLAGS=-std=c99 -Wall -Werror
  
 $(EXEC) : $(OBJS)
 	$(CC) $(DEBUG_FLAG) $(OBJS) -o $@
-chessSystem.o : chessSystem.c chessSystem.h game.h tournament.h player.h chessSystemTestsExample.c libmap.o
+chessSystem.o : chessSystem.c chessSystem.h game.h tournament.h player.h chessSystemTestsExample.c map.c
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 game.o : game.c game.h ./mtm_map/map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
