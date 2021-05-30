@@ -146,12 +146,14 @@ ChessSystem chessCreate()
 		return NULL;
 	}
     newSystem->tournaments_map = createTournamentsMap();
-    if (newSystem->tournaments_map == NULL){
+    if (newSystem->tournaments_map == NULL)
+    {
         free(newSystem);
         return NULL;
     }
     newSystem->players_map = createPlayersMap();
-    if (newSystem->players_map == NULL){
+    if (newSystem->players_map == NULL)
+    {
         free(newSystem);
         mapDestroy(newSystem->tournaments_map);
         return NULL;
@@ -521,6 +523,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         free(player_id);
         j--;
     }
+    free(array);
     return CHESS_SUCCESS;
 }
 

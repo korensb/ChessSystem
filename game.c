@@ -75,7 +75,7 @@ MapDataElement gameCopy(MapDataElement element) // hold the game object
     if (game == NULL)
     return NULL;
 
-	game = (Game)element;
+	*game = *(Game)element;
 	return game;
 }
 

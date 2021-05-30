@@ -105,7 +105,7 @@ MapDataElement tournamentCopy(MapDataElement element) // hold the tourments obje
     if (tournament == NULL)
     return NULL;
 
-	tournament = (Tournament)element;
+	*tournament = *(Tournament)element;
 	return tournament;
 }
 

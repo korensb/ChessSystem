@@ -55,7 +55,7 @@ void destroyList(Node ptr)
 
 Node createNode(int value)
 {
-    Node node = (Node)malloc(sizeof(Node));
+    Node node = malloc(sizeof(*node));
     if (node == NULL)
     {
         return NULL;
