@@ -91,7 +91,7 @@ static MapResult systemAddPlayerIfNotExist(ChessSystem chess, int player_id)
                 chessDestroy(chess);
                 return MAP_OUT_OF_MEMORY;
             }
-            playerDestroy(player);
+            free(player);
         }
     return MAP_SUCCESS;
 }
@@ -198,11 +198,12 @@ tournament_location)
     Tournament tournament = tournamentCreate(max_games_per_player, tournament_location);
     if (mapPut(chess->tournaments_map, &tournament_id, tournament) == MAP_SUCCESS)
     {
-        tournamentDestroy(tournament);
+        free(tournament);
         return CHESS_SUCCESS;
     }
     else
     {
+        free(tournament);
         chessDestroy(chess);
         return CHESS_OUT_OF_MEMORY;
     }
