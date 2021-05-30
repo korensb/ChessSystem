@@ -6,15 +6,15 @@ COMP_FLAG= -std=c99 -Wall -Werror -pedantic
  
 $(EXEC) : $(OBJS)
 	$(CC) $(DEBUG_FLAG) $(OBJS) -L. -lmap -o $@
-chessSystemTestsExampleSegel.o : chessSystemTestsExampleSegel.c test_utilities.h
+chessSystemTestsExample.o : chessSystemTestsExample.c test_utilities.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
-ChessSystem.o : ./mtm_map/map.h ChessSystem.c chessSystem.h game.h tournament.h player.h
+ChessSystem.o : ChessSystem.c chessSystem.h game.h tournament.h player.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
-game.o : ./mtm_map/map.h game.c game.h 
+game.o :  game.c game.h chessSystem.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
-tournament.o : ./mtm_map/map.h tournament.c tournament.h game.h 
+tournament.o :  tournament.c tournament.h game.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
-player.o : ./mtm_map/map.h player.c game.h player.h 
+player.o : player.c player.h game.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 clean:
 	rm -f $(OBJS) $(EXEC)
