@@ -1,12 +1,14 @@
 CC=gcc
-OBJS= ChessSystem.o game.o tournament.o player.o
-EXEC=prog
+OBJS= ChessSystem.o game.o tournament.o player.o chessSystemTestsExampleSegel.o
+EXEC=chess
 DEBUG_FLAG=# now empty, assign -g for debug
 COMP_FLAG= -std=c99 -Wall -Werror -pedantic 
  
 $(EXEC) : $(OBJS)
 	$(CC) $(DEBUG_FLAG) $(OBJS) -L. -lmap -o $@
-ChessSystem.o : ./mtm_map/map.h ChessSystem.c chessSystemTestsExampleSegel.c chessSystem.h game.h tournament.h player.h  test_utilities.h
+chessSystemTestsExampleSegel.o : chessSystemTestsExampleSegel.c test_utilities.h
+	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
+ChessSystem.o : ./mtm_map/map.h ChessSystem.c chessSystem.h game.h tournament.h player.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 game.o : ./mtm_map/map.h game.c game.h 
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
