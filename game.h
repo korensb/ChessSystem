@@ -2,7 +2,6 @@
 #define _GAME_H
 
 
-
 #include "./mtm_map/map.h"
 #include "chessSystem.h"
 #include <stdio.h>
@@ -14,12 +13,6 @@
 typedef struct game *Game;
 
 
-/**
- *gameCreate: create a game.
- *
- * @return A new chess system in case of success, and NULL otherwise (e.g.
- *     in case of an allocation error)
- */
 Game gameCreate(int first_player, int second_player, Winner winner, int play_time);
 Map createGamesMap();
 // Map createGamesPointersMap(); // key: opponent ID, data: pointer to the game
