@@ -6,7 +6,7 @@ DEBUG_FLAG= -DNDEBUG -g
  
 $(CHESS) : $(OBJS)
 	$(CC) $(DEBUG_FLAG) $(OBJS) -L. -lmap -o $@
-chessSystemTestsExample.o : test/chessSystemTestsExample.c test_utilities.h
+chessSystemTestsExample.o : tests/chessSystemTestsExample.c test_utilities.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 chess.o : chess.c chessSystem.h game.h tournament.h player.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
@@ -17,4 +17,4 @@ tournament.o :  tournament.c tournament.h game.h map.h
 player.o : player.c player.h game.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 clean:
-	rm -f $(OBJS) $(EXEC)
+	rm -f $(OBJS) $(CHESS)
