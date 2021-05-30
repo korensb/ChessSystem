@@ -1,0 +1,5 @@
+if(EXISTS "D:/ChessSystem/gilad/ex1-public/build/own_tests[1]_tests.cmake")
+  include("D:/ChessSystem/gilad/ex1-public/build/own_tests[1]_tests.cmake")
+else()
+  add_test(own_tests_NOT_BUILT own_tests_NOT_BUILT)
+endif()
