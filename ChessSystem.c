@@ -85,12 +85,13 @@ static MapResult systemAddPlayerIfNotExist(ChessSystem chess, int player_id)
 {
     if (!mapContains(chess->players_map, &player_id))
         {
-            if(mapPut(chess->players_map, &player_id, playerCreate()) != MAP_SUCCESS)
+            Player player = playerCreate();
+            if(mapPut(chess->players_map, &player_id, player) != MAP_SUCCESS)
             {
                 chessDestroy(chess);
                 return MAP_OUT_OF_MEMORY;
             }
-            return MAP_SUCCESS;
+            playerDestroy(player);
         }
     return MAP_SUCCESS;
 }
@@ -177,19 +178,27 @@ tournament_location)
 {
     if (chess == NULL || tournament_location == NULL)
         return CHESS_NULL_ARGUMENT;   
-    if (tournament_id < 1){
+    if (tournament_id < 1)
+    {
         return CHESS_INVALID_ID;
     }
-    if (mapContains(chess->tournaments_map,&tournament_id)){
+    if (mapContains(chess->tournaments_map,&tournament_id))
+    {
         return CHESS_TOURNAMENT_ALREADY_EXISTS;
     }
-    if (!locationValidation (tournament_location)){
+    if (!locationValidation (tournament_location))
+    {
         return CHESS_INVALID_LOCATION;
     }
-    if(max_games_per_player < 1){
+    if(max_games_per_player < 1)
+    {
         return CHESS_INVALID_MAX_GAMES;
     }
-    if (mapPut(chess->tournaments_map, &tournament_id, tournamentCreate(max_games_per_player, tournament_location)) == MAP_SUCCESS){
+
+    Tournament tournament = tournamentCreate(max_games_per_player, tournament_location);
+    if (mapPut(chess->tournaments_map, &tournament_id, tournament) == MAP_SUCCESS)
+    {
+        tournamentDestroy(tournament);
         return CHESS_SUCCESS;
     }
     else
@@ -197,7 +206,6 @@ tournament_location)
         chessDestroy(chess);
         return CHESS_OUT_OF_MEMORY;
     }
-    
 }
 
 ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
@@ -279,8 +287,8 @@ ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
                                 return CHESS_OUT_OF_MEMORY;
                             }
 
+                            gameDestroy(game);
                             return CHESS_SUCCESS;
-
                         }
 
 ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
@@ -524,6 +532,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         j--;
     }
     free(array);
+    mapDestroy(levels);
     return CHESS_SUCCESS;
 }
 
