@@ -24,7 +24,7 @@ void destroyList(Node ptr);
 //Implemention:
 void destroyList(Node ptr) 
 {
-    while (ptr)
+    while (ptr != NULL)
     {
         Node toDelete = ptr;
         ptr = ptr->next;
@@ -34,7 +34,7 @@ void destroyList(Node ptr)
 
 Node createNode(int value)
 {
-    Node node = (Node)malloc(sizeof(Node));
+    Node node = malloc(sizeof(*node));
     if (node == NULL)
     {
         return NULL;
@@ -44,9 +44,9 @@ Node createNode(int value)
     return node;
 }
 
+Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code){
 
-    Node mergeSortedLists(Node list1, Node list2, ErrorCode * error_code)
-    {
+   {
 
         if (list1 == NULL || list2 == NULL)
         {
@@ -72,7 +72,7 @@ Node createNode(int value)
         }
 
         Node current = head;
-        while (list1->next != NULL && list2->next != NULL)
+        while (list1 != NULL && list2 != NULL)
         {
             if (list1->x < list2->x)
             {
@@ -101,7 +101,7 @@ Node createNode(int value)
             }
         }
 
-        while (list1->next != NULL)
+        while (list1 != NULL)
         {
              current->next = createNode(list1->x);
                 if (current->next == NULL)
@@ -115,7 +115,7 @@ Node createNode(int value)
                 list1 = list1->next;
         }
 
-        while (list2->next != NULL)
+        while (list2 != NULL)
         {
              current->next = createNode(list2->x);
                 if (current->next == NULL)
