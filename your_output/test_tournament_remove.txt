@@ -88,6 +88,7 @@ Location one
 Location one
 2
 3
+<<<<<<< HEAD
 1
 10
 10.00
@@ -100,3 +101,5 @@ Location one
 Location one
 2
 3
+=======
+>>>>>>> b34f055df3ddb67aa565347709ad270f5fb39fae

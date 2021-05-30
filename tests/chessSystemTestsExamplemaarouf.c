@@ -81,10 +81,8 @@ bool testChessPrintLevelsAndTournamentStatistics_segel(){
     ASSERT_TEST(chessSaveTournamentStatistics(chess, "your_output/tournament_statistics_your_output.txt") == CHESS_SUCCESS);
     fclose(file_levels);
 
-    FILE* file_levels_expected = fopen("expected_output/player_levels_expected_output.txt", "r");
     //file_levels = fopen("your_output/player_levels_your_output.txt", "r");
     //ASSERT_TEST(compareFile(file_levels, file_levels_expected) == 0);
-    fclose(file_levels_expected);
     //fclose(file_levels);
     chessDestroy(chess);
     
