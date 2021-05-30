@@ -1,12 +1,12 @@
+CHESS=chess
 CC=gcc
 OBJS= chess.o game.o tournament.o player.o chessSystemTestsExample.o
-EXEC=chess
-DEBUG_FLAG=# now empty, assign -g for debug
-COMP_FLAG= -std=c99 -Wall -Werror -pedantic 
+COMP_FLAG= -std=c99 -Wall -pedantic -errors -Werror 
+DEBUG_FLAG= -DNDEBUG -g
  
-$(EXEC) : $(OBJS)
+$(CHESS) : $(OBJS)
 	$(CC) $(DEBUG_FLAG) $(OBJS) -L. -lmap -o $@
-chessSystemTestsExample.o : chessSystemTestsExample.c test_utilities.h
+chessSystemTestsExample.o : test/chessSystemTestsExample.c test_utilities.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
 chess.o : chess.c chessSystem.h game.h tournament.h player.h map.h
 	$(CC) -c $(DEBUG_FLAG) $(COMP_FLAG) $*.c
