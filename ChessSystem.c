@@ -521,6 +521,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         free(player_id);
         j--;
     }
+    free(array);
     return CHESS_SUCCESS;
 }
 
