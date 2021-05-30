@@ -37,7 +37,7 @@ struct chess_system_t
 
 
 /*===============Aux Functions===============================================*/
-static bool isTournamentExisted (ChessSystem chess, int tournament_id)
+static bool checkIfTournamentExisted (ChessSystem chess, int tournament_id)
 {
     if(mapContains(chess->tournaments_map, &tournament_id))
     {
@@ -155,8 +155,8 @@ ChessSystem chessCreate()
     newSystem->players_map = createPlayersMap();
     if (newSystem->players_map == NULL)
     {
-        free(newSystem);
         mapDestroy(newSystem->tournaments_map);
+        free(newSystem);
         return NULL;
     }
 	return newSystem;
@@ -298,7 +298,7 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
         return CHESS_NULL_ARGUMENT;
     if (!verifyId(tournament_id))
         return CHESS_INVALID_ID;
-    if (!isTournamentExisted (chess, tournament_id))
+    if (!checkIfTournamentExisted (chess, tournament_id))
         return CHESS_TOURNAMENT_NOT_EXIST;
 
     int* player_id = mapGetFirst(chess->players_map);
@@ -421,7 +421,7 @@ ChessResult chessEndTournament (ChessSystem chess, int tournament_id)
     {
         return CHESS_INVALID_ID;
     }
-    if (!isTournamentExisted (chess, tournament_id))
+    if (!checkIfTournamentExisted (chess, tournament_id))
     {
         return CHESS_TOURNAMENT_NOT_EXIST;
     }
@@ -495,7 +495,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     while (player_id != NULL)
     {
         player = mapGet(chess->players_map, player_id);
-        if (playerLevelCalculate (player, *player_id, levels, array, j) == CHESS_OUT_OF_MEMORY)
+        if (playerLevelCalculate (player, *player_id, levels, array, j) == MAP_OUT_OF_MEMORY)
         {
             return CHESS_OUT_OF_MEMORY;
         }
