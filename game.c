@@ -68,8 +68,7 @@ Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
 
 MapDataElement gameCopy(MapDataElement element) // hold the game object
 {
-	if (element == NULL)
-    {
+	if (element == NULL) {
 		return NULL;
 	}
     Game game = malloc(sizeof(*game));
@@ -117,8 +116,7 @@ MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games
 
 void gameDestroy(MapDataElement game)
 {
-    if(game != NULL)
-    {
+    if(game != NULL){
         Game game_to_destroy = (Game) game;
         free(game_to_destroy);
     }
