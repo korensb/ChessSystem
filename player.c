@@ -125,7 +125,8 @@ void playerDestroy(MapDataElement player)
 
 void doubleDestroy(MapDataElement d)
 {
-    if( d != NULL){
+    if( d != NULL)
+    {
         double* double_to_destroy = (double*) d;
         free(double_to_destroy);
     }
@@ -147,7 +148,8 @@ MapResult playerAddPlayerToTournamentIfNotExist(Player player, int tournament_id
 {
     if (!mapContains(player->PlayerTournaments, &tournament_id))
         {
-            if(mapPut(player->PlayerTournaments, &tournament_id, createGamesMapForPlayerTournamentsMap()) != MAP_SUCCESS)
+            Map games_in_tournament = createGamesMapForPlayerTournamentsMap();
+            if(mapPut(player->PlayerTournaments, &tournament_id, &games_in_tournament) != MAP_SUCCESS)
                 return MAP_OUT_OF_MEMORY;
         }
     return MAP_SUCCESS;
