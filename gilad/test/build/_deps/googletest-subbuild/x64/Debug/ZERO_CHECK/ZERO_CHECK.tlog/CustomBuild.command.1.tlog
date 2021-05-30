@@ -1,0 +1,10 @@
+^D:\CHESSSYSTEM\GILAD\EX1-PUBLIC\BUILD\_DEPS\GOOGLETEST-SUBBUILD\CMAKEFILES\D8D469DE6F14D802566D5B476343D303\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/ChessSystem/gilad/ex1-public/build/_deps/googletest-subbuild -BD:/ChessSystem/gilad/ex1-public/build/_deps/googletest-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/ChessSystem/gilad/ex1-public/build/_deps/googletest-subbuild/googletest-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
