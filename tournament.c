@@ -1,4 +1,4 @@
-#include "./mtm_map/map.h"
+#include "map.h"
 #include "tournament.h"
 #include "game.h"
 #include <stdio.h>

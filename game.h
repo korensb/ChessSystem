@@ -2,7 +2,7 @@
 #define _GAME_H
 
 
-#include "./mtm_map/map.h"
+#include "map.h"
 #include "chessSystem.h"
 #include <stdio.h>
 #include <stdlib.h>
