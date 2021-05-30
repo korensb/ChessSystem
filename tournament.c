@@ -70,31 +70,7 @@ Map createIntsMap()
     return newMap;
 }
 
-MapKeyElement intCopyKey(MapKeyElement i)
-{
-    if (i == NULL){
-        return NULL;
-    }
-    int *ip = malloc(sizeof(*ip));
-    if (ip == NULL){
-        return NULL;
-    }
-    *ip = *(int*)i;
-    return ip;
-}
 
-MapDataElement intCopyData(MapDataElement i)
-{
-    if (i == NULL){
-        return NULL;
-    }
-    int *ip = malloc(sizeof(*ip));
-    if (ip == NULL){
-        return NULL;
-    }
-    *ip = *(int*)i;
-    return ip;
-}
 
 MapDataElement tournamentCopy(MapDataElement element) // hold the tourments object
 {
@@ -122,33 +98,7 @@ void tournamentDestroy(MapDataElement tournament)
     return;
 }
 
-void intKeyDestroy(MapKeyElement id)
-{
-    if (id != NULL)
-    {
-        int* int_to_destroy = (int*)id;
-        free(int_to_destroy);
-    }
-}
 
-void intDataDestroy(MapDataElement id)
-{
-     if (id != NULL)
-     {
-        int* int_to_destroy = (int*)id;
-        free(int_to_destroy);
-    }
-}
-
-int intCompare(MapKeyElement num1, MapKeyElement num2)
-{
-    assert(num1 != NULL && num2 != NULL);
-	int b = *(int*)num2;
-	int a = *(int*)num1;
-    if (a < b) return -1;
-    if (a > b) return +1;
-    return 0;
-}
 
 
 /* if int compare doesnt work

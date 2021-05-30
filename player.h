@@ -1,13 +1,7 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-/* the pointer to use of the player struct */
 
-typedef struct player *Player;
-
-
-
-#include "tournament.h"
 #include "game.h"
 #include "./mtm_map/map.h"
 #include "chessSystem.h"
@@ -15,6 +9,9 @@ typedef struct player *Player;
 #include <stdlib.h>
 #include <string.h>
 
+/* the pointer to use of the player struct */
+
+typedef struct player *Player;
 
 /* functions to create players, playersTournaments and gamePointersMap */
 
@@ -44,7 +41,7 @@ bool isGameExisted (Player player1, int tournament_id, int player2);
 MapResult playerAddGameToPlayers (Player player1, Player player2, Game game, int first_player, int second_player, int tournament_id, int play_time, Winner winner);
 MapResult playerRemoveTournament (Player player, int tournament_id, int player_id);
 void playerUpdateOpponentStatsAfterRemove(Player opponent, int points);
-ChessResult playerLevelCalculate (Player player, int player_id, Map levels, double array[], int array_index);
+MapResult playerLevelCalculate (Player player, int player_id, Map levels, double array[], int array_index);
 double calculatePlayerAveragePlayTime(Player player);
 //ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id);
 int* playerFirstTournament(Player player);

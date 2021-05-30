@@ -1,11 +1,8 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-typedef struct game *Game;
 
 
-#include "tournament.h"
-#include "player.h"
 #include "./mtm_map/map.h"
 #include "chessSystem.h"
 #include <stdio.h>
@@ -14,6 +11,7 @@ typedef struct game *Game;
 
 /** Type for representing a game that stores the data of the player, and metadata about the game */
 
+typedef struct game *Game;
 
 
 /**
@@ -29,6 +27,8 @@ Map createGamesMapForPlayerTournamentsMap(); // key: opponent ID, data: pointer 
 
 /* functions that will be used by the Maps */
 //COPY
+MapKeyElement intCopyKey(MapKeyElement i);
+MapDataElement intCopyData(MapDataElement i);
 MapDataElement gameCopy(MapDataElement element);
 // MapDataElement gamePointerCopy(MapDataElement element);
 MapDataElement gameCopyForPlayerTournamentsMap(MapDataElement element);
@@ -38,8 +38,11 @@ MapDataElement gameCopyForPlayerTournamentsMap(MapDataElement element);
 // void gamePointerDestroy(MapDataElement game);
 void gameDestroy(MapDataElement game);
 void gameDestroyForPlayerTournamentsMap(MapDataElement game);
+void intKeyDestroy(MapKeyElement id);
+void intDataDestroy(MapDataElement id);
 
-
+//compare
+int intCompare(MapKeyElement num1, MapKeyElement num2);
 
 /* aux functions*/
 void gameLossesAndWinsInTournamentCalculate(Map games, int player_id, int* wins, int* losses);

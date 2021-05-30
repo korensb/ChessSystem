@@ -486,7 +486,7 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     while (player_id != NULL)
     {
         player = mapGet(chess->players_map, player_id);
-        if (playerLevelCalculate (player, *player_id, levels, array, j) == CHESS_OUT_OF_MEMORY)
+        if (playerLevelCalculate (player, *player_id, levels, array, j) == MAP_OUT_OF_MEMORY)
         {
             return CHESS_OUT_OF_MEMORY;
         }
