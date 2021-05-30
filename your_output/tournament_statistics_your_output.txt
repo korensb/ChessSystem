@@ -100,6 +100,8 @@ London
 London
 6
 4
+<<<<<<< HEAD
+=======
 1
 3500
 2150.00
@@ -112,3 +114,4 @@ London
 London
 6
 4
+>>>>>>> b34f055df3ddb67aa565347709ad270f5fb39fae

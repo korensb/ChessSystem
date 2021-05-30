@@ -115,6 +115,7 @@ void tournamentDestroy(MapDataElement tournament)
     {
         Tournament tournament_to_destroy = (Tournament) tournament;
         mapDestroy(tournament_to_destroy->gamesMap);
+        mapDestroy(tournament_to_destroy->standing);
         free(tournament_to_destroy);
     }
 
