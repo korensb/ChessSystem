@@ -1,5 +1,5 @@
 CC=gcc
-OBJS= ChessSystem.o game.o tournament.o player.o chessSystemTestsExampleSegel.o
+OBJS= ChessSystem.o game.o tournament.o player.o chessSystemTestsExample.o
 EXEC=chess
 DEBUG_FLAG=# now empty, assign -g for debug
 COMP_FLAG= -std=c99 -Wall -Werror -pedantic 
