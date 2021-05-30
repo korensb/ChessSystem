@@ -95,7 +95,7 @@ MapDataElement playerCopy(MapDataElement element) // hold the tourments object
     if (player == NULL)
     return NULL;
 
-	player = (Player) element;
+	*player = *(Player) element;
 	return player;
 }
 
