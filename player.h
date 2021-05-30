@@ -5,6 +5,8 @@
 
 typedef struct player *Player;
 
+
+
 #include "tournament.h"
 #include "game.h"
 #include "./mtm_map/map.h"
@@ -12,7 +14,6 @@ typedef struct player *Player;
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 
 
 /* functions to create players, playersTournaments and gamePointersMap */

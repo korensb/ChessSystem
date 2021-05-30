@@ -1,9 +1,8 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-/* the pointer to use of the game struct */
-
 typedef struct game *Game;
+
 
 #include "tournament.h"
 #include "player.h"
@@ -13,10 +12,16 @@ typedef struct game *Game;
 #include <stdlib.h>
 #include <string.h>
 
+/** Type for representing a game that stores the data of the player, and metadata about the game */
 
 
-/* functions to create games */
 
+/**
+ *gameCreate: create a game.
+ *
+ * @return A new chess system in case of success, and NULL otherwise (e.g.
+ *     in case of an allocation error)
+ */
 Game gameCreate(int first_player, int second_player, Winner winner, int play_time);
 Map createGamesMap();
 // Map createGamesPointersMap(); // key: opponent ID, data: pointer to the game

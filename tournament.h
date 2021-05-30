@@ -14,6 +14,7 @@ typedef struct tournament *Tournament;
 #include <string.h>
 
 
+
 /* functions to create tournaments and games map */ 
 Tournament tournamentCreate(int max_games_per_player, const char* tournament_location);
 Map createTournamentsMap();
