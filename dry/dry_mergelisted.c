@@ -8,7 +8,8 @@ typedef struct node_t {
 	struct node_t* next;
 } *Node;
 
-typedef enum {
+typedef enum
+{
 	SUCCESS = 0,
 	MEMORY_ERROR,
 	UNSORTED_LIST,
@@ -19,19 +20,10 @@ int getListLength(Node list);
 bool isListSorted(Node list);
 Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code);
 void destroyList(Node ptr);
-
+Node createNode(int value);
+Node addNodeToList (Node current , int value, Node head, ErrorCode* error_code);
 
 //Implemention:
-void destroyList(Node ptr) 
-{
-    while (ptr != NULL)
-    {
-        Node toDelete = ptr;
-        ptr = ptr->next;
-        free(toDelete);
-    }
-}
-
 Node createNode(int value)
 {
     Node node = malloc(sizeof(*node));
@@ -44,16 +36,37 @@ Node createNode(int value)
     return node;
 }
 
-Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code){
+void destroyList(Node ptr) 
+{
+    while (ptr != NULL)
+    {
+        Node toDelete = ptr;
+        ptr = ptr->next;
+        free(toDelete);
+    }
+}
 
+Node addNodeToList (Node current , int value, Node head, ErrorCode* error_code)
+{
+    current->next = createNode(value);
+    if (current->next == NULL)
+    {
+        *error_code = MEMORY_ERROR;
+        destroyList(head);
+        return NULL;
+    }
+    return current->next;
+}
+
+Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code)
+{
    {
-
         if (list1 == NULL || list2 == NULL)
         {
             *error_code = NULL_ARGUMENT;
             return NULL;
         }
-        if (isListSorted(list1) != true && isListSorted(list2) != true)
+        if (isListSorted(list1) != true || isListSorted(list2) != true)
         {
             *error_code = UNSORTED_LIST;
             return NULL;
@@ -76,59 +89,29 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code){
         {
             if (list1->x < list2->x)
             {
-                current->next = createNode(list1->x);
-                if (current->next == NULL)
-                    {
-                        *error_code = MEMORY_ERROR;
-                        destroyList(head);
-                        return NULL;
-                    }
-                current = current->next;
+                current = addNodeToList(current , list1->x, head, error_code);
                 list1 = list1->next;
             }
             else
             {
-                current->next = createNode(list2->x);
-                if (current->next == NULL)
-                    {
-                        *error_code = MEMORY_ERROR;
-                        destroyList(head);
-                        return NULL;
-                    }
-                current = current->next;
-
+                current = addNodeToList(current , list2->x, head, error_code);
                 list2 = list2->next;
             }
         }
 
         while (list1 != NULL)
         {
-             current->next = createNode(list1->x);
-                if (current->next == NULL)
-                    {
-                        *error_code = MEMORY_ERROR;
-                        destroyList(head);
-                        return NULL;
-                    }
-                current = current->next;
-
-                list1 = list1->next;
+            current = addNodeToList(current , list1->x, head, error_code);
+            list1 = list1->next;
         }
 
         while (list2 != NULL)
         {
-             current->next = createNode(list2->x);
-                if (current->next == NULL)
-                    {
-                        *error_code = MEMORY_ERROR;
-                        destroyList(head);
-                        return NULL;
-                    }
-                current = current->next;
-
-                list2 = list2->next;
+            current = addNodeToList(current , list2->x, head, error_code);
+            list2 = list2->next;
         }
-
+        
         *error_code = SUCCESS;
         return head;
     }
+}
