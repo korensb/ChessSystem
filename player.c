@@ -237,6 +237,9 @@ MapResult playerRemoveTournament (Player player, int tournament_id, int player_i
                 game = mapGet(games, game_id);
             }
             mapRemove(player->PlayerTournaments, &tournament_id); //!! verify we did the correct destroy function- need to destroy the map but not the games in the map. (createPlayerTournamentsMap)
+            free(game_id);
+            gameDestroy(game);
+            free(games);
         }        
     return MAP_SUCCESS;    
 }
