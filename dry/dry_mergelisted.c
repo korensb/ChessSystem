@@ -73,14 +73,25 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code)
         }
 
         Node head;
+
         if (list1->x < list2->x)
         {
             head = createNode(list1->x);
+            if (head == NULL)
+                {
+                    *error_code = MEMORY_ERROR;
+                    return NULL;
+                }
             list1 = list1->next;
         }
         else
         {
             head = createNode(list2->x);
+            if (head == NULL)
+                {
+                    *error_code = MEMORY_ERROR;
+                    return NULL;
+                }
             list2 = list2->next;
         }
 
@@ -90,11 +101,19 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code)
             if (list1->x < list2->x)
             {
                 current = addNodeToList(current , list1->x, head, error_code);
+                if (current == NULL)
+                {
+                    return NULL;
+                }
                 list1 = list1->next;
             }
             else
             {
                 current = addNodeToList(current , list2->x, head, error_code);
+                if (current == NULL)
+                {
+                    return NULL;
+                }
                 list2 = list2->next;
             }
         }
@@ -102,12 +121,20 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code)
         while (list1 != NULL)
         {
             current = addNodeToList(current , list1->x, head, error_code);
+            if (current == NULL)
+                {
+                    return NULL;
+                }
             list1 = list1->next;
         }
 
         while (list2 != NULL)
         {
             current = addNodeToList(current , list2->x, head, error_code);
+            if (current == NULL)
+                {
+                    return NULL;
+                }
             list2 = list2->next;
         }
         

@@ -67,20 +67,18 @@ void destroyList(Node ptr)
 Node addNodeToList (Node current , int value, Node head, ErrorCode* error_code)
 {
     current->next = createNode(value);
-                if (current->next == NULL)
-                    {
-                        *error_code = MEMORY_ERROR;
-                        destroyList(head);
-                        return NULL;
-                    }
-                return current->next;
+    if (current->next == NULL)
+    {
+        *error_code = MEMORY_ERROR;
+        destroyList(head);
+        return NULL;
+    }
+    return current->next;
 }
 
 Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code)
 {
-
    {
-
         if (list1 == NULL || list2 == NULL)
         {
             *error_code = NULL_ARGUMENT;
@@ -128,10 +126,9 @@ Node mergeSortedLists(Node list1, Node list2, ErrorCode* error_code)
         while (list2 != NULL)
         {
             current = addNodeToList(current , list2->x, head, error_code);
-
-                list2 = list2->next;
+            list2 = list2->next;
         }
-
+        
         *error_code = SUCCESS;
         return head;
     }
