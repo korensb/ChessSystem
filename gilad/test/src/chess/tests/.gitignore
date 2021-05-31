@@ -1,6 +1,0 @@
-*
-!.gitignore
-!chessSystemTestsExample.c
-!map_example_test.c
-!player_levels_expected_output.txt
-!tournament_statistics_expected_output.txt
