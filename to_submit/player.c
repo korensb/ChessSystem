@@ -188,6 +188,8 @@ MapResult playerAddGameToPlayers (Player player1, Player player2, Game game, int
 
     mapPut(player1_games, &second_player, game);
     mapPut(player2_games, &first_player, game);
+    
+
 
     player1->total_time = (player1->total_time) + play_time;
     player2->total_time = (player2->total_time) + play_time;
@@ -216,6 +218,7 @@ MapResult playerAddGameToPlayers (Player player1, Player player2, Game game, int
         return MAP_SUCCESS;
 }
 
+//remove the tournamnet from the player tournamnets map
 MapResult playerRemoveTournament (Player player, int tournament_id, int player_id)
 {
     if (mapContains(player->PlayerTournaments, &tournament_id))
@@ -238,8 +241,6 @@ MapResult playerRemoveTournament (Player player, int tournament_id, int player_i
             }
             mapRemove(player->PlayerTournaments, &tournament_id); //!! verify we did the correct destroy function- need to destroy the map but not the games in the map. (createPlayerTournamentsMap)
             free(game_id);
-            gameDestroy(game);
-            free(games);
         }        
     return MAP_SUCCESS;    
 }
@@ -296,28 +297,28 @@ int* playerNextTournament(Player player, int* tournament_id)
 
 Game playerFirstGameInTournament(Player player ,int* tournament_id)
 {
-    Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
-    int* tournament_id_new = mapGetFirst(tournament_map);
-    Game game = mapGet(tournament_map, tournament_id_new);
-    free(tournament_id_new);
+    Map game_map = mapGet(player->PlayerTournaments, tournament_id);
+    int* opponent_id = mapGetFirst(game_map);
+    Game game = mapGet(game_map, opponent_id);
+    free(opponent_id);
     return game;
 }
 
 Game playerNextGameInTournament(Player player,int* tournament_id, int opponent_id)
 {
     Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
-    int *current_opponent_id = (int*) mapGetFirst(tournament_map);
+    int *current_opponent_id = mapGetFirst(tournament_map);
     while (current_opponent_id != NULL && *current_opponent_id != opponent_id)
     {
         free (current_opponent_id);
-        current_opponent_id = (int*)mapGetNext(tournament_map);
+        current_opponent_id = mapGetNext(tournament_map);
     }
     if (current_opponent_id == NULL)
     {
         return NULL;
     }
     free (current_opponent_id);
-    current_opponent_id = (int*)mapGetNext(tournament_map);
+    current_opponent_id = mapGetNext(tournament_map);
     if (current_opponent_id == NULL)
     {
         return NULL;

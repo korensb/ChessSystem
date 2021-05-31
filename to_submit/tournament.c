@@ -144,7 +144,7 @@ bool isTournamentActive (Tournament tournament)
     return false;
 }
 
-MapResult addGameToTournamentMap(Tournament tournament, Game game)
+MapResult addGameToTournamentMap(Tournament tournament,  Game game)
  {
      assert(game != NULL);
      if (mapPut(tournament->gamesMap, &(tournament->num_games), game) != MAP_SUCCESS)
