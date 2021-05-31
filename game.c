@@ -5,8 +5,6 @@
 #include <string.h>
 #include <assert.h>
 
-#define EMPTY 0
-
 struct game
 {
     int first_player;
@@ -19,8 +17,9 @@ struct game
 Game gameCreate(int first_player, int second_player, Winner winner, int play_time)
 {
     Game game = malloc(sizeof(*game));
-    if (game == NULL)
-    return NULL;
+    if (game == NULL){
+        return NULL;
+    }
     game->first_player = first_player;
     game->second_player = second_player;
     game->winner = winner;
@@ -187,7 +186,7 @@ void gameLossesAndWinsInTournamentCalculate(Map games, int player_id, int* wins,
     while (game_id != NULL)
     {
         game = mapGet(games, game_id);
-        if (game->first_player == player_id)
+        if ((game->first_player) == player_id)
         {
             if (game->winner == FIRST_PLAYER)
                 *wins = *wins +1;
@@ -211,31 +210,39 @@ int gamePointsAchieved(Game game, int player_id)
 {
     if(game->winner == DRAW)
         return 1;
-    if ((game->winner == FIRST_PLAYER && player_id == game->first_player) || (game->winner == SECOND_PLAYER && player_id == game->second_player))
+    if ((game->winner == FIRST_PLAYER && player_id == (game->first_player)) || (game->winner == SECOND_PLAYER && player_id == game->second_player))
         return 2;
     return 0;
 }
 
 int gameReturnOpponentId(Game game, int player_id)
 {
-    if(player_id == game->first_player)
-        return game->second_player;
-    return game->first_player;
+    printf("the id that the func gets is, %d\n", player_id);
+    printf("the id that of second is %d\n", game->second_player);
+    printf("the id that return is first is %d \n ", game->first_player);
+    if(player_id == (game->first_player)){
+        return (game->second_player);
+    }
+    return (game->first_player);
 }
 
 void gameRemovePlayer(Game game, int player_id)
 {
-    if(player_id == game->first_player)
+    if(player_id == (game->first_player))
+    {
+        (game->first_player) = 0;
+        if (game->second_player != 0)
         {
-            game->first_player = EMPTY;
-            if (game->second_player != EMPTY)
-                game->winner = SECOND_PLAYER;
+            game->winner = SECOND_PLAYER;
         }
+    }
     else
     {
-        game->second_player = EMPTY;
-            if (game->first_player != EMPTY)
-                game->winner = FIRST_PLAYER;
+        game->second_player = 0;
+        if ((game->first_player) != 0)
+        {
+            game->winner = FIRST_PLAYER;
+        }
     }
     return;
 }

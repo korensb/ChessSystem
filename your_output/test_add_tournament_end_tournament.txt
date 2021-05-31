@@ -451,6 +451,10 @@ Location two
 Location three
 1
 2
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 44f296434bdd2df3b164a4f85b1f7a664df308e1
 1
 10
 10.00
@@ -523,3 +527,134 @@ Location two
 Location three
 1
 2
+<<<<<<< HEAD
+=======
+1
+10
+10.00
+Location one
+1
+2
+2
+10
+10.00
+Location two
+1
+2
+2
+10
+10.00
+Location three
+1
+2
+1
+10
+10.00
+Location one
+1
+2
+2
+10
+10.00
+Location two
+1
+2
+2
+10
+10.00
+Location three
+1
+2
+1
+10
+10.00
+Location one
+1
+2
+2
+10
+10.00
+Location two
+1
+2
+2
+10
+10.00
+Location three
+1
+2
+1
+10
+10.00
+Location one
+1
+2
+2
+10
+10.00
+Location two
+1
+2
+2
+10
+10.00
+Location three
+1
+2
+1
+10
+10.00
+Location one
+1
+2
+2
+10
+10.00
+Location two
+1
+2
+2
+10
+10.00
+Location three
+1
+2
+1
+10
+10.00
+Location one
+1
+2
+2
+10
+10.00
+Location two
+1
+2
+2
+10
+10.00
+Location three
+1
+2
+1
+10
+10.00
+Location one
+1
+2
+2
+10
+10.00
+Location two
+1
+2
+2
+10
+10.00
+Location three
+1
+2
+=======
+>>>>>>> d8ec104265cc883673a89da126c833bc9dc0b337
+>>>>>>> 44f296434bdd2df3b164a4f85b1f7a664df308e1
