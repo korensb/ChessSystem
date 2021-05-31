@@ -546,7 +546,7 @@ ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
     bool no_tournament_ended = true;
     int* tournament_id = mapGetFirst(chess->tournaments_map);
     Tournament tournament = mapGet(chess->tournaments_map, tournament_id);
-    FILE* stream = fopen(path_file, "a");
+    FILE* stream = fopen(path_file, "w");
             if (stream == NULL)
             {
                 return CHESS_SAVE_FAILURE;
