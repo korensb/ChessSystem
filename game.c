@@ -170,7 +170,6 @@ void intDataDestroy(MapDataElement id)
 
 int intCompare(MapKeyElement num1, MapKeyElement num2)
 {
-    assert(num1 != NULL && num2 != NULL);
 	int b = *(int*)num2;
 	int a = *(int*)num1;
     if (a < b) return -1;

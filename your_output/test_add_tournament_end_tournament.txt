@@ -451,6 +451,7 @@ Location two
 Location three
 1
 2
+<<<<<<< HEAD
 1
 10
 10.00
@@ -649,3 +650,5 @@ Location two
 Location three
 1
 2
+=======
+>>>>>>> d8ec104265cc883673a89da126c833bc9dc0b337
