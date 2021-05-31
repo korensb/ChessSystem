@@ -299,7 +299,6 @@ Game playerFirstGameInTournament(Player player ,int* tournament_id)
     Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
     int* opponent_id = mapGetFirst(tournament_map);
     Game game = mapGet(tournament_map, opponent_id);
-    gamePrint(game);
     free(opponent_id);
     return game;
 }
