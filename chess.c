@@ -307,7 +307,7 @@ ChessResult chessRemoveTournament (ChessSystem chess, int tournament_id)
     while (player_id != NULL)
     {
         player = mapGet(chess->players_map, player_id);
-        playerRemoveTournament(player, tournament_id, *player_id);
+        playerRemoveTournament(player, tournament_id, *player_id); 
         free(player_id);
         player_id = mapGetNext(chess->players_map);
     }
@@ -380,7 +380,6 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
         return CHESS_PLAYER_NOT_EXIST;
 
     Player player = mapGet(chess->players_map, &player_id);
-
     //player_remove_from_system(chess, player, player_id); moved here
 
     int* tournament_id = playerFirstTournament(player);
