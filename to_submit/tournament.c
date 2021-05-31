@@ -214,12 +214,12 @@ bool printTournamentStatistics (Tournament tournament, FILE* stream)
         {
             tournament_ended = true;
             float average_time = (float)tournament->total_time/mapGetSize(tournament->gamesMap);
-            fprintf(stream,  "%d \n" , tournament->tournament_winner);
-            fprintf(stream,  "%d \n" , tournament->longest_time);
-            fprintf(stream, "%0.2f \n", average_time);
-            fprintf(stream, "%s \n" , tournament->tournament_location);
-            fprintf(stream,  "%d \n" , tournament->num_games);
-            fprintf(stream,  "%d \n" , tournament->num_players);
+            fprintf(stream,  "%d\n" , tournament->tournament_winner);
+            fprintf(stream,  "%d\n" , tournament->longest_time);
+            fprintf(stream, "%0.2f\n", average_time);
+            fprintf(stream, "%s\n" , tournament->tournament_location);
+            fprintf(stream,  "%d\n" , tournament->num_games);
+            fprintf(stream,  "%d\n" , tournament->num_players);
 
                 /*
                 Print:
