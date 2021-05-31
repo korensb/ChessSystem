@@ -16,6 +16,7 @@ struct tournament
     int longest_time;
     int tournament_winner;
     int num_games;
+    int num_players;
     bool is_active;
 };
 
@@ -42,6 +43,7 @@ Tournament tournamentCreate(int max_games_per_player, const char* tournament_loc
     tournament->longest_time = 0;
     tournament->total_time = 0;
     tournament->num_games = 0;
+    tournament->num_players = 0;
 
     return tournament;
 }
@@ -185,6 +187,7 @@ MapResult tournamentAddPlayerToTournament(Tournament tournament, int player_id)
     if (!mapContains(tournament->standing, &player_id))
     {
         int zero = 0;
+        tournament->num_players = tournament->num_players + 1;
         if (mapPut(tournament->standing, &player_id, &zero) != MAP_SUCCESS)
             return MAP_OUT_OF_MEMORY;
     }
@@ -215,8 +218,8 @@ bool printTournamentStatistics (Tournament tournament, FILE* stream)
             fprintf(stream,  "%d\n" , tournament->longest_time);
             fprintf(stream, "%0.2f\n", average_time);
             fprintf(stream, "%s\n" , tournament->tournament_location);
-            fprintf(stream,  "%d\n" , mapGetSize(tournament->gamesMap));
-            fprintf(stream,  "%d\n" , mapGetSize(tournament->standing));
+            fprintf(stream,  "%d\n" , tournament->num_games);
+            fprintf(stream,  "%d\n" , tournament->num_players);
 
                 /*
                 Print:
