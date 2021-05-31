@@ -40,9 +40,9 @@ Map createGamesMap()
 
 Map createGamesMapForPlayerTournamentsMap()
 {
-    Map newMap = mapCreate(gameCopyForPlayerTournamentsMap,
+    Map newMap = mapCreate(gameCopy,
               intCopyKey,
-              gameDestroyForPlayerTournamentsMap,
+              gameDestroy,
               intKeyDestroy,
               intCompare);
 
@@ -217,9 +217,6 @@ int gamePointsAchieved(Game game, int player_id)
 
 int gameReturnOpponentId(Game game, int player_id)
 {
-    printf("the id that the func gets is, %d\n", player_id);
-    printf("the id that of second is %d\n", game->second_player);
-    printf("the id that return is first is %d \n ", game->first_player);
     if(player_id == (game->first_player)){
         return (game->second_player);
     }
@@ -244,5 +241,13 @@ void gameRemovePlayer(Game game, int player_id)
             game->winner = FIRST_PLAYER;
         }
     }
+    return;
+}
+
+
+void gamePrint(Game game)
+{
+    printf("first player is %d ", game->first_player);
+    printf("second player is %d ", game->second_player);
     return;
 }

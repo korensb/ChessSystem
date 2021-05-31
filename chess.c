@@ -383,12 +383,10 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
     //player_remove_from_system(chess, player, player_id); moved here
 
     int* tournament_id = playerFirstTournament(player);
-    printf("tournament id is %d\n", *tournament_id);
     while (tournament_id != NULL)
     {
         if (isTournamentActiveById(chess, *tournament_id))
         {
-            printf("tournament id is %d\n", *tournament_id);
             Game game = playerFirstGameInTournament(player,tournament_id);
             int points_to_opponent;
             int opponent_id;

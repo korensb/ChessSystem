@@ -188,6 +188,8 @@ MapResult playerAddGameToPlayers (Player player1, Player player2, Game game, int
 
     mapPut(player1_games, &second_player, game);
     mapPut(player2_games, &first_player, game);
+    
+
 
     player1->total_time = (player1->total_time) + play_time;
     player2->total_time = (player2->total_time) + play_time;
@@ -239,7 +241,6 @@ MapResult playerRemoveTournament (Player player, int tournament_id, int player_i
             }
             mapRemove(player->PlayerTournaments, &tournament_id); //!! verify we did the correct destroy function- need to destroy the map but not the games in the map. (createPlayerTournamentsMap)
             free(game_id);
-            free(games);
         }        
     return MAP_SUCCESS;    
 }
@@ -296,9 +297,9 @@ int* playerNextTournament(Player player, int* tournament_id)
 
 Game playerFirstGameInTournament(Player player ,int* tournament_id)
 {
-    Map tournament_map = mapGet(player->PlayerTournaments, tournament_id);
-    int* opponent_id = mapGetFirst(tournament_map);
-    Game game = mapGet(tournament_map, opponent_id);
+    Map game_map = mapGet(player->PlayerTournaments, tournament_id);
+    int* opponent_id = mapGetFirst(game_map);
+    Game game = mapGet(game_map, opponent_id);
     free(opponent_id);
     return game;
 }
