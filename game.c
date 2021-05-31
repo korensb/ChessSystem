@@ -239,3 +239,11 @@ void gameRemovePlayer(Game game, int player_id)
     }
     return;
 }
+
+
+void gamePrint(Game game)
+{
+    printf("first time gameReturnOpponentId %d ", game->first_player);
+    printf("first time gameReturnOpponentId %d ", game->second_player);
+    return;
+}

@@ -43,6 +43,7 @@ int gamePointsAchieved(Game game, int player_id);
 int gameReturnOpponentId(Game game, int player_id);
 void gameRemovePlayer(Game game, int player_id);
 
+void gamePrint(Game game); //remove after checks
 
 
 #endif
