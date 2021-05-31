@@ -513,7 +513,6 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
         double player_level = *(double*)mapGet(levels, player_id);
         while (!AreSame(player_level,array[j]))
         {
-            
             free(player_id);
             player_id = (int*)mapGetNext(levels);
             player_level = *(double*)mapGet(levels, player_id);
