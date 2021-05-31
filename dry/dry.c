@@ -13,7 +13,7 @@ char* reverseEvenString (char* str, int* x)  //error 1 - we need to give the fun
     char* str2;
     int i;
     *x = strlen(str); // error 5 - we need to dereference the pointer to put the value in it
-    str2 = malloc(sizeof(char)*(*x)); //error 6 - we need to multiply the memory needed with sizeof char (conventions error)
+    str2 = malloc(sizeof(char)*((*x)+1)); //errors 6, 7 - we need to multiply the memory needed with sizeof char (conventions error), needs to consider the null space.
     if (str2 == NULL){
         return NULL; //error 7 - we need to make sure malloc succeded
     }
@@ -28,6 +28,5 @@ char* reverseEvenString (char* str, int* x)  //error 1 - we need to give the fun
     {
         printf("%s", str2);
     }
-    free (str2); //error 10 - need to free allocated memory 
     return str2;
 }
