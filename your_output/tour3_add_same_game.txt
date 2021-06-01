@@ -4,7 +4,7 @@
 Location one
 4
 5
-2
+1
 4
 2.50
 Location two
@@ -15,4 +15,4 @@ Location two
 3.00
 Location three
 5
-5
+6

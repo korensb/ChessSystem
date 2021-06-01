@@ -4,7 +4,7 @@
 Location one
 8
 6
-3
+4
 8
 4.50
 Location two

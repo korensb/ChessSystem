@@ -103,16 +103,6 @@ static bool verifyId (int num)
     return true;
 }
 
-static bool isTournamentActiveById (ChessSystem chess, int tournament_id)
-{
-    Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
-    if (isTournamentActive (tournament))
-    {
-        return true;
-    }
-    return false;
-}
-
 static MapResult systemRemovePlayerFromTournament(ChessSystem chess, int tournament_id, int player_id)
 {
     Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
@@ -385,7 +375,8 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
     int* tournament_id = playerFirstTournament(player);
     while (tournament_id != NULL)
     {
-        if (isTournamentActiveById(chess, *tournament_id))
+        Tournament tournament = mapGet(chess->tournaments_map, tournament_id);
+        if (isTournamentActive(tournament))
         {
             Game game = playerFirstGameInTournament(player,tournament_id);
             int points_to_opponent;
@@ -393,11 +384,14 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
             while (game != NULL)
             {
                 points_to_opponent = gamePointsAchieved(game, player_id);
-                gameRemovePlayer(game, player_id);
                 opponent_id = gameReturnOpponentId(game, player_id);
                 if (opponent_id != EMPTY)
                 {
-                   systemUpdatePlayerStatsAfterRemoveOpponent(chess, opponent_id, points_to_opponent, *tournament_id);
+                    Player opponent = mapGet(chess->players_map, &opponent_id);
+                    int game_serial = getGameSerial(game);
+                    tournamentUpdateGameAfterRemovePlayer(tournament, player_id, game_serial);
+                    opponentUpdateGameAfterRemovePlayer(opponent, *tournament_id ,player_id);
+                    systemUpdatePlayerStatsAfterRemoveOpponent(chess, opponent_id, points_to_opponent, *tournament_id);
                 }
                 game = playerNextGameInTournament(player,tournament_id,opponent_id);     
             }
