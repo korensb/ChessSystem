@@ -151,6 +151,7 @@ MapResult addGameToTournamentMap(Tournament tournament,  Game game)
         {
             return MAP_OUT_OF_MEMORY;
         }
+     addSerialToGame(game, tournament->num_games);
      tournament->num_games = tournament->num_games + 1;
      return MAP_SUCCESS;
  }
@@ -199,7 +200,12 @@ void tournamentUpdateOpponentScoreAfterRemovePlayer(Tournament tournament, int p
     int* player_score = mapGet(tournament->standing, &player_id);
     assert(player_score != NULL);
     *player_score = *player_score + points;
-    return;
+}
+
+void tournamentUpdateGameAfterRemovePlayer(Tournament tournament, int removed_player_id, int game_serial)
+{
+    Game game_to_update = mapGet(tournament->gamesMap, &game_serial);
+    gameRemovePlayer(game_to_update, removed_player_id);
 }
 
 MapResult tournamentRemovePlayer(Tournament tournament, int player_id)

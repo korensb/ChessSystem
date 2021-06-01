@@ -46,5 +46,6 @@ int* playerFirstTournament(Player player);
 int* playerNextTournament(Player player, int* tournament_id);
 Game playerFirstGameInTournament(Player player ,int* tournament_id);
 Game playerNextGameInTournament(Player player,int* tournament_id, int opponent_id);
+void opponentUpdateGameAfterRemovePlayer(Player opponent, int tournament_id, int oponnent_id);
 
 #endif

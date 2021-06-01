@@ -42,6 +42,8 @@ void gameLossesAndWinsInTournamentCalculate(Map games, int player_id, int* wins,
 int gamePointsAchieved(Game game, int player_id);
 int gameReturnOpponentId(Game game, int player_id);
 void gameRemovePlayer(Game game, int player_id);
+void addSerialToGame(Game game, int serial);
+int getGameSerial(Game game);
 
 void gamePrint(Game game); //remove after checks
 
