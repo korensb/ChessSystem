@@ -31,9 +31,8 @@ MapDataElement tournamentCopy(MapDataElement element);
 void tournamentDestroy(MapDataElement tournament);
 
 
-
-
 /* aux functions*/
+
 //checks that the location given to tournamnet is valid
 bool locationValidation(const char* tournament_location);
 
@@ -48,7 +47,7 @@ MapResult addGameToTournament(Tournament tournament, int first_player, int secon
 void tournamentUpdateOpponentScoreAfterRemovePlayer(Tournament tournament, int player_id, int points);
 
 //removes a players data from a tournament 
-MapResult tournamentRemovePlayer(Tournament tournament, int player_id);
+void tournamentRemovePlayer(Tournament tournament, int player_id);
 
 //prints tournamnets statistics into a file
 bool printTournamentStatistics (Tournament tournament, FILE* stream);
@@ -60,7 +59,11 @@ MapResult tournamentAddPlayerToTournament(Tournament tournament, int player_id);
 
 //updates a tournaments data after it has been ended
 MapResult endTournament(Tournament tournament, int tournament_id);
+
+//updates the tournament data after removing a player
 void tournamentUpdateGameAfterRemovePlayer(Tournament tournament, int removed_player_id, int game_serial);
+
+//checks if the tournament has been ended
 bool isTournamentActive (Tournament tournament);
 
 #endif
