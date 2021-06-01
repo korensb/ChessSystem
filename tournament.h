@@ -60,7 +60,11 @@ MapResult tournamentAddPlayerToTournament(Tournament tournament, int player_id);
 
 //updates a tournaments data after it has been ended
 MapResult endTournament(Tournament tournament, int tournament_id);
+
+//updates the tournament data after removing a player
 void tournamentUpdateGameAfterRemovePlayer(Tournament tournament, int removed_player_id, int game_serial);
+
+//checks if the tournament has been ended
 bool isTournamentActive (Tournament tournament);
 
 #endif
