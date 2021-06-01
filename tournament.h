@@ -48,7 +48,7 @@ MapResult addGameToTournament(Tournament tournament, int first_player, int secon
 void tournamentUpdateOpponentScoreAfterRemovePlayer(Tournament tournament, int player_id, int points);
 
 //removes a players data from a tournament 
-MapResult tournamentRemovePlayer(Tournament tournament, int player_id);
+void tournamentRemovePlayer(Tournament tournament, int player_id);
 
 //prints tournamnets statistics into a file
 bool printTournamentStatistics (Tournament tournament, FILE* stream);
