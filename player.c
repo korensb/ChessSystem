@@ -285,8 +285,6 @@ int* playerFirstTournament(Player player)
 
 int* playerNextTournament(Player player, int* tournament_id)
 {
-    int test = mapGetSize(player->PlayerTournaments);
-    printf("test is %d", test);
     if (!mapContains(player->PlayerTournaments, tournament_id)){
         return (int*)mapGetFirst(player->PlayerTournaments);
     }
