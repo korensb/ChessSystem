@@ -39,11 +39,6 @@ bool locationValidation(const char* tournament_location);
 
 //checks the player did not exceed the number of games primitted in a tournament
 bool playersGamesNumInTournamentValidation (int player1_amount, int player2_amount, Tournament tournament, int tournament_id);
-
-// checks if thr tournament has ended
-bool isTournamentActive (Tournament tournament);
-
-//adds a game to a tournaments map
 MapResult addGameToTournamentMap(Tournament tournament, Game game);
 
 //adds a game to a tournament
@@ -63,5 +58,7 @@ int tournamentNumOfGames(Tournament tournament);
 
 //updates a tournaments data after it has been ended
 MapResult endTournament(Tournament tournament, int tournament_id);
+void tournamentUpdateGameAfterRemovePlayer(Tournament tournament, int removed_player_id, int game_serial);
+bool isTournamentActive (Tournament tournament);
 
 #endif

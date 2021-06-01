@@ -75,5 +75,6 @@ Game playerFirstGameInTournament(Player player ,int* tournament_id);
 
 //return the game a player has played in a tournament against an opponent
 Game playerNextGameInTournament(Player player,int* tournament_id, int opponent_id);
+void opponentUpdateGameAfterRemovePlayer(Player opponent, int tournament_id, int oponnent_id);
 
 #endif

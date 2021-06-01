@@ -4,7 +4,11 @@
 Location two
 1
 2
+<<<<<<< HEAD
+2
+=======
 0
+>>>>>>> 1caa19034e3a7d5b687ee22bfca5ef093d17913f
 6
 6.00
 Location three

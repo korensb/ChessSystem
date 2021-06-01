@@ -50,6 +50,12 @@ int gamePointsAchieved(Game game, int player_id);
 
 //returns a players opponent id in a game
 int gameReturnOpponentId(Game game, int player_id);
+<<<<<<< HEAD
+=======
+void gameRemovePlayer(Game game, int player_id);
+void addSerialToGame(Game game, int serial);
+int getGameSerial(Game game);
+>>>>>>> af85a0e55687e1bfaf7f1ca28861b814108ec613
 
 //removes a player from a game
 void gameRemovePlayer(Game game, int player_id);

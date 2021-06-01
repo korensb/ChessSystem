@@ -197,23 +197,23 @@ MapResult playerAddGameToPlayers (Player player1, Player player2, Game game, int
     if (winner == FIRST_PLAYER)
         {
             player1->points = player1->points + 2;
-            player1->wins++;
-            player2->losses++;
+            player1->wins = player1->wins + 1;
+            player2->losses = player2->losses + 1;
         }
         else if (winner == SECOND_PLAYER)
         {
             player2->points = player2->points + 2;
-            player2->wins++;
-            player1->losses++;
+            player2->wins = player2->wins + 1;
+            player1->losses = player1->losses + 1;
         }            
         else
         {
-        player1->points++;
-        player2->points++;
+        player1->points = player1->points + 1;
+        player2->points = player2->points + 1;
         }
 
-        player1->games++;
-        player2->games++;
+        player1->games = player1->games + 1;
+        player2->games = player2->games + 1;
 
         return MAP_SUCCESS;
 }
@@ -228,13 +228,13 @@ MapResult playerRemoveTournament (Player player, int tournament_id, int player_i
             Game game = mapGet(games, game_id);
             while (game != NULL)
             {
-                player->games--;
+                player->games = player->games - 1;
                 int points_to_remove = gamePointsAchieved(game, player_id);
                 player->points = player->points - points_to_remove;
                 if (points_to_remove == 2)
-                    player->wins--;
+                    player->wins = player->wins - 1;
                 if (points_to_remove == 0)
-                    player->losses--;
+                    player->losses = player->losses - 1;
                 free (game_id);
                 game_id = mapGetNext(games);
                 game = mapGet(games, game_id);
@@ -250,13 +250,13 @@ void playerUpdateOpponentStatsAfterRemove(Player opponent, int points)
     if (points == 2)
     {
         opponent->points = opponent->points + 2;
-        opponent->wins++;
-        opponent->losses--;
+        opponent->wins = opponent->wins + 1;
+        opponent->losses = opponent->losses - 1;
     }
     if (points == 1)
     {
         opponent->points = opponent->points + 1;
-        opponent->wins++;
+        opponent->wins = opponent->wins + 1;
     }
     return;
 }
@@ -328,7 +328,12 @@ Game playerNextGameInTournament(Player player,int* tournament_id, int opponent_i
     return game;
 }
 
-
+void opponentUpdateGameAfterRemovePlayer(Player opponent, int tournament_id, int oponnent_id)
+{
+    Map games_in_tournaments = mapGet(opponent->PlayerTournaments, &tournament_id);
+    Game game = mapGet(games_in_tournaments, &oponnent_id);
+    gameRemovePlayer(game, oponnent_id);
+}
 
 /* ChessResult player_remove_from_system(ChessSystem chess, Player player, int player_id)
 {
