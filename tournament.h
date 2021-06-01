@@ -31,9 +31,8 @@ MapDataElement tournamentCopy(MapDataElement element);
 void tournamentDestroy(MapDataElement tournament);
 
 
-
-
 /* aux functions*/
+
 //checks that the location given to tournamnet is valid
 bool locationValidation(const char* tournament_location);
 

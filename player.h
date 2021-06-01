@@ -26,7 +26,6 @@ Map createPlayerTournamentsMap();
 Map createDoublesMap();
 
 /* functions that will be used by the Maps */
-
 //copy
 MapDataElement doubleCopy(MapDataElement i);
 MapDataElement playerCopy(MapDataElement element);
@@ -75,6 +74,8 @@ Game playerFirstGameInTournament(Player player ,int* tournament_id);
 
 //return the game a player has played in a tournament against an opponent
 Game playerNextGameInTournament(Player player,int* tournament_id, int opponent_id);
+
+//update the game of the second player in his games tournaments map after removing the first player
 void opponentUpdateGameAfterRemovePlayer(Player opponent, int tournament_id, int oponnent_id);
 
 #endif
