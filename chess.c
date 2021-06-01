@@ -343,8 +343,9 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
             systemRemovePlayerFromTournament(chess, *tournament_id, player_id);
 
         }
-        free(tournament_id);
+        int* to_delete = tournament_id;
         tournament_id = playerNextTournament(player, tournament_id);
+        free(to_delete);
     }
     mapRemove(chess->players_map, &player_id);
     return CHESS_SUCCESS;

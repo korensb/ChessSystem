@@ -245,8 +245,6 @@ void gameRemovePlayer(Game game, int player_id)
     return;
 }
 
-<<<<<<< HEAD
-=======
 void addSerialToGame(Game game, int serial)
 {
     game->game_serial = serial;
@@ -257,10 +255,3 @@ int getGameSerial(Game game)
     return game->game_serial;
 }
 
-void gamePrint(Game game)
-{
-    printf("first player is %d ", game->first_player);
-    printf("second player is %d ", game->second_player);
-    return;
->>>>>>> af85a0e55687e1bfaf7f1ca28861b814108ec613
-}

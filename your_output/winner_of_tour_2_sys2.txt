@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 4
-=======
-1
->>>>>>> 1caa19034e3a7d5b687ee22bfca5ef093d17913f
 8
 4.50
 Location two

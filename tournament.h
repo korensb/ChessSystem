@@ -56,6 +56,8 @@ bool printTournamentStatistics (Tournament tournament, FILE* stream);
 //calculates the number of games in a tournamnet
 int tournamentNumOfGames(Tournament tournament);
 
+MapResult tournamentAddPlayerToTournament(Tournament tournament, int player_id);
+
 //updates a tournaments data after it has been ended
 MapResult endTournament(Tournament tournament, int tournament_id);
 void tournamentUpdateGameAfterRemovePlayer(Tournament tournament, int removed_player_id, int game_serial);
