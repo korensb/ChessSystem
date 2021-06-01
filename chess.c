@@ -153,9 +153,7 @@ void chessDestroy(ChessSystem chess)
     return;
 }
 
-ChessResult chessAddTournament (ChessSystem chess, int
-tournament_id, int max_games_per_player, const char*
-tournament_location)
+ChessResult chessAddTournament (ChessSystem chess, int tournament_id, int max_games_per_player, const char* tournament_location)
 {
     if (chess == NULL || tournament_location == NULL)
     {
@@ -191,8 +189,7 @@ tournament_location)
     }
 }
 
-ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player,
-                         int second_player, Winner winner, int play_time)
+ChessResult chessAddGame(ChessSystem chess, int tournament_id, int first_player, int second_player, Winner winner, int play_time)
                         {
                             if (chess == NULL)
                             {
@@ -398,8 +395,6 @@ double chessCalculateAveragePlayTime (ChessSystem chess, int player_id, ChessRes
     return calculatePlayerAveragePlayTime(player);
 }
 
-
-
 ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
 {
     if (chess == NULL || file == NULL)
@@ -455,8 +450,6 @@ ChessResult chessSavePlayersLevels (ChessSystem chess, FILE* file)
     mapDestroy(levels);
     return CHESS_SUCCESS;
 }
-
-
 
 ChessResult chessSaveTournamentStatistics (ChessSystem chess, char* path_file)
 {
