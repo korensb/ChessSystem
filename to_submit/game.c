@@ -7,6 +7,7 @@
 
 struct game
 {
+    int game_serial;
     int first_player;
     int second_player;
     Winner winner;
@@ -244,6 +245,15 @@ void gameRemovePlayer(Game game, int player_id)
     return;
 }
 
+void addSerialToGame(Game game, int serial)
+{
+    game->game_serial = serial;
+}
+
+int getGameSerial(Game game)
+{
+    return game->game_serial;
+}
 
 void gamePrint(Game game)
 {

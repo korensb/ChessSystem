@@ -30,7 +30,6 @@ void tournamentDestroy(MapDataElement tournament);
 /* aux functions*/
 bool locationValidation(const char* tournament_location);
 bool playersGamesNumInTournamentValidation (int player1_amount, int player2_amount, Tournament tournament, int tournament_id);
-bool isTournamentActive (Tournament tournament);
 MapResult addGameToTournamentMap(Tournament tournament, Game game);
 MapResult addGameToTournament(Tournament tournament, int first_player, int second_player, Winner winner, int play_time);
 MapResult tournamentAddPlayerToTournament(Tournament tournament, int player_id);
@@ -39,5 +38,7 @@ MapResult tournamentRemovePlayer(Tournament tournament, int player_id);
 bool printTournamentStatistics (Tournament tournament, FILE* stream);
 int tournamentNumOfGames(Tournament tournament);
 MapResult endTournament(Tournament tournament, int tournament_id);
+void tournamentUpdateGameAfterRemovePlayer(Tournament tournament, int removed_player_id, int game_serial);
+bool isTournamentActive (Tournament tournament);
 
 #endif
