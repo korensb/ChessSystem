@@ -106,21 +106,7 @@ static bool verifyId (int num)
     return true;
 }
 
-<<<<<<< HEAD
-=======
-//checks if the tournament ended 
-static bool isTournamentActiveById (ChessSystem chess, int tournament_id)
-{
-    Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
-    if (isTournamentActive (tournament))
-    {
-        return true;
-    }
-    return false;
-}
-
 // removes the data from playerTournaments map
->>>>>>> 1caa19034e3a7d5b687ee22bfca5ef093d17913f
 static MapResult systemRemovePlayerFromTournament(ChessSystem chess, int tournament_id, int player_id)
 {
     Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
