@@ -265,8 +265,6 @@ MapResult playerLevelCalculate (Player player, int player_id, Map levels, double
 {
     int draw = player->points - (2*(player->wins));
     double player_level = (double)((6*player->wins) - (10*player->losses) + (2*draw))/(player->games);
-    printf("player id: %d, wins num: %d draw nums: %d, losses nums: %d, num of games: %d \n",player_id , player->wins, draw ,player->losses, player->games);
-    printf("player id: %d, player level: %f \n", player_id ,player_level);
     if (mapPut(levels, &player_id, &player_level) != MAP_SUCCESS)
     {
         return MAP_OUT_OF_MEMORY;
@@ -282,18 +280,17 @@ double calculatePlayerAveragePlayTime(Player player)
 
 int* playerFirstTournament(Player player)
 {
-    if (mapGetSize(player->PlayerTournaments) == 0)
-        return NULL;
     return (int*)mapGetFirst(player->PlayerTournaments);
 }
 
 int* playerNextTournament(Player player, int* tournament_id)
 {
-    if (!mapContains(player->PlayerTournaments, tournament_id)){
+    if (!mapContains(player->PlayerTournaments, tournament_id))
+    {
         return (int*)mapGetFirst(player->PlayerTournaments);
     }
     int* current_tournament = (int*)mapGetFirst(player->PlayerTournaments);
-    while (current_tournament != NULL && current_tournament != tournament_id)
+    while (current_tournament != NULL && *current_tournament != *tournament_id)
     {
         free(current_tournament);
         current_tournament = (int*)mapGetNext(player->PlayerTournaments);
