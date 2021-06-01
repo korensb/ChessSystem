@@ -34,7 +34,6 @@ Map createGamesMap()
               gameDestroy,
               intKeyDestroy,
               intCompare);
-
     return newMap;
 }
 
@@ -45,30 +44,18 @@ Map createGamesMapForPlayerTournamentsMap()
               gameDestroy,
               intKeyDestroy,
               intCompare);
-
     return newMap;
 }
-/*
-Map createGamesPointersMap() // key: opponent ID, data: pointer to the game
-{
-    Map newMap = mapCreate(
-              gamePointerCopy,
-              intCopyKey,
-              gamePointerDestroy,
-              intKeyDestroy,
-              intCompare);
-
-    return newMap;
-}
-*/
 
 MapKeyElement intCopyKey(MapKeyElement i)
 {
-    if (i == NULL){
+    if (i == NULL)
+    {
         return NULL;
     }
     int *ip = malloc(sizeof(*ip));
-    if (ip == NULL){
+    if (ip == NULL)
+    {
         return NULL;
     }
     *ip = *(int*)i;
@@ -77,11 +64,13 @@ MapKeyElement intCopyKey(MapKeyElement i)
 
 MapDataElement intCopyData(MapDataElement i)
 {
-    if (i == NULL){
+    if (i == NULL)
+    {
         return NULL;
     }
     int *ip = malloc(sizeof(*ip));
-    if (ip == NULL){
+    if (ip == NULL)
+    {
         return NULL;
     }
     *ip = *(int*)i;
@@ -90,14 +79,16 @@ MapDataElement intCopyData(MapDataElement i)
 
 MapDataElement gameCopy(MapDataElement element) // hold the game object
 {
-	if (element == NULL) {
+	if (element == NULL)
+    {
 		return NULL;
 	}
     Game game = malloc(sizeof(*game));
     if (game == NULL)
-    return NULL;
-
-	*game = *(Game)element;
+    {
+        return NULL;
+    }
+    *game = *(Game)element;
 	return game;
 }
 
@@ -109,40 +100,14 @@ MapDataElement gameCopyForPlayerTournamentsMap(MapDataElement element)
     Game game = (Game) element;
     return game;
 }
-/*
-MapDataElement gamePointerCopy(MapDataElement element) // hold pointers to games object
-{
-	if (element == NULL) {
-		return NULL;
-	}
-    Game* game = malloc(sizeof(game));
-    if (game == NULL)
-    return NULL;
-
-	*game = *(Game*) element;
-	return game;
-}
-*/
-
- /* 
- void gamePointerDestroy(MapDataElement game)
-{
-    if(game != NULL)
-    {
-        free(game);
-    }
-
-    return;
-}
-*/
 
 void gameDestroy(MapDataElement game)
 {
-    if(game != NULL){
+    if(game != NULL)
+    {
         Game game_to_destroy = (Game) game;
         free(game_to_destroy);
     }
-    return;
 }
 
 void gameDestroyForPlayerTournamentsMap(MapDataElement game)
@@ -189,35 +154,47 @@ void gameLossesAndWinsInTournamentCalculate(Map games, int player_id, int* wins,
         if ((game->first_player) == player_id)
         {
             if (game->winner == FIRST_PLAYER)
+            {
                 *wins = *wins +1;
+            }
             if (game->winner == SECOND_PLAYER)
+            {
                 *losses = *losses +1;
+            }
         }   
         if (game->second_player == player_id)
         {
             if (game->winner == SECOND_PLAYER)
+            {
                 *wins = *wins + 1;
+            }
             if (game->winner == FIRST_PLAYER)
+            {
                 *losses = *losses +1;
+            } 
         }
         free(game_id);   
         game_id = mapGetNext(games);
     }
-    return;
 }
 
 int gamePointsAchieved(Game game, int player_id)
 {
     if(game->winner == DRAW)
+    {
         return 1;
+    }
     if ((game->winner == FIRST_PLAYER && player_id == (game->first_player)) || (game->winner == SECOND_PLAYER && player_id == game->second_player))
+    {
         return 2;
+    }
     return 0;
 }
 
 int gameReturnOpponentId(Game game, int player_id)
 {
-    if(player_id == (game->first_player)){
+    if(player_id == (game->first_player))
+    {
         return (game->second_player);
     }
     return (game->first_player);
