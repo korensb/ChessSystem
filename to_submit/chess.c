@@ -106,13 +106,6 @@ static bool verifyId (int num)
     return true;
 }
 
-// removes the data from playerTournaments map
-static MapResult systemRemovePlayerFromTournament(ChessSystem chess, int tournament_id, int player_id)
-{
-    Tournament tournament = mapGet(chess->tournaments_map, &tournament_id);
-    return tournamentRemovePlayer(tournament, player_id);
-}
-
 // updates a player stats after his opponent has been removed
 static void systemUpdatePlayerStatsAfterRemoveOpponent(ChessSystem chess, int player_id, int points_to_add, int tournament_id)
     {
@@ -340,11 +333,11 @@ ChessResult chessRemovePlayer(ChessSystem chess, int player_id)
                 }
                 game = playerNextGameInTournament(player,tournament_id,opponent_id);     
             }
-            systemRemovePlayerFromTournament(chess, *tournament_id, player_id);
-
+            tournamentRemovePlayer(tournament, player_id);
         }
-        free(tournament_id);
+        int* to_delete = tournament_id;
         tournament_id = playerNextTournament(player, tournament_id);
+        free(to_delete);
     }
     mapRemove(chess->players_map, &player_id);
     return CHESS_SUCCESS;

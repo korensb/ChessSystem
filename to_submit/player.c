@@ -285,8 +285,12 @@ int* playerFirstTournament(Player player)
 
 int* playerNextTournament(Player player, int* tournament_id)
 {
+    if (!mapContains(player->PlayerTournaments, tournament_id))
+    {
+        return (int*)mapGetFirst(player->PlayerTournaments);
+    }
     int* current_tournament = (int*)mapGetFirst(player->PlayerTournaments);
-    while (current_tournament != NULL && current_tournament != tournament_id)
+    while (current_tournament != NULL && *current_tournament != *tournament_id)
     {
         free(current_tournament);
         current_tournament = (int*)mapGetNext(player->PlayerTournaments);
