@@ -244,10 +244,4 @@ void gameRemovePlayer(Game game, int player_id)
     return;
 }
 
-
-void gamePrint(Game game)
-{
-    printf("first player is %d ", game->first_player);
-    printf("second player is %d ", game->second_player);
-    return;
 }
